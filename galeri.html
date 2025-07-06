@@ -1,0 +1,29 @@
+<!-- galeri.html - Lihat Semua Galeri (Frontend Tailwind) -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeri - Desa Pacing</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+<body class="bg-gray-50 font-sans">
+  <header class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-lg font-bold text-red-800">Galeri Desa Pacing</h1>
+    <a href="index.html" class="text-red-700 hover:underline"><i class="fas fa-arrow-left"></i> Kembali</a>
+  </header>
+
+  <main class="max-w-6xl mx-auto p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+    <!-- Template Gambar Galeri -->
+    <div class="relative group">
+      <img src="https://via.placeholder.com/400x300?text=Galeri+1" alt="Galeri 1" class="object-cover w-full h-40 rounded shadow">
+      <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white font-semibold transition">Lihat</div>
+    </div>
+    <!-- Duplikasikan div di atas untuk galeri lainnya -->
+  </main>
+
+  <footer class="bg-black text-white text-xs p-4 text-center mt-6">© 2025 Desa Pacing</footer>
+
+</body>
+</html>
