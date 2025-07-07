@@ -1,0 +1,27 @@
+/* Navbar utama: hanya font merah saat hover/active */
+nav[aria-label="Primary Navigation"] > ul > li > a,
+nav[aria-label="Primary Navigation"] > ul > li > button {
+  transition: color 0.2s;
+}
+nav[aria-label="Primary Navigation"] > ul > li > a:hover,
+nav[aria-label="Primary Navigation"] > ul > li > button:hover {
+  color: #dc2626 !important;
+  background: none !important;
+}
+nav[aria-label="Primary Navigation"] > ul > li.active > a,
+nav[aria-label="Primary Navigation"] > ul > li.active > button {
+  color: #dc2626 !important;
+  background: none !important;
+}
+
+/* Dropdown menu tetap seperti sebelumnya */
+nav[aria-label="Primary Navigation"] ul li .group-hover\:opacity-100,
+nav[aria-label="Primary Navigation"] ul li .group-hover\:scale-100 {
+  /* handled by tailwind */
+}
+nav[aria-label="Primary Navigation"] ul li .block.px-4.py-2:hover,
+nav[aria-label="Primary Navigation"] ul li .block.px-4.py-2.active {
+  color: #fff !important;
+  background: #dc2626 !important;
+  border-radius: 4px;
+}
