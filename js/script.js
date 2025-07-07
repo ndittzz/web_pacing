@@ -33,3 +33,14 @@ setInterval(nextSlide, 5000);
 
 // Initialize
 showSlide(0);
+
+//popup
+function showDetail(id) {
+  document.getElementById(id).classList.remove("hidden");
+  document.getElementById(id).classList.add("flex");
+}
+
+function hideDetail(id) {
+  document.getElementById(id).classList.add("hidden");
+  document.getElementById(id).classList.remove("flex");
+}
