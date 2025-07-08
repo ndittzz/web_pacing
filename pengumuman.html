@@ -51,23 +51,24 @@
             <span class="text-red-800">Desa Pacing, Klaten</span>
           </div>
 
-          <!-- Tombol Hamburger (Mobile) -->
+          <!-- Tombol Hamburger (Mobile & Small Desktop) -->
           <button
             id="menu-toggle"
             class="md:hidden text-red-800 focus:outline-none"
+            aria-label="Buka menu"
           >
             <svg
-              class="w-6 h-6"
+              class="w-8 h-8"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              viewBox="0 0 24 24"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+              <line x1="4" y1="7" x2="20" y2="7" />
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <line x1="4" y1="17" x2="20" y2="17" />
             </svg>
           </button>
 
@@ -75,12 +76,8 @@
             class="hidden md:flex items-center space-x-6 text-xs sm:text-sm font-semibold"
           >
             <li class="active">
-              <a class="text-red-700 hover:text-red-700" href="index.html"
-                >Beranda</a
-              >
+              <a class="hover:text-gray-700" href="index.html">Beranda</a>
             </li>
-
-            <!-- Dropdown Menu Template -->
             <li class="relative group">
               <button
                 class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
@@ -107,7 +104,7 @@
                   class="block px-4 py-2 hover:bg-gray-100"
                   >Struktur</a
                 >
-                <a href="" class="block px-4 py-2 hover:bg-gray-100">Lambang</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Lambang</a>
                 <a
                   href="geografi.html"
                   class="block px-4 py-2 hover:bg-gray-100"
@@ -115,7 +112,6 @@
                 >
               </div>
             </li>
-
             <li class="relative group">
               <button
                 class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
@@ -134,7 +130,6 @@
                 >
               </div>
             </li>
-
             <li class="relative group">
               <button
                 class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
@@ -153,7 +148,6 @@
                 >
               </div>
             </li>
-
             <li class="relative group">
               <button
                 class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
@@ -175,7 +169,6 @@
                 >
               </div>
             </li>
-
             <li>
               <a
                 href="admin/login.html"
@@ -186,7 +179,7 @@
             </li>
           </ul>
         </nav>
-        <!-- Menu Mobile -->
+        <!-- Menu Mobile/Sidebar -->
         <div
           id="mobile-menu"
           class="md:hidden hidden px-4 pt-4 pb-6 bg-white border-t border-gray-200 shadow-sm space-y-4 text-sm font-semibold text-gray-700 animate-fade-in"

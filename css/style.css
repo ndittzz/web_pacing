@@ -40,3 +40,29 @@ nav[aria-label="Primary Navigation"] ul li .block.px-4.py-2.active {
       transform: translateY(0);
     }
   }
+
+/* Sidebar (mobile menu) hover/active effect same as desktop */
+#mobile-menu a:hover, #mobile-menu a:focus {
+  background-color: #b91c1c !important; /* Tailwind's red-700 */
+  color: #fff !important;
+}
+#mobile-menu a.bg-red-100, #mobile-menu a.font-bold {
+  background-color: #b91c1c !important;
+  color: #fff !important;
+}
+
+/* Hamburger icon with border and rounded */
+#menu-toggle {
+  border: 2px solid #b91c1c;
+  border-radius: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  background: #fff;
+  transition: box-shadow 0.2s;
+}
+#menu-toggle:focus, #menu-toggle:hover {
+  box-shadow: 0 0 0 2px #b91c1c33;
+  background: #fef2f2;
+}
+#menu-toggle svg {
+  display: block;
+}

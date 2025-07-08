@@ -52,6 +52,36 @@ toggle.addEventListener("click", () => {
   menu.classList.toggle("hidden");
 });
 
+// Replace the hamburger icon SVG in all HTML files with a more modern one (3 lines, rounded, animated if possible)
+// Enhance sidebar active/hover color effect via JS and CSS class
+// Add this helper for toggling active/hover color in sidebar
+
+// Add hover/active effect for sidebar links
+function updateSidebarActiveState() {
+  const currentPath = window.location.pathname.split("/").pop();
+  document.querySelectorAll("#mobile-menu a").forEach((link) => {
+    const href = link.getAttribute("href");
+    if (href === currentPath) {
+      link.classList.add("bg-red-100", "text-red-700", "font-bold");
+    } else {
+      link.classList.remove("bg-red-100", "text-red-700", "font-bold");
+    }
+    link.addEventListener("mouseenter", function () {
+      this.classList.add("bg-red-50", "text-red-700");
+    });
+    link.addEventListener("mouseleave", function () {
+      if (href !== currentPath) {
+        this.classList.remove("bg-red-50", "text-red-700");
+      }
+    });
+  });
+}
+
+// Call after DOMContentLoaded and after menu open
+function setupSidebarEnhancements() {
+  updateSidebarActiveState();
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const currentPath = window.location.pathname.split("/").pop();
 
@@ -110,6 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+  setupSidebarEnhancements();
 });
 
 document
