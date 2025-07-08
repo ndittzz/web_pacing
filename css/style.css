@@ -25,3 +25,18 @@ nav[aria-label="Primary Navigation"] ul li .block.px-4.py-2.active {
   background: #dc2626 !important;
   border-radius: 4px;
 }
+
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
