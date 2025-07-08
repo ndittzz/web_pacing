@@ -1,0 +1,35 @@
+ .sidebar-red {
+    background-color: #bc1c1c !important; /* ganti ke #b91c1c untuk red-700 */
+    color: #ffffff;
+  }
+
+  .sidebar-red .nav-link {
+    color: #ffffff;
+  }
+
+  .sidebar-red .nav-link.active,
+  .sidebar-red .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+
+  .sidebar-red .brand-link {
+    background-color: #bc1c1c;
+    color: #ffffff;
+  }
+
+  .sidebar-red .brand-link .brand-text {
+    color: #ffffff;
+  }
+
+  /* Ubah warna hover dan active di sidebar jadi merah tua */
+.sidebar-red .nav-sidebar .nav-link:hover,
+.sidebar-red .nav-sidebar .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.1) !important; /* atau kamu bisa pakai #b91c1c untuk solid merah */
+  color: #ffffff !important;
+}
+
+.sidebar-red .nav-sidebar .nav-link:hover i,
+.sidebar-red .nav-sidebar .nav-link.active i {
+  color: #ffffff !important;
+}
