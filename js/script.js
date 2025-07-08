@@ -151,3 +151,36 @@ document
       window.location.href = selectedUrl;
     }
   });
+
+function openModal(title, desc, imageUrl) {
+  const modal = document.getElementById("popup-modal");
+  const content = document.getElementById("popup-content");
+
+  document.getElementById("popup-title").innerText = title;
+  document.getElementById("popup-description").innerText = desc;
+  document.getElementById("popup-image").src = imageUrl;
+
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+  content.classList.remove("modal-leave", "modal-leave-active");
+  content.classList.add("modal-enter");
+  setTimeout(() => {
+    content.classList.add("modal-enter-active");
+  }, 10);
+}
+
+function closeModal() {
+  const modal = document.getElementById("popup-modal");
+  const content = document.getElementById("popup-content");
+
+  content.classList.remove("modal-enter", "modal-enter-active");
+  content.classList.add("modal-leave");
+  setTimeout(() => {
+    content.classList.add("modal-leave-active");
+    setTimeout(() => {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      content.classList.remove("modal-leave", "modal-leave-active");
+    }, 200);
+  }, 10);
+}
