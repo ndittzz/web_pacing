@@ -193,11 +193,3 @@ document.querySelectorAll(".berita-link").forEach((link) => {
     window.location.href = `detail_berita.html?id=${id}`;
   });
 });
-
-document.querySelectorAll(".berita-link").forEach((link) => {
-  link.addEventListener("click", function (e) {
-    e.preventDefault();
-    const id = this.getAttribute("data-idd");
-    window.location.href = `detail_potensi.html?id=${id}`;
-  });
-});
