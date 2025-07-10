@@ -193,3 +193,12 @@ document.querySelectorAll(".berita-link").forEach((link) => {
     window.location.href = `detail_berita.html?id=${id}`;
   });
 });
+
+// Navigasi klik potensi ke detail_potensi.html
+document.querySelectorAll(".potensi-link").forEach((link) => {
+  link.addEventListener("click", function (e) {
+    e.preventDefault();
+    const id = this.getAttribute("data-id");
+    window.location.href = `detail_potensi.html?id=${id}`;
+  });
+});
