@@ -1,22 +1,22 @@
-<!DOCTYPE html>
 <html class="scroll-smooth" lang="id">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Detail Berita - Desa Pacing</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Pemerintah Desa Pacing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap"
       rel="stylesheet"
     />
     <script
       src="https://kit.fontawesome.com/a076d05399.js"
       crossorigin="anonymous"
     ></script>
+    <link href="css/style.css" rel="stylesheet" />
 
     <style>
       body {
@@ -34,6 +34,7 @@
   </head>
   <body class="bg-white text-black">
     <!-- Top header with logo and nav -->
+    <!-- Navbar dengan Dropdown -->
     <header class="border-b border-gray-200">
       <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <nav
@@ -51,23 +52,24 @@
             <span class="text-red-800 text-base">Desa Pacing, Klaten</span>
           </div>
 
-          <!-- Tombol Hamburger (Mobile) -->
+          <!-- Tombol Hamburger (Mobile & Small Desktop) -->
           <button
             id="menu-toggle"
             class="md:hidden text-red-800 focus:outline-none"
+            aria-label="Buka menu"
           >
             <svg
-              class="w-6 h-6"
+              class="w-8 h-8"
+              viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              viewBox="0 0 24 24"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              ></path>
+              <line x1="4" y1="7" x2="20" y2="7" />
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <line x1="4" y1="17" x2="20" y2="17" />
             </svg>
           </button>
 
@@ -75,12 +77,8 @@
             class="hidden md:flex items-center space-x-6 text-xs sm:text-sm font-semibold"
           >
             <li>
-              <a class="text-red-700 hover:text-red-700" href="index.html"
-                >Beranda</a
-              >
+              <a class="hover:text-gray-700" href="index.html">Beranda</a>
             </li>
-
-            <!-- Dropdown Menu Template -->
             <li class="relative group">
               <button
                 class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
@@ -107,9 +105,7 @@
                   class="block px-4 py-2 hover:bg-gray-100"
                   >Struktur</a
                 >
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
-                  >Lambang</a
-                >
+                
                 <a
                   href="geografi.html"
                   class="block px-4 py-2 hover:bg-gray-100"
@@ -117,7 +113,6 @@
                 >
               </div>
             </li>
-
             <li class="relative group">
               <button
                 class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
@@ -132,31 +127,12 @@
                   >Data Penduduk</a
                 >
                 <a href="#" class="block px-4 py-2 hover:bg-gray-100"
-                  >Data Kartu Keluarga</a
+                  >Data Keuangan</a
                 >
               </div>
             </li>
-
-            <li class="relative group">
-              <button
-                class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
-              >
-                <span>Layanan</span>
-                <i class="fas fa-chevron-down text-[8px] mt-[2px]"></i>
-              </button>
-              <div
-                class="absolute left-0 mt-2 w-40 bg-white border border-gray-200 shadow-lg opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-300 origin-top z-50"
-              >
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
-                  >Administrasi</a
-                >
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
-                  >Pelaporan</a
-                >
-              </div>
-            </li>
-
-            <li class="relative group">
+            
+            <li class="relative group active">
               <button
                 class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
               >
@@ -177,7 +153,6 @@
                 >
               </div>
             </li>
-
             <li>
               <a
                 href="admin/login.html"
@@ -188,8 +163,7 @@
             </li>
           </ul>
         </nav>
-
-        <!-- Menu Mobile -->
+        <!-- Menu Mobile/Sidebar -->
         <div
           id="mobile-menu"
           class="md:hidden hidden px-4 pt-4 pb-6 bg-white border-t border-gray-200 shadow-sm space-y-4 text-sm font-semibold text-gray-700 animate-fade-in"
@@ -228,9 +202,7 @@
                 class="block px-2 py-1 rounded hover:bg-gray-100"
                 >Struktur</a
               >
-              <a href="#" class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Lambang</a
-              >
+              
               <a
                 href="geografi.html"
                 class="block px-2 py-1 rounded hover:bg-gray-100"
@@ -239,7 +211,7 @@
             </div>
           </details>
 
-          <!-- Data Desa -->
+          <!-- PPID -->
           <details class="group">
             <summary
               class="cursor-pointer px-2 py-2 rounded hover:bg-red-50 hover:text-red-700 transition"
@@ -251,27 +223,12 @@
                 >Data Penduduk</a
               >
               <a href="#" class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Data Kartu Keluarga</a
+                >Data Keuangan</a
               >
             </div>
           </details>
 
-          <!-- Layanan -->
-          <details class="group">
-            <summary
-              class="cursor-pointer px-2 py-2 rounded hover:bg-red-50 hover:text-red-700 transition"
-            >
-              Layanan
-            </summary>
-            <div class="pl-4 mt-1 space-y-1 text-sm text-gray-600">
-              <a href="#" class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Administrasi</a
-              >
-              <a href="#" class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Pelaporan</a
-              >
-            </div>
-          </details>
+          
 
           <!-- Informasi -->
           <details class="group">
@@ -308,7 +265,6 @@
         </div>
       </div>
     </header>
-
     <!-- Search bar and category select -->
     <section class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-4">
       <div
@@ -322,7 +278,6 @@
             class="w-full border border-gray-300 rounded-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
           >
             <option value="" disabled selected>Pilih Kategori</option>
-            <option value="berita.html">Berita</option>
             <option value="pengumuman.html">Pengumuman</option>
             <option value="agenda.html">Agenda</option>
           </select>
