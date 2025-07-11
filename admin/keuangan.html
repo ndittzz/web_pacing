@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manajemen Data KK - Desa Pacing</title>
+    <title>Manajemen Keuangan Desa - Desa Pacing</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
@@ -112,10 +112,10 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0">Manajemen Data KK</h1>
+                <h1 class="m-0">Manajemen Keuangan Desa</h1>
               </div>
               <div class="col-sm-6 text-right">
-                <a href="kk_create.html" class="btn btn-primary">
+                <a href="keuangan_create.html" class="btn btn-primary">
                   <i class="fas fa-plus"></i> Tambah Data
                 </a>
               </div>
@@ -128,20 +128,36 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>No KK</th>
-                  <th>Kepala Keluarga</th>
-                  <th>Alamat</th>
+                  <th>Tanggal</th>
+                  <th>Uraian</th>
+                  <th>Pemasukan</th>
+                  <th>Pengeluaran</th>
+                  <th>Saldo</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>1</td>
-                  <td>1234567890123456</td>
-                  <td>Budi Santoso</td>
-                  <td>Jl. Pacing No. 1</td>
+                  <td>2024-05-01</td>
+                  <td>Bantuan Pemerintah</td>
+                  <td>Rp 10.000.000</td>
+                  <td>-</td>
+                  <td>Rp 10.000.000</td>
                   <td>
-                    <a href="kk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                    <a href="keuangan_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                    <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>2024-05-10</td>
+                  <td>Pembangunan Jalan</td>
+                  <td>-</td>
+                  <td>Rp 3.000.000</td>
+                  <td>Rp 7.000.000</td>
+                  <td>
+                    <a href="keuangan_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                     <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                   </td>
                 </tr>

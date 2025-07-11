@@ -1,10 +1,10 @@
-<!-- admin/kk_edit.html - Edit Data KK -->
+<!-- admin/sejarah.html - Manajemen Sejarah Desa -->
 <!DOCTYPE html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Data KK - Desa Pacing</title>
+    <title>Manajemen Sejarah Desa - Desa Pacing</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
@@ -36,9 +36,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="kk.html" class="nav-link active">
-                  <i class="far fa-id-card nav-icon"></i>
-                  <p>Manajemen Data KK</p>
+                <a href="sejarah.html" class="nav-link active">
+                  <i class="fas fa-history nav-icon"></i>
+                  <p>Manajemen Sejarah</p>
                 </a>
               </li>
             </ul>
@@ -50,33 +50,51 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0">Edit Data KK</h1>
+                <h1 class="m-0">Manajemen Sejarah Desa</h1>
+              </div>
+              <div class="col-sm-6 text-right">
+                <a href="sejarah_edit.html" class="btn btn-primary">
+                  <i class="fas fa-plus"></i> Tambah Peristiwa
+                </a>
               </div>
             </div>
           </div>
         </div>
         <section class="content">
           <div class="container-fluid">
-            <div class="card">
-              <div class="card-body">
-                <form>
-                  <div class="form-group">
-                    <label>No KK</label>
-                    <input type="text" class="form-control" value="1234567890123456" />
-                  </div>
-                  <div class="form-group">
-                    <label>Kepala Keluarga</label>
-                    <input type="text" class="form-control" value="Budi Santoso" />
-                  </div>
-                  <div class="form-group">
-                    <label>Alamat</label>
-                    <input type="text" class="form-control" value="Jl. Pacing No. 1" />
-                  </div>
-                  <button type="submit" class="btn btn-primary">Simpan</button>
-                  <a href="kk.html" class="btn btn-secondary">Kembali</a>
-                </form>
-              </div>
-            </div>
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Tahun</th>
+                  <th>Judul</th>
+                  <th>Deskripsi</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>1920</td>
+                  <td>Pendirian Desa Pacing</td>
+                  <td>Pada tahun 1920, Desa Pacing resmi didirikan...</td>
+                  <td>
+                    <a href="sejarah_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                    <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>1945</td>
+                  <td>Peran Desa dalam Kemerdekaan</td>
+                  <td>Desa Pacing turut berperan dalam perjuangan kemerdekaan Indonesia...</td>
+                  <td>
+                    <a href="sejarah_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                    <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
       </div>

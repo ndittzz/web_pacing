@@ -1,10 +1,10 @@
-<!-- admin/kk_create.html - Create Data KK -->
+<!-- admin/kk_edit.html - Edit Data KK -->
 <!DOCTYPE html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tambah Data KK - Desa Pacing</title>
+    <title>Edit Data Keuangan - Desa Pacing</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
@@ -50,7 +50,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0">Tambah Data KK</h1>
+                <h1 class="m-0">Edit Data Keuangan</h1>
               </div>
             </div>
           </div>
@@ -61,16 +61,24 @@
               <div class="card-body">
                 <form>
                   <div class="form-group">
-                    <label>No KK</label>
-                    <input type="text" class="form-control" placeholder="No KK" />
+                    <label>Tanggal</label>
+                    <input type="date" class="form-control" value="2024-05-01" />
                   </div>
                   <div class="form-group">
-                    <label>Kepala Keluarga</label>
-                    <input type="text" class="form-control" placeholder="Kepala Keluarga" />
+                    <label>Uraian</label>
+                    <input type="text" class="form-control" value="Bantuan Pemerintah" />
                   </div>
                   <div class="form-group">
-                    <label>Alamat</label>
-                    <input type="text" class="form-control" placeholder="Alamat" />
+                    <label>Pemasukan</label>
+                    <input type="number" class="form-control" value="10000000" />
+                  </div>
+                  <div class="form-group">
+                    <label>Pengeluaran</label>
+                    <input type="number" class="form-control" value="0" />
+                  </div>
+                  <div class="form-group">
+                    <label>Saldo</label>
+                    <input type="number" class="form-control" value="10000000" />
                   </div>
                   <button type="submit" class="btn btn-primary">Simpan</button>
                   <a href="kk.html" class="btn btn-secondary">Kembali</a>
