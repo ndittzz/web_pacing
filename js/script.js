@@ -110,6 +110,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "geografi.html",
   ];
   const informasiPages = ["berita.html", "galeri.html", "potensi.html"];
+  const DatadesaPages = ["data_penduduk.html", "data_keuangan.html"];
+
   if (profilPages.includes(currentPath)) {
     // Button Profil Desktop
     document.querySelectorAll("nav button").forEach((btn) => {
@@ -140,17 +142,42 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+  if (DatadesaPages.includes(currentPath)) {
+    // Button Data Desa Desktop
+    document.querySelectorAll("nav button").forEach((btn) => {
+      if (btn.innerText.includes("Data Desa")) {
+        btn.classList.add("text-red-700", "font-bold");
+      }
+    });
+
+    // Summary Data Desa Mobile
+    document.querySelectorAll("#mobile-menu summary").forEach((summary) => {
+      if (summary.innerText.includes("Data Desa")) {
+        summary.classList.add("text-red-700", "font-bold");
+      }
+    });
+  }
   setupSidebarEnhancements();
 });
 
-document
-  .getElementById("kategori-berita")
-  .addEventListener("change", function () {
-    const selectedUrl = this.value;
-    if (selectedUrl) {
-      window.location.href = selectedUrl;
-    }
+// document
+//   .getElementById("kategori-berita")
+//   .addEventListener("change", function () {
+//     const selectedUrl = this.value;
+//     if (selectedUrl) {
+//       window.location.href = selectedUrl;
+//     }
+//   });
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Pasang listener ke SEMUA select yang butuh redirect
+  document.querySelectorAll("[data-jump='page']").forEach((select) => {
+    select.addEventListener("change", (e) => {
+      const url = e.target.value;
+      if (url) window.location.href = url;
+    });
   });
+});
 
 function openModal(title, desc, imageUrl) {
   const modal = document.getElementById("popup-modal");

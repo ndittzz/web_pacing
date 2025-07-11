@@ -49,27 +49,26 @@
               src="assets/klaten.jpg"
               width="32"
             />
-            <span class="text-red-800 text-base">Desa Pacing, Klaten</span>
+            <span class="text-red-800">Desa Pacing, Klaten</span>
           </div>
 
-          <!-- Tombol Hamburger (Mobile & Small Desktop) -->
+          <!-- Tombol Hamburger (Mobile) -->
           <button
             id="menu-toggle"
             class="md:hidden text-red-800 focus:outline-none"
-            aria-label="Buka menu"
           >
             <svg
-              class="w-8 h-8"
-              viewBox="0 0 24 24"
+              class="w-6 h-6"
               fill="none"
               stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
             >
-              <line x1="4" y1="7" x2="20" y2="7" />
-              <line x1="4" y1="12" x2="20" y2="12" />
-              <line x1="4" y1="17" x2="20" y2="17" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
           </button>
 
@@ -79,7 +78,7 @@
             <li>
               <a class="hover:text-gray-700" href="index.html">Beranda</a>
             </li>
-            <li class="relative group active">
+            <li class="relative group">
               <button
                 class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
               >
@@ -113,7 +112,8 @@
                 >
               </div>
             </li>
-            <li class="relative group">
+
+            <li class="relative group active">
               <button
                 class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
               >
@@ -157,6 +157,7 @@
                 >
               </div>
             </li>
+
             <li>
               <a
                 href="admin/login.html"
@@ -167,7 +168,7 @@
             </li>
           </ul>
         </nav>
-        <!-- Menu Mobile/Sidebar -->
+        <!-- Menu Mobile -->
         <div
           id="mobile-menu"
           class="md:hidden hidden px-4 pt-4 pb-6 bg-white border-t border-gray-200 shadow-sm space-y-4 text-sm font-semibold text-gray-700 animate-fade-in"
@@ -279,14 +280,13 @@
         <!-- Select Kategori -->
         <div class="w-full sm:w-48">
           <select
-            id="kategori-struktur"
-            data-jump="page"
+            id="kategori-berita"
             aria-label="Pilih kategori berita"
             class="w-full border border-gray-300 rounded-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
           >
             <option value="" disabled selected>Pilih Kategori</option>
-            <option value="struktur.html">Pemerintah</option>
-            <option value="pemerintahan.html">Pemerintahan</option>
+            <option value="pengumuman.html">Pengumuman</option>
+            <option value="agenda.html">Agenda</option>
           </select>
         </div>
 
@@ -330,15 +330,13 @@
           <li>
             <div class="flex items-center">
               <i class="fas fa-chevron-right text-gray-400 mx-1"></i>
-              <span class="text-gray-500">Profil</span>
+              <span class="text-gray-500">Data Desa</span>
             </div>
           </li>
           <li>
             <div class="flex items-center">
               <i class="fas fa-chevron-right text-gray-400 mx-1"></i>
-              <span class="text-gray-700 font-semibold"
-                >Struktur Pemerintahan Desa Pacing</span
-              >
+              <span class="text-gray-700 font-semibold">Data Penduduk</span>
             </div>
           </li>
         </ol>
@@ -349,41 +347,20 @@
     <main
       class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-6 grid grid-cols-1 lg:grid-cols-4 gap-6"
     >
-      <div class="w-full sm:w-48">
-        <select
-          id="kategori-profil"
-          data-jump="page"
-          aria-label="Pilih kategori berita"
-          class="w-full border border-gray-300 rounded-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
-        >
-          <option value="" disabled selected>Pilih Kategori</option>
-          <option value="struktur.html">Pemerintah</option>
-          <option value="pemerintahan.html">Pemerintahan</option>
-        </select>
-      </div>
       <section
         class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow border border-gray-200 p-6"
       >
         <h1
           class="text-center text-2xl sm:text-3xl font-bold text-red-800 border-b-2 border-red-800 pb-2 mb-6"
         >
-          Struktur Organisasi Pemerintahan Desa Pacing
+          Data Penduduk Desa Pacing
         </h1>
-        <div class="bg-gray-50 rounded-lg p-6 mb-6 text-justify">
-          Berikut adalah struktur organisasi Pemerintah Desa Pacing, Kecamatan
-          Wedi, Kabupaten Klaten, Jawa Tengah. Struktur ini menggambarkan
-          susunan perangkat desa beserta tugas dan fungsinya dalam mendukung
-          pelayanan kepada masyarakat.
-        </div>
-        <div class="flex flex-col items-center">
-          <img
-            src="assets/StrukturDesa.png"
-            alt="Struktur Organisasi Desa Pacing"
-            class="w-full max-w-2xl border rounded shadow mb-3 bg-white"
-          />
-          <span class="text-xs text-gray-500"
-            >Gambar: Struktur Organisasi Pemerintah Desa Pacing</span
-          >
+
+        <div class="w-full overflow-x-auto">
+          <canvas
+            id="barChartPenduduk"
+            class="max-w-full h-[300px] sm:h-[400px]"
+          ></canvas>
         </div>
       </section>
     </main>
@@ -447,4 +424,67 @@
     </footer>
   </body>
   <script src="js/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const ctx = document.getElementById("barChartPenduduk").getContext("2d");
+
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["Laki-laki", "Perempuan"],
+          datasets: [
+            {
+              label: "Jumlah Penduduk",
+              data: [1423, 1568], // Ganti sesuai data asli
+              backgroundColor: ["#dc2626", "#f87171"], // Merah tailwind
+              borderRadius: 8,
+              barThickness: 50,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: (value) => value + " org",
+              },
+              title: {
+                display: true,
+                text: "Jumlah (Orang)",
+                font: {
+                  size: 14,
+                  weight: "bold",
+                },
+              },
+            },
+            x: {
+              title: {
+                display: true,
+                text: "Jenis Kelamin",
+                font: {
+                  size: 14,
+                  weight: "bold",
+                },
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y} orang`,
+              },
+            },
+          },
+        },
+      });
+    });
+  </script>
 </html>
