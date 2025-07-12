@@ -1,490 +1,658 @@
+<!DOCTYPE html>
 <html class="scroll-smooth" lang="id">
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>Pemerintah Desa Pacing</title>
+    <title>Data Penduduk - Pemerintah Desa Pacing</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <script
-      src="https://kit.fontawesome.com/a076d05399.js"
-      crossorigin="anonymous"
-    ></script>
-    <link href="css/style.css" rel="stylesheet" />
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    
     <style>
-      body {
-        font-family: "Inter", sans-serif;
-      }
-      /* Custom scrollbar for horizontal scroll containers */
-      .scrollbar-hide::-webkit-scrollbar {
-        display: none;
-      }
-      .scrollbar-hide {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
+        body {
+            font-family: "Inter", sans-serif;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
     </style>
-  </head>
-  <body class="bg-white text-black">
-    <!-- Top header with logo and nav -->
-    <!-- Navbar dengan Dropdown -->
+</head>
+<body class="bg-white text-black">
+    <!-- Header -->
     <header class="border-b border-gray-200">
-      <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        <nav
-          aria-label="Primary Navigation"
-          class="flex items-center justify-between h-16 text-xs sm:text-sm font-semibold"
-        >
-          <div class="flex items-center space-x-2">
-            <img
-              alt="Logo Pemerintah Desa Pacing"
-              class="block"
-              height="32"
-              src="assets/klaten.jpg"
-              width="32"
-            />
-            <span class="text-red-800">Desa Pacing, Klaten</span>
-          </div>
+        <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex items-center justify-between h-16 text-xs sm:text-sm font-semibold">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-red-800 rounded flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">KL</span>
+                    </div>
+                    <span class="text-red-800">Desa Pacing, Klaten</span>
+                </div>
 
-          <!-- Tombol Hamburger (Mobile) -->
-          <button
-            id="menu-toggle"
-            class="md:hidden text-red-800 focus:outline-none"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
+                <!-- Mobile menu button -->
+                <button id="menu-toggle" class="md:hidden text-red-800 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
 
-          <ul
-            class="hidden md:flex items-center space-x-6 text-xs sm:text-sm font-semibold"
-          >
-            <li>
-              <a class="hover:text-gray-700" href="index.html">Beranda</a>
-            </li>
-            <li class="relative group">
-              <button
-                class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
-              >
-                <span>Profil</span>
-                <i class="fas fa-chevron-down text-[8px] mt-[2px]"></i>
-              </button>
-              <div
-                class="absolute left-0 mt-2 w-40 bg-white border border-gray-200 shadow-lg opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-300 origin-top z-50"
-              >
-                <a href="profil.html" class="block px-4 py-2 hover:bg-gray-100"
-                  >Profil Pejabat</a
-                >
-                <a
-                  href="visimisi.html"
-                  class="block px-4 py-2 hover:bg-gray-100"
-                  >Visi dan Misi</a
-                >
-                <a href="sejarah.html" class="block px-4 py-2 hover:bg-gray-100"
-                  >Sejarah</a
-                >
-                <a
-                  href="struktur.html"
-                  class="block px-4 py-2 hover:bg-gray-100"
-                  >Struktur</a
-                >
+                <!-- Desktop menu -->
+                <ul class="hidden md:flex items-center space-x-6 text-xs sm:text-sm font-semibold">
+                    <li><a class="hover:text-gray-700" href="index.html">Beranda</a></li>
+                    <li class="relative group">
+                        <button class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none">
+                            <span>Profil</span>
+                            <i class="fas fa-chevron-down text-[8px] mt-[2px]"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-40 bg-white border border-gray-200 shadow-lg opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-300 origin-top z-50">
+                            <a href="profil.html" class="block px-4 py-2 hover:bg-gray-100">Profil Pejabat</a>
+                            <a href="visimisi.html" class="block px-4 py-2 hover:bg-gray-100">Visi dan Misi</a>
+                            <a href="sejarah.html" class="block px-4 py-2 hover:bg-gray-100">Sejarah</a>
+                            <a href="struktur.html" class="block px-4 py-2 hover:bg-gray-100">Struktur</a>
+                            <a href="geografi.html" class="block px-4 py-2 hover:bg-gray-100">Geografi</a>
+                        </div>
+                    </li>
+                    <li class="relative group">
+                        <button class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none text-red-800">
+                            <span>Data Desa</span>
+                            <i class="fas fa-chevron-down text-[8px] mt-[2px]"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-40 bg-white border border-gray-200 shadow-lg opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-300 origin-top z-50">
+                            <a href="#data-penduduk" class="block px-4 py-2 hover:bg-gray-100 bg-red-50 text-red-800">Data Penduduk</a>
+                            <a href="#data-keuangan" class="block px-4 py-2 hover:bg-gray-100">Data Keuangan</a>
+                        </div>
+                    </li>
+                    <li class="relative group">
+                        <button class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none">
+                            <span>Informasi</span>
+                            <i class="fas fa-chevron-down text-[8px] mt-[2px]"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-40 bg-white border border-gray-200 shadow-lg opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-300 origin-top z-50">
+                            <a href="#berita" class="block px-4 py-2 hover:bg-gray-100">Berita</a>
+                            <a href="#galeri" class="block px-4 py-2 hover:bg-gray-100">Galeri</a>
+                            <a href="#potensi" class="block px-4 py-2 hover:bg-gray-100">Potensi</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="admin/login.html" class="px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-900 transition duration-300">
+                            Login Admin
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
-                <a
-                  href="geografi.html"
-                  class="block px-4 py-2 hover:bg-gray-100"
-                  >Geografi</a
-                >
-              </div>
-            </li>
-
-            <li class="relative group active">
-              <button
-                class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
-              >
-                <span>Data Desa</span>
-                <i class="fas fa-chevron-down text-[8px] mt-[2px]"></i>
-              </button>
-              <div
-                class="absolute left-0 mt-2 w-40 bg-white border border-gray-200 shadow-lg opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-300 origin-top z-50"
-              >
-                <a
-                  href="data_penduduk.html"
-                  class="block px-4 py-2 hover:bg-gray-100"
-                  >Data Penduduk</a
-                >
-                <a
-                  href="data_keuangan.html"
-                  class="block px-4 py-2 hover:bg-gray-100"
-                  >Data Keuangan</a
-                >
-              </div>
-            </li>
-
-            <li class="relative group">
-              <button
-                class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
-              >
-                <span>Informasi</span>
-                <i class="fas fa-chevron-down text-[8px] mt-[2px]"></i>
-              </button>
-              <div
-                class="absolute left-0 mt-2 w-40 bg-white border border-gray-200 shadow-lg opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-300 origin-top z-50"
-              >
-                <a href="berita.html" class="block px-4 py-2 hover:bg-gray-100"
-                  >Berita</a
-                >
-                <a href="galeri.html" class="block px-4 py-2 hover:bg-gray-100"
-                  >Galeri</a
-                >
-                <a href="potensi.html" class="block px-4 py-2 hover:bg-gray-100"
-                  >Potensi</a
-                >
-              </div>
-            </li>
-
-            <li>
-              <a
-                href="admin/login.html"
-                class="px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-900 transition duration-300"
-              >
-                Login Admin
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <!-- Menu Mobile -->
-        <div
-          id="mobile-menu"
-          class="md:hidden hidden px-4 pt-4 pb-6 bg-white border-t border-gray-200 shadow-sm space-y-4 text-sm font-semibold text-gray-700 animate-fade-in"
-        >
-          <a
-            href="index.html"
-            class="block px-2 py-2 rounded hover:bg-red-50 hover:text-red-700 transition"
-            >Beranda</a
-          >
-
-          <!-- Profil -->
-          <details class="group">
-            <summary
-              class="cursor-pointer px-2 py-2 rounded hover:bg-red-50 hover:text-red-700 transition"
-            >
-              Profil
-            </summary>
-            <div class="pl-4 mt-1 space-y-1 text-sm text-gray-600">
-              <a
-                href="profil.html"
-                class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Profil Pejabat</a
-              >
-              <a
-                href="visimisi.html"
-                class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Visi dan Misi</a
-              >
-              <a
-                href="sejarah.html"
-                class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Sejarah</a
-              >
-              <a
-                href="struktur.html"
-                class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Struktur</a
-              >
-
-              <a
-                href="geografi.html"
-                class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Geografi</a
-              >
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="md:hidden hidden px-4 pt-4 pb-6 bg-white border-t border-gray-200 shadow-sm space-y-4 text-sm font-semibold text-gray-700">
+                <a href="#beranda" class="block px-2 py-2 rounded hover:bg-red-50 hover:text-red-700 transition">Beranda</a>
+                <details class="group">
+                    <summary class="cursor-pointer px-2 py-2 rounded hover:bg-red-50 hover:text-red-700 transition">Profil</summary>
+                    <div class="pl-4 mt-1 space-y-1 text-sm text-gray-600">
+                        <a href="#profil" class="block px-2 py-1 rounded hover:bg-gray-100">Profil Pejabat</a>
+                        <a href="#visi" class="block px-2 py-1 rounded hover:bg-gray-100">Visi dan Misi</a>
+                        <a href="#sejarah" class="block px-2 py-1 rounded hover:bg-gray-100">Sejarah</a>
+                        <a href="#struktur" class="block px-2 py-1 rounded hover:bg-gray-100">Struktur</a>
+                        <a href="#geografi" class="block px-2 py-1 rounded hover:bg-gray-100">Geografi</a>
+                    </div>
+                </details>
+                <details class="group">
+                    <summary class="cursor-pointer px-2 py-2 rounded hover:bg-red-50 hover:text-red-700 transition">Data Desa</summary>
+                    <div class="pl-4 mt-1 space-y-1 text-sm text-gray-600">
+                        <a href="#data-penduduk" class="block px-2 py-1 rounded hover:bg-gray-100 bg-red-50 text-red-800">Data Penduduk</a>
+                        <a href="#data-keuangan" class="block px-2 py-1 rounded hover:bg-gray-100">Data Keuangan</a>
+                    </div>
+                </details>
+                <details class="group">
+                    <summary class="cursor-pointer px-2 py-2 rounded hover:bg-red-50 hover:text-red-700 transition">Informasi</summary>
+                    <div class="pl-4 mt-1 space-y-1 text-sm text-gray-600">
+                        <a href="#berita" class="block px-2 py-1 rounded hover:bg-gray-100">Berita</a>
+                        <a href="#galeri" class="block px-2 py-1 rounded hover:bg-gray-100">Galeri</a>
+                        <a href="#potensi" class="block px-2 py-1 rounded hover:bg-gray-100">Potensi</a>
+                    </div>
+                </details>
+                <a href="#login" class="block mt-2 px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-800 transition">Login Admin</a>
             </div>
-          </details>
-
-          <!-- PPID -->
-          <details class="group">
-            <summary
-              class="cursor-pointer px-2 py-2 rounded hover:bg-red-50 hover:text-red-700 transition"
-            >
-              Data Desa
-            </summary>
-            <div class="pl-4 mt-1 space-y-1 text-sm text-gray-600">
-              <a
-                href="data_penduduk.html"
-                class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Data Penduduk</a
-              >
-              <a
-                href="data_keuangan.html"
-                class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Data Keuangan</a
-              >
-            </div>
-          </details>
-
-          <!-- Informasi -->
-          <details class="group">
-            <summary
-              class="cursor-pointer px-2 py-2 rounded hover:bg-red-50 hover:text-red-700 transition"
-            >
-              Informasi
-            </summary>
-            <div class="pl-4 mt-1 space-y-1 text-sm text-gray-600">
-              <a
-                href="berita.html"
-                class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Berita</a
-              >
-              <a
-                href="galeri.html"
-                class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Galeri</a
-              >
-              <a
-                href="potensi.html"
-                class="block px-2 py-1 rounded hover:bg-gray-100"
-                >Potensi</a
-              >
-            </div>
-          </details>
-
-          <a
-            href="admin/login.html"
-            class="block mt-2 px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-800 transition"
-          >
-            Login Admin
-          </a>
         </div>
-      </div>
     </header>
-    <!-- Search bar and category select -->
-    <section class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-      <div
-        class="flex flex-col sm:flex-row items-center sm:items-stretch gap-3 sm:gap-4"
-      >
-        <!-- Select Kategori -->
-        <div class="w-full sm:w-48">
-          <select
-            id="kategori-berita"
-            aria-label="Pilih kategori berita"
-            class="w-full border border-gray-300 rounded-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
-          >
-            <option value="" disabled selected>Pilih Kategori</option>
-            <option value="pengumuman.html">Pengumuman</option>
-            <option value="agenda.html">Agenda</option>
-          </select>
-        </div>
 
-        <!-- Form Pencarian -->
-        <form
-          aria-label="Cari berita"
-          class="flex flex-grow sm:flex-row w-full"
-          role="search"
-        >
-          <input
-            aria-label="Cari berita"
-            class="flex-grow border border-gray-300 rounded-l-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
-            placeholder="Cari berita yang Anda butuhkan . . ."
-            type="search"
-          />
-          <button
-            aria-label="Cari"
-            class="bg-red-700 hover:bg-red-900 text-white text-xs sm:text-sm font-semibold px-4 rounded-r-md flex items-center justify-center"
-            type="submit"
-          >
-            <i class="fas fa-search mr-1"></i>
-            Cari
-          </button>
-        </form>
-      </div>
+    <!-- Search and Filter Section -->
+    <section class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="flex flex-col sm:flex-row items-center sm:items-stretch gap-3 sm:gap-4">
+            <div class="w-full sm:w-48">
+                <select id="kategori-filter" class="w-full border border-gray-300 rounded-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700">
+                    <option value="" selected>Semua Data</option>
+                    <option value="gender">Data Gender</option>
+                    <option value="usia">Data Usia</option>
+                    <option value="pendidikan">Data Pendidikan</option>
+                    <option value="pekerjaan">Data Pekerjaan</option>
+                </select>
+            </div>
+            <form class="flex flex-grow sm:flex-row w-full" role="search">
+                <input class="flex-grow border border-gray-300 rounded-l-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700" placeholder="Cari data penduduk..." type="search" />
+                <button class="bg-red-700 hover:bg-red-900 text-white text-xs sm:text-sm font-semibold px-4 rounded-r-md flex items-center justify-center" type="submit">
+                    <i class="fas fa-search mr-1"></i>
+                    Cari
+                </button>
+            </form>
+        </div>
     </section>
 
     <!-- Breadcrumb -->
     <section class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-      <nav
-        class="flex text-xs sm:text-sm text-gray-600"
-        aria-label="Breadcrumb"
-      >
-        <ol class="inline-flex items-center space-x-1 md:space-x-3">
-          <li class="inline-flex items-center">
-            <a href="index.html" class="text-red-700 hover:text-red-800">
-              <i class="fas fa-home mr-1"></i>
-              Beranda
-            </a>
-          </li>
-          <li>
-            <div class="flex items-center">
-              <i class="fas fa-chevron-right text-gray-400 mx-1"></i>
-              <span class="text-gray-500">Data Desa</span>
-            </div>
-          </li>
-          <li>
-            <div class="flex items-center">
-              <i class="fas fa-chevron-right text-gray-400 mx-1"></i>
-              <span class="text-gray-700 font-semibold">Data Penduduk</span>
-            </div>
-          </li>
-        </ol>
-      </nav>
+        <nav class="flex text-xs sm:text-sm text-gray-600" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="#beranda" class="text-red-700 hover:text-red-800">
+                        <i class="fas fa-home mr-1"></i>
+                        Beranda
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-1"></i>
+                        <span class="text-gray-500">Data Desa</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-1"></i>
+                        <span class="text-gray-700 font-semibold">Data Penduduk</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
     </section>
 
-    <!-- Main content grid -->
-    <main
-      class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-6 grid grid-cols-1 lg:grid-cols-4 gap-6"
-    >
-      <section
-        class="col-span-1 lg:col-span-4 bg-white rounded-lg shadow border border-gray-200 p-6"
-      >
-        <h1
-          class="text-center text-2xl sm:text-3xl font-bold text-red-800 border-b-2 border-red-800 pb-2 mb-6"
-        >
-          Data Penduduk Desa Pacing
-        </h1>
+    <!-- Main Content -->
+    <main class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <section class="bg-white rounded-lg shadow border border-gray-200 p-6">
+            <h1 class="text-center text-2xl sm:text-3xl font-bold text-red-800 border-b-2 border-red-800 pb-2 mb-8">
+                Data Penduduk Desa Pacing
+            </h1>
 
-        <div class="w-full overflow-x-auto">
-          <canvas
-            id="barChartPenduduk"
-            class="max-w-full h-[300px] sm:h-[400px]"
-          ></canvas>
-        </div>
-      </section>
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="bg-gradient-to-r from-red-500 to-red-600 text-white p-4 rounded-lg shadow">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-90">Total Penduduk</p>
+                            <p class="text-2xl font-bold" id="totalPenduduk">2,991</p>
+                        </div>
+                        <i class="fas fa-users text-2xl opacity-80"></i>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-lg shadow">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-90">Laki-laki</p>
+                            <p class="text-2xl font-bold">1,423</p>
+                        </div>
+                        <i class="fas fa-male text-2xl opacity-80"></i>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-r from-pink-500 to-pink-600 text-white p-4 rounded-lg shadow">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-90">Perempuan</p>
+                            <p class="text-2xl font-bold">1,568</p>
+                        </div>
+                        <i class="fas fa-female text-2xl opacity-80"></i>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-lg shadow">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-90">Dewasa (19+)</p>
+                            <p class="text-2xl font-bold">1,941</p>
+                        </div>
+                        <i class="fas fa-user-check text-2xl opacity-80"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="space-y-8">
+                <!-- Gender Chart -->
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-chart-bar mr-2 text-red-700"></i>
+                        Distribusi Penduduk Berdasarkan Jenis Kelamin
+                    </h2>
+                    <div class="chart-container">
+                        <canvas id="barChartPenduduk"></canvas>
+                    </div>
+                </div>
+
+                <!-- Age Chart -->
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-chart-bar mr-2 text-red-700"></i>
+                        Distribusi Penduduk Berdasarkan Usia
+                    </h2>
+                    <div class="chart-container">
+                        <canvas id="barChartUsia"></canvas>
+                    </div>
+                </div>
+
+                <!-- Education Chart -->
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-chart-pie mr-2 text-red-700"></i>
+                        Distribusi Penduduk Berdasarkan Pendidikan
+                    </h2>
+                    <div class="chart-container">
+                        <canvas id="pieChartPendidikan"></canvas>
+                    </div>
+                </div>
+
+                <!-- Occupation Chart -->
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-chart-pie mr-2 text-red-700"></i>
+                        Distribusi Penduduk Berdasarkan Pekerjaan
+                    </h2>
+                    <div class="chart-container">
+                        <canvas id="pieChartPekerjaan"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Tables -->
+            <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Summary Table -->
+                <div class="bg-white border rounded-lg overflow-hidden">
+                    <div class="bg-red-700 text-white p-4">
+                        <h3 class="font-semibold">Ringkasan Data</h3>
+                    </div>
+                    <div class="p-4">
+                        <table class="w-full text-sm">
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="py-2 font-medium">Total Penduduk</td>
+                                    <td class="py-2 text-right">2,991 orang</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 font-medium">Laki-laki</td>
+                                    <td class="py-2 text-right">1,423 orang (47.6%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 font-medium">Perempuan</td>
+                                    <td class="py-2 text-right">1,568 orang (52.4%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 font-medium">Anak-anak (0-18)</td>
+                                    <td class="py-2 text-right">1,050 orang (35.1%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2 font-medium">Dewasa (19+)</td>
+                                    <td class="py-2 text-right">1,941 orang (64.9%)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Key Statistics -->
+                <div class="bg-white border rounded-lg overflow-hidden">
+                    <div class="bg-red-700 text-white p-4">
+                        <h3 class="font-semibold">Statistik Utama</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium">Pendidikan Tertinggi</span>
+                                <span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">SD (600 orang)</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium">Pekerjaan Utama</span>
+                                <span class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">Petani (500 orang)</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium">Kelompok Usia Terbanyak</span>
+                                <span class="text-sm bg-purple-100 text-purple-800 px-2 py-1 rounded">Dewasa 19+ (1,941 orang)</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium">Rasio Jenis Kelamin</span>
+                                <span class="text-sm bg-gray-100 text-gray-800 px-2 py-1 rounded">91:100 (L:P)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
     <footer class="bg-black text-white text-xs sm:text-sm mt-10">
-      <div
-        class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 md:grid-cols-3 gap-6"
-      >
-        <div>
-          <h4 class="font-semibold mb-2">Desa Pacing</h4>
-          <h5 class="font-semibold mb-1">Kebijakan Privasi</h5>
-          <address class="not-italic mb-1">
-            Alamat
-            <br />
-            Jl. Pemuda No. 294 57424
-          </address>
-          <p class="mb-1">
-            Telepon
-            <br />
-            <a class="hover:underline" href="tel:0272321046"> 0272-321046 </a>
-          </p>
-          <p>
-            Email
-            <br />
-            <a class="hover:underline" href="mailto:pemkab@pacing.go.id">
-              pemkab@pacing.go.id
-            </a>
-          </p>
+        <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+                <h4 class="font-semibold mb-2">Desa Pacing</h4>
+                <h5 class="font-semibold mb-1">Kebijakan Privasi</h5>
+                <address class="not-italic mb-1">
+                    Alamat<br />
+                    Jl. Pemuda No. 294 57424
+                </address>
+                <p class="mb-1">
+                    Telepon<br />
+                    <a class="hover:underline" href="tel:0272321046">0272-321046</a>
+                </p>
+                <p>
+                    Email<br />
+                    <a class="hover:underline" href="mailto:pemkab@pacing.go.id">pemkab@pacing.go.id</a>
+                </p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-2">Statistik Pengunjung</h4>
+                <p>
+                    Pengunjung Hari ini: <strong>96 Pengunjung</strong><br />
+                    Kemarin: <strong>137 Pengunjung</strong><br />
+                    Bulan ini: <strong>919 Pengunjung</strong><br />
+                    Tahun ini: <strong>9,723 Pengunjung</strong><br />
+                    Total: <strong>21,559 Pengunjung</strong>
+                </p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-2">Sosial Media</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-red-400 transition">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="hover:text-red-400 transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="hover:text-red-400 transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-        <div>
-          <h4 class="font-semibold mb-2">Statistik Pengunjung</h4>
-          <p>
-            Pengunjung Hari ini :
-            <strong> 96 Pengunjung </strong>
-            <br />
-            Kemarin :
-            <strong> 137 Pengunjung </strong>
-            <br />
-            Bulan ini :
-            <strong> 919 Pengunjung </strong>
-            <br />
-            Tahun ini :
-            <strong> 9723 Pengunjung </strong>
-            <br />
-            Total :
-            <strong> 21559 Pengunjung </strong>
-          </p>
+        <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-2 border-t border-gray-700 flex justify-between text-[10px] sm:text-xs">
+            <p>©Copyright Desa Pacing</p>
+            <p>Dibuat Oleh Desa Pacing</p>
         </div>
-        <div>
-          <h4 class="font-semibold mb-2">Sosial Media</h4>
-          <!-- No social media icons or links shown in screenshot -->
-        </div>
-      </div>
-      <div
-        class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-2 border-t border-gray-700 flex justify-between text-[10px] sm:text-xs"
-      >
-        <p>©Copyright Desa Pacing</p>
-        <p>Dibuat Oleh Desa Pacing</p>
-      </div>
     </footer>
-  </body>
-  <script src="js/script.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const ctx = document.getElementById("barChartPenduduk").getContext("2d");
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <script>
+        // Global chart variables
+        let chartGender, chartUsia, chartPendidikan, chartPekerjaan;
 
-      new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: ["Laki-laki", "Perempuan"],
-          datasets: [
-            {
-              label: "Jumlah Penduduk",
-              data: [1423, 1568], // Ganti sesuai data asli
-              backgroundColor: ["#dc2626", "#f87171"], // Merah tailwind
-              borderRadius: 8,
-              barThickness: 50,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: (value) => value + " org",
-              },
-              title: {
-                display: true,
-                text: "Jumlah (Orang)",
-                font: {
-                  size: 14,
-                  weight: "bold",
-                },
-              },
-            },
-            x: {
-              title: {
-                display: true,
-                text: "Jenis Kelamin",
-                font: {
-                  size: 14,
-                  weight: "bold",
-                },
-              },
-            },
-          },
-          plugins: {
-            legend: {
-              display: false,
-            },
-            tooltip: {
-              callbacks: {
-                label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y} orang`,
-              },
-            },
-          },
-        },
-      });
-    });
-  </script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener("DOMContentLoaded", function() {
+            // Initialize charts
+            initializeCharts();
+            
+            // Add mobile menu functionality
+            setupMobileMenu();
+            
+            // Add filter functionality
+            setupFilters();
+        });
+
+        function initializeCharts() {
+            // Destroy existing charts if they exist
+            if (chartGender) chartGender.destroy();
+            if (chartUsia) chartUsia.destroy();
+            if (chartPendidikan) chartPendidikan.destroy();
+            if (chartPekerjaan) chartPekerjaan.destroy();
+
+            // Gender Chart
+            const ctxGender = document.getElementById("barChartPenduduk");
+            if (ctxGender) {
+                chartGender = new Chart(ctxGender, {
+                    type: "bar",
+                    data: {
+                        labels: ["Laki-laki", "Perempuan"],
+                        datasets: [{
+                            label: "Jumlah Penduduk",
+                            data: [1423, 1568],
+                            backgroundColor: ["#dc2626", "#f87171"],
+                            borderColor: ["#b91c1c", "#ef4444"],
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            borderSkipped: false,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Distribusi Penduduk Berdasarkan Jenis Kelamin',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            },
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Age Chart
+            const ctxUsia = document.getElementById("barChartUsia");
+            if (ctxUsia) {
+                chartUsia = new Chart(ctxUsia, {
+                    type: "bar",
+                    data: {
+                        labels: ["0-3 Tahun", "4-6 Tahun", "7-12 Tahun", "13-15 Tahun", "16-18 Tahun", "19+ Tahun"],
+                        datasets: [{
+                            label: "Jumlah Penduduk",
+                            data: [320, 280, 600, 450, 400, 1941],
+                            backgroundColor: [
+                                "#fef3c7", "#fde047", "#facc15", "#eab308", "#ca8a04", "#a16207"
+                            ],
+                            borderColor: [
+                                "#f59e0b", "#f59e0b", "#f59e0b", "#f59e0b", "#f59e0b", "#f59e0b"
+                            ],
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            borderSkipped: false,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Distribusi Penduduk Berdasarkan Kelompok Usia',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            },
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Education Chart
+            const ctxPendidikan = document.getElementById("pieChartPendidikan");
+            if (ctxPendidikan) {
+                chartPendidikan = new Chart(ctxPendidikan, {
+                    type: "pie",
+                    data: {
+                        labels: ["TK", "SD", "SMP", "SMA", "D1-D3", "S1-S3"],
+                        datasets: [{
+                            data: [150, 600, 400, 500, 200, 150],
+                            backgroundColor: [
+                                "#ef4444", "#f97316", "#facc15", "#22c55e", "#3b82f6", "#8b5cf6"
+                            ],
+                            borderColor: "#ffffff",
+                            borderWidth: 2,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Distribusi Penduduk Berdasarkan Tingkat Pendidikan',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            },
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    usePointStyle: true,
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Occupation Chart
+            const ctxPekerjaan = document.getElementById("pieChartPekerjaan");
+            if (ctxPekerjaan) {
+                chartPekerjaan = new Chart(ctxPekerjaan, {
+                    type: "pie",
+                    data: {
+                        labels: ["Karyawan", "PNS", "ABRI", "Swasta", "Wiraswasta", "Petani", "Pertukangan", "Buruh Tani", "Pensiunan", "Nelayan", "Pemulung"],
+                        datasets: [{
+                            data: [400, 120, 50, 200, 300, 500, 80, 150, 60, 90, 20],
+                            backgroundColor: [
+                                "#ef4444", "#f97316", "#facc15", "#22c55e", "#3b82f6", "#8b5cf6", 
+                                "#ec4899", "#14b8a6", "#6366f1", "#f59e0b", "#e11d48"
+                            ],
+                            borderColor: "#ffffff",
+                            borderWidth: 2,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Distribusi Penduduk Berdasarkan Jenis Pekerjaan',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            },
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    usePointStyle: true,
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function setupMobileMenu() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        }
+
+        function setupFilters() {
+            const filterSelect = document.getElementById('kategori-filter');
+            
+            if (filterSelect) {
+                filterSelect.addEventListener('change', function() {
+                    const selectedValue = this.value;
+                    
+                    // Hide all charts
+                    document.querySelectorAll('.chart-container').forEach(container => {
+                        container.closest('.bg-gray-50').style.display = 'none';
+                    });
+                    
+                    // Show selected chart or all charts
+                    if (selectedValue === '') {
+                        // Show all charts
+                        document.querySelectorAll('.chart-container').forEach(container => {
+                            container.closest('.bg-gray-50').style.display = 'block';
+                        });
+                    } else {
+                        // Show specific chart
+                        let targetChart = null;
+                        switch(selectedValue) {
+                            case 'gender':
+                                targetChart = document.getElementById('barChartPenduduk');
+                                break;
+                            case 'usia':
+                                targetChart = document.getElementById('barChartUsia');
+                                break;
+                            case 'pendidikan':
+                                targetChart = document.getElementById('pieChartPendidikan');
+                                break;
+                            case 'pekerjaan':
+                                targetChart = document.getElementById('pieChartPekerjaan');
+                                break;
+                        }
+                        
+                        if (targetChart) {
+                            targetChart.closest('.bg-gray-50').style.display = 'block';
+                        }
+                    }
+                });
+            }
+        }
+
+        // Resize charts when window is resized
+        window.addEventListener('resize', function() {
+            if (chartGender) chartGender.resize();
+            if (chartUsia) chartUsia.resize();
+            if (chartPendidikan) chartPendidikan.resize();
+            if (chartPekerjaan) chartPekerjaan.resize();
+        });
+    </script>
+</body>
 </html>
