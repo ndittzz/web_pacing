@@ -1,0 +1,27 @@
+/* File: keuangan.css */
+.card-summary {
+  border-left: 4px solid #007bff;
+}
+.card-pendapatan {
+  border-left: 4px solid #28a745;
+}
+.card-belanja {
+  border-left: 4px solid #dc3545;
+}
+.card-pembiayaan {
+  border-left: 4px solid #ffc107;
+}
+.progress {
+  height: 20px;
+}
+.progress-bar {
+  font-size: 12px;
+  line-height: 20px;
+}
+.badge-percent {
+  font-size: 100%;
+  padding: 5px 10px;
+}
+.indent-1 {
+  padding-left: 30px !important;
+}
