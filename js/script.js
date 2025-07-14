@@ -103,14 +103,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 🔴 Khusus Profil Dropdown — tandai sebagai aktif juga jika termasuk sub-halaman
   const profilPages = [
-    "profil.html",
-    "visimisi.html",
-    "sejarah.html",
-    "struktur.html",
-    "geografi.html",
+    "profil.php",
+    "visimisi.php",
+    "sejarah.php",
+    "struktur.php",
+    "geografi.php",
   ];
-  const informasiPages = ["berita.html", "galeri.html", "potensi.html"];
-  const DatadesaPages = ["data_penduduk.html", "data_keuangan.html"];
+  const informasiPages = ["berita.php", "galeri.php", "potensi.php"];
+  const DatadesaPages = ["data_penduduk.php", "data_keuangan.php"];
 
   if (profilPages.includes(currentPath)) {
     // Button Profil Desktop
@@ -212,20 +212,20 @@ function closeModal() {
   }, 10);
 }
 
-// Navigasi klik berita ke detail_berita.html
+// Navigasi klik berita ke detail_berita.php
 document.querySelectorAll(".berita-link").forEach((link) => {
   link.addEventListener("click", function (e) {
     e.preventDefault();
     const id = this.getAttribute("data-id");
-    window.location.href = `detail_berita.html?id=${id}`;
+    window.location.href = `detail_berita.php?id=${id}`;
   });
 });
 
-// Navigasi klik potensi ke detail_potensi.html
+// Navigasi klik potensi ke detail_potensi.php
 document.querySelectorAll(".potensi-link").forEach((link) => {
   link.addEventListener("click", function (e) {
     e.preventDefault();
     const id = this.getAttribute("data-id");
-    window.location.href = `detail_potensi.html?id=${id}`;
+    window.location.href = `detail_potensi.php?id=${id}`;
   });
 });
