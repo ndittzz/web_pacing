@@ -8,6 +8,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
+    <style>
+      /* Custom styles for delete modal */
+      .modal-header.bg-danger {
+        background-color: #dc3545 !important;
+        color: white;
+      }
+      .modal-footer .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+      }
+      .modal-footer .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+      }
+    </style>
   </head>
   <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -113,6 +128,7 @@
           </nav>
         </div>
       </aside>
+      
       <div class="content-wrapper">
         <div class="content-header">
           <div class="container-fluid">
@@ -125,6 +141,7 @@
             </div>
           </div>
         </div>
+        
         <section class="content">
           <div class="container-fluid">
             <!-- Tabel Berdasarkan Jenis Kelamin -->
@@ -133,7 +150,7 @@
                 <h3 class="card-title"><i class="fas fa-venus-mars"></i> Data Berdasarkan Jenis Kelamin</h3>
                 <div class="card-tools">
                   <button class="btn btn-primary btn-sm">
-                    <a href="penduduk_create.html" class="btn btn-primary">
+                    <a href="gender_penduduk_create.html" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Tambah Data
                     </a>
                   </button>
@@ -159,8 +176,8 @@
                       <td>135</td>
                       <td>260</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="gender_penduduk_create.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="Total Penduduk" data-table="gender"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                   </tbody>
@@ -174,7 +191,7 @@
                 <h3 class="card-title"><i class="fas fa-birthday-cake"></i> Data Berdasarkan Usia</h3>
                 <div class="card-tools">
                   <button class="btn btn-primary btn-sm">
-                    <a href="penduduk_create.html" class="btn btn-primary">
+                    <a href="age_penduduk_create.html" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Tambah Data
                     </a>
                   </button>
@@ -200,8 +217,8 @@
                       <td>12</td>
                       <td>27</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="age_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="0-4 tahun" data-table="age"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -211,8 +228,8 @@
                       <td>16</td>
                       <td>34</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="age_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="5-9 tahun" data-table="age"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -222,8 +239,8 @@
                       <td>18</td>
                       <td>38</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="age_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="10-14 tahun" data-table="age"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -233,8 +250,8 @@
                       <td>25</td>
                       <td>47</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="age_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="15-19 tahun" data-table="age"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -244,8 +261,8 @@
                       <td>45</td>
                       <td>80</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="age_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="20-59 tahun" data-table="age"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -255,8 +272,8 @@
                       <td>19</td>
                       <td>34</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="age_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="60+ tahun" data-table="age"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                   </tbody>
@@ -270,7 +287,7 @@
                 <h3 class="card-title"><i class="fas fa-graduation-cap"></i> Data Berdasarkan Pendidikan</h3>
                 <div class="card-tools">
                   <button class="btn btn-primary btn-sm">
-                    <a href="penduduk_create.html" class="btn btn-primary">
+                    <a href="edu_penduduk_create.html" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Tambah Data
                     </a>
                   </button>
@@ -296,8 +313,8 @@
                       <td>12</td>
                       <td>20</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="edu_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="Tidak Sekolah" data-table="education"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -307,8 +324,8 @@
                       <td>40</td>
                       <td>75</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="edu_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="SD/Sederajat" data-table="education"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -318,8 +335,8 @@
                       <td>32</td>
                       <td>60</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="edu_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="SMP/Sederajat" data-table="education"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -329,8 +346,8 @@
                       <td>38</td>
                       <td>80</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="edu_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="SMA/Sederajat" data-table="education"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -340,8 +357,8 @@
                       <td>13</td>
                       <td>25</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="edu_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="Diploma/Sarjana" data-table="education"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                   </tbody>
@@ -355,7 +372,7 @@
                 <h3 class="card-title"><i class="fas fa-briefcase"></i> Data Berdasarkan Pekerjaan</h3>
                 <div class="card-tools">
                   <button class="btn btn-primary btn-sm">
-                    <a href="penduduk_create.html" class="btn btn-primary">
+                    <a href="job_penduduk_create.html" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Tambah Data
                     </a>
                   </button>
@@ -381,8 +398,8 @@
                       <td>25</td>
                       <td>70</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="job_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="Petani" data-table="job"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -392,8 +409,8 @@
                       <td>15</td>
                       <td>35</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="job_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="Buruh" data-table="job"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -403,8 +420,8 @@
                       <td>20</td>
                       <td>35</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="job_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="Pedagang" data-table="job"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -414,8 +431,8 @@
                       <td>12</td>
                       <td>20</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="job_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="PNS" data-table="job"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -425,8 +442,8 @@
                       <td>22</td>
                       <td>40</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="job_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="Swasta" data-table="job"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -436,8 +453,8 @@
                       <td>41</td>
                       <td>60</td>
                       <td>
-                        <a href="penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        <a href="job_penduduk_edit.html" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger btn-sm delete-btn" data-category="Tidak Bekerja" data-table="job"><i class="fas fa-trash"></i></button>
                       </td>
                     </tr>
                   </tbody>
@@ -447,13 +464,117 @@
           </div>
         </section>
       </div>
+      
       <footer class="main-footer">
         <div class="float-right d-none d-sm-block"><b>Version</b> 1.0</div>
         <strong>Desa Pacing</strong> All rights reserved.
       </footer>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-danger">
+            <h5 class="modal-title" id="deleteModalLabel">
+              <i class="fas fa-exclamation-triangle"></i> Konfirmasi Hapus Data
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+              <i class="fas fa-trash-alt fa-4x text-danger mb-3"></i>
+              <h5>Apakah Anda yakin ingin menghapus data ini?</h5>
+              <p class="text-muted">Data <strong id="deleteItemName"></strong> akan dihapus secara permanen dan tidak dapat dikembalikan.</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              <i class="fas fa-times"></i> Batal
+            </button>
+            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+              <i class="fas fa-trash"></i> Hapus Data
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Alert Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-success">
+            <h5 class="modal-title text-white" id="successModalLabel">
+              <i class="fas fa-check-circle"></i> Berhasil
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+            <h5>Data berhasil dihapus!</h5>
+            <p class="text-muted">Data telah dihapus dari sistem.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal">
+              <i class="fas fa-check"></i> OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+    
+    <script>
+      $(document).ready(function() {
+        let currentDeleteRow = null;
+        
+        // Handle delete button click
+        $('.delete-btn').click(function() {
+          const category = $(this).data('category');
+          const table = $(this).data('table');
+          currentDeleteRow = $(this).closest('tr');
+          
+          // Set the item name in the modal
+          $('#deleteItemName').text(category);
+          
+          // Show the delete confirmation modal
+          $('#deleteModal').modal('show');
+        });
+        
+        // Handle confirm delete button click
+        $('#confirmDeleteBtn').click(function() {
+          // Hide the delete modal
+          $('#deleteModal').modal('hide');
+          
+          // Simulate deletion with a delay
+          setTimeout(function() {
+            // Remove the row from the table
+            if (currentDeleteRow) {
+              currentDeleteRow.fadeOut(300, function() {
+                $(this).remove();
+                
+                // Show success modal
+                $('#successModal').modal('show');
+              });
+            }
+          }, 300);
+        });
+        
+        // Auto-hide success modal after 2 seconds
+        $('#successModal').on('shown.bs.modal', function () {
+          setTimeout(function() {
+            $('#successModal').modal('hide');
+          }, 2000);
+        });
+      });
+    </script>
   </body>
 </html>
