@@ -1,3 +1,19 @@
+<?php
+include '../php/db.php';
+$error = null;
+// Hapus data jika ada request delete
+if (isset($_GET['delete'])) {
+    $id = intval($_GET['delete']);
+    if (!$konek->query("DELETE FROM potensi WHERE id=$id")) {
+        $error = 'Gagal menghapus data: ' . $konek->error;
+    } else {
+        header('Location: potensi.php');
+        exit();
+    }
+}
+// Ambil data potensi
+$result = $konek->query("SELECT * FROM potensi ORDER BY tanggal DESC");
+?>
 <!-- admin/potensi.php - Dashboard Manajemen Potensi -->
 <!DOCTYPE html>
 <html lang="id">
@@ -157,33 +173,40 @@
                 <tr>
                   <th>No</th>
                   <th>Judul</th>
-                  <th>Deskripsi</th>
                   <th>Gambar</th>
+                  <th>Deskripsi</th>
                   <th>Tanggal</th>
+                  <th>Penulis</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Judul Potensi Contoh</td>
-                  <td>Deskripsi potensi contoh</td>
-                  <td><img src="../assets/slider1.jpg" width="80" /></td>
-                  <td>2025-07-06</td>
-                  <td>
-                    <button
-                      class="btn btn-sm btn-warning"
-                      onclick="window.location.href='potensi_edit.php'"
-                    >
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
+                <?php
+                $no = 1;
+                if ($result) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<tr>';
+                        echo '<td>' . $no++ . '</td>';
+                        echo '<td>' . htmlspecialchars($row['judul']) . '</td>';
+                        echo '<td>';
+                        if ($row['gambar']) {
+                            echo '<img src="../assets/' . htmlspecialchars($row['gambar']) . '" width="80" />';
+                        }
+                        echo '</td>';
+                        echo '<td>' . htmlspecialchars($row['deskripsi']) . '</td>';
+                        echo '<td>' . htmlspecialchars($row['tanggal']) . '</td>';
+                        echo '<td>' . htmlspecialchars($row['penulis']) . '</td>';
+                        echo '<td>';
+                        echo '<a href="potensi_edit.php?id=' . $row['id'] . '" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a> ';
+                        echo '<a href="potensi.php?delete=' . $row['id'] . '" class="btn btn-sm btn-danger" onclick="return confirm(\'Yakin hapus data?\')"><i class="fas fa-trash"></i></a>';
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                }
+                ?>
               </tbody>
             </table>
+            <?php if ($error) echo '<div class="alert alert-danger">'.$error.'</div>'; ?>
           </div>
         </section>
       </div>

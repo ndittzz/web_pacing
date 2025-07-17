@@ -1,3 +1,40 @@
+<?php
+include '../php/db.php';
+$error = null;
+if (!isset($_GET['id'])) {
+    header('Location: potensi.php');
+    exit();
+}
+$id = intval($_GET['id']);
+// Ambil data lama
+$result = $konek->query("SELECT * FROM potensi WHERE id=$id");
+if (!$result || $result->num_rows == 0) {
+    echo '<div class="alert alert-danger">Data tidak ditemukan.</div>';
+    exit();
+}
+$data = $result->fetch_assoc();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $judul = $konek->real_escape_string($_POST['judul']);
+    $penulis = $konek->real_escape_string($_POST['penulis']);
+    $deskripsi = $konek->real_escape_string($_POST['deskripsi']);
+    $gambar = $data['gambar'];
+    if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
+        $ext = pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);
+        $namaFile = 'potensi_' . time() . '.' . $ext;
+        $target = '../assets/' . $namaFile;
+        if (move_uploaded_file($_FILES['gambar']['tmp_name'], $target)) {
+            $gambar = $namaFile;
+        }
+    }
+    $sql = "UPDATE potensi SET judul='$judul', deskripsi='$deskripsi', gambar=" . ($gambar ? "'$gambar'" : 'NULL') . ", penulis='$penulis' WHERE id=$id";
+    if ($konek->query($sql)) {
+        header('Location: potensi.php');
+        exit();
+    } else {
+        $error = 'Gagal mengupdate data: ' . $konek->error;
+    }
+}
+?>
 <!-- admin/potensi_edit.php - Edit Potensi -->
 <!DOCTYPE html>
 <html lang="id">
@@ -162,30 +199,35 @@
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <form method="POST" enctype="multipart/form-data" action="potensi_edit.php?id=<?php echo $id; ?>">
                   <div class="form-group">
                     <label>Judul</label>
                     <input
                       type="text"
                       class="form-control"
-                      placeholder="Judul Berita"
+                      name="judul"
+                      placeholder="Judul Potensi"
+                      required
+                      value="<?php echo htmlspecialchars($data['judul']); ?>"
                     />
+                  </div>
+                  <div class="form-group">
+                    <label>Penulis</label>
+                    <input type="text" class="form-control" name="penulis" placeholder="Penulis Potensi" required value="<?php echo htmlspecialchars($data['penulis']); ?>" />
                   </div>
                   <div class="form-group">
                     <label>Deskripsi</label>
                     <textarea
                       class="form-control"
-                      placeholder="Isi Berita"
-                    ></textarea>
+                      name="deskripsi"
+                      placeholder="Deskripsi Potensi"
+                      required
+                    ><?php echo htmlspecialchars($data['deskripsi']); ?></textarea>
                   </div>
                   <div class="form-group">
                     <label>Upload Gambar</label>
-                    <input type="file" class="form-control-file" />
-                  </div>
-
-                  <div class="form-group">
-                    <label>Tanggal</label>
-                    <input type="date" class="form-control" />
+                    <input type="file" class="form-control-file" name="gambar" accept="image/*" />
+                    <?php if ($data['gambar']) { echo '<br><img src="../assets/' . htmlspecialchars($data['gambar']) . '" width="120">'; } ?>
                   </div>
                   <button type="submit" class="btn btn-primary">Simpan</button>
                   <a href="potensi.php" class="btn btn-secondary">Kembali</a>

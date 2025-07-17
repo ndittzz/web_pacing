@@ -1,3 +1,28 @@
+<?php
+include '../php/db.php';
+$error = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $judul = $konek->real_escape_string($_POST['judul']);
+    $penulis = $konek->real_escape_string($_POST['penulis']);
+    $deskripsi = $konek->real_escape_string($_POST['deskripsi']);
+    $gambar = null;
+    if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
+        $ext = pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);
+        $namaFile = 'potensi_' . time() . '.' . $ext;
+        $target = '../assets/' . $namaFile;
+        if (move_uploaded_file($_FILES['gambar']['tmp_name'], $target)) {
+            $gambar = $namaFile;
+        }
+    }
+    $sql = "INSERT INTO potensi (judul, deskripsi, gambar, penulis) VALUES ('$judul', '$deskripsi', " . ($gambar ? "'$gambar'" : 'NULL') . ", '$penulis')";
+    if ($konek->query($sql)) {
+        header('Location: potensi.php');
+        exit();
+    } else {
+        $error = 'Gagal menyimpan data: ' . $konek->error;
+    }
+}
+?>
 <!-- admin/potensi_create.php - Create Potensi -->
 <!DOCTYPE html>
 <html lang="id">
@@ -162,30 +187,34 @@
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <?php if ($error) echo '<div class="alert alert-danger">'.$error.'</div>'; ?>
+                <form method="POST" enctype="multipart/form-data" action="potensi_create.php">
                   <div class="form-group">
                     <label>Judul</label>
                     <input
                       type="text"
                       class="form-control"
-                      placeholder="Judul Berita"
+                      name="judul"
+                      placeholder="Judul Potensi"
+                      required
                     />
+                  </div>
+                  <div class="form-group">
+                    <label>Penulis</label>
+                    <input type="text" class="form-control" name="penulis" placeholder="Penulis Potensi" required />
                   </div>
                   <div class="form-group">
                     <label>Deskripsi</label>
                     <textarea
                       class="form-control"
-                      placeholder="Isi Berita"
+                      name="deskripsi"
+                      placeholder="Deskripsi Potensi"
+                      required
                     ></textarea>
                   </div>
                   <div class="form-group">
                     <label>Upload Gambar</label>
-                    <input type="file" class="form-control-file" />
-                  </div>
-
-                  <div class="form-group">
-                    <label>Tanggal</label>
-                    <input type="date" class="form-control" />
+                    <input type="file" class="form-control-file" name="gambar" accept="image/*" />
                   </div>
                   <button type="submit" class="btn btn-primary">Simpan</button>
                   <a href="potensi.php" class="btn btn-secondary">Kembali</a>

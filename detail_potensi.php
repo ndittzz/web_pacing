@@ -1,3 +1,17 @@
+<?php
+include 'php/db.php';
+if (!isset($_GET['id'])) {
+  echo '<h1>Data tidak ditemukan</h1>';
+  exit;
+}
+$id = intval($_GET['id']);
+$result = $konek->query("SELECT * FROM potensi WHERE id=$id");
+if (!$result || $result->num_rows == 0) {
+  echo '<h1>Data tidak ditemukan</h1>';
+  exit;
+}
+$data = $result->fetch_assoc();
+?>
 <html class="scroll-smooth" lang="id">
   <head>
     <meta charset="utf-8" />
@@ -355,37 +369,23 @@
     </section>
 
     <main class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-      <!-- Judul -->
-      <h1 id="judul" class="text-2xl font-bold text-red-800 mb-4">
-        Loading...
+      <h1 class="text-2xl font-bold text-red-800 mb-4">
+        <?php echo htmlspecialchars($data['judul']); ?>
       </h1>
-
-      <!-- Gambar -->
       <img
-        id="gambar"
-        alt="Gambar Berita"
+        alt="<?php echo htmlspecialchars($data['judul']); ?>"
         class="w-full max-h-[500px] object-contain rounded-md mb-4 mx-auto bg-gray-100"
+        src="assets/<?php echo htmlspecialchars($data['gambar']); ?>"
       />
-
-      <!-- Tanggal dan Author -->
-      <p id="tanggal" class="text-sm text-gray-500 mb-4">
+      <p class="text-sm text-gray-500 mb-4">
         <i class="fas fa-calendar-alt mr-1"></i>
+        Dipublikasikan pada: <?php echo date('j M Y', strtotime($data['tanggal'])); ?> oleh <?php echo htmlspecialchars($data['penulis']); ?>
       </p>
-
-      <!-- Konten -->
-      <div
-        id="konten"
-        class="text-sm sm:text-base text-gray-700 space-y-3 mb-6"
-      >
-        <!-- Content will be loaded here -->
+      <div class="text-sm sm:text-base text-gray-700 space-y-3 mb-6">
+        <?php echo nl2br(htmlspecialchars($data['deskripsi'])); ?>
       </div>
-
-      <!-- Tombol Kembali -->
       <div class="mb-6">
-        <a
-          href="potensi.php"
-          class="inline-flex items-center px-4 py-2 bg-red-700 text-white rounded hover:bg-red-900 text-sm"
-        >
+        <a href="potensi.php" class="inline-flex items-center px-4 py-2 bg-red-700 text-white rounded hover:bg-red-900 text-sm">
           <i class="fas fa-arrow-left mr-2"></i> Kembali ke Potensi
         </a>
       </div>
@@ -465,82 +465,6 @@
             window.location.href = this.value;
           }
         });
-
-      // Load news content
-      document.addEventListener("DOMContentLoaded", function () {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
-        const data = {
-          1: {
-            title: "335 Atlet Desa Pacing Siap Bertanding...",
-            date: "8 Juli 2025",
-            author: "Admin",
-            img: "https://storage.googleapis.com/a1aa/image/8d40d220-5392-4dea-bce0-b4473277f2cf.jpg",
-            content:
-              "Kegiatan gotong royong pembersihan lingkungan desa dilaksanakan setiap hari Minggu pagi dengan melibatkan seluruh warga desa. Kegiatan ini bertujuan untuk menjaga kebersihan dan kesehatan lingkungan desa serta mempererat tali silaturahmi antar warga. Partisipasi aktif dari seluruh elemen masyarakat sangat diharapkan untuk menjaga kelestarian lingkungan desa kita bersama.",
-          },
-          2: {
-            title:
-              "Sosialisasi Program Bantuan Sosial untuk Warga Kurang Mampu",
-            date: "7 Juli 2025",
-            author: "Admin",
-            img: "assets/sample-berita2.jpg",
-            content:
-              "Pemerintah Desa Pacing mengadakan sosialisasi program bantuan sosial yang ditujukan untuk warga kurang mampu. Program ini meliputi bantuan sembako, bantuan kesehatan, dan bantuan pendidikan. Warga yang memenuhi kriteria dapat mendaftarkan diri di kantor desa dengan membawa dokumen yang diperlukan. Program ini diharapkan dapat meringankan beban ekonomi masyarakat yang membutuhkan.",
-          },
-          3: {
-            title: "Pelatihan Keterampilan Ibu-Ibu PKK Desa Pacing",
-            date: "6 Juli 2025",
-            author: "Admin",
-            img: "assets/sample-berita3.jpg",
-            content:
-              "Ibu-ibu PKK Desa Pacing mengikuti pelatihan keterampilan membuat kerajinan tangan dan pengolahan makanan tradisional. Pelatihan ini bertujuan untuk meningkatkan keterampilan dan potensi ekonomi kreatif ibu-ibu di desa. Hasil dari pelatihan ini diharapkan dapat menjadi peluang usaha yang dapat menambah penghasilan keluarga.",
-          },
-          4: {
-            title: "Perbaikan Infrastruktur Jalan Desa Pacing",
-            date: "5 Juli 2025",
-            author: "Admin",
-            img: "assets/sample-berita3.jpg",
-            content:
-              "Pemerintah desa melaksanakan program perbaikan infrastruktur jalan desa yang rusak untuk meningkatkan aksesibilitas dan mobilitas warga. Perbaikan meliputi pengaspalan jalan utama dan perbaikan saluran air. Proyek ini diharapkan dapat meningkatkan kualitas hidup masyarakat dan mendukung aktivitas ekonomi desa.",
-          },
-          5: {
-            title: "Vaksinasi Massal untuk Ternak Warga Desa Pacing",
-            date: "4 Juli 2025",
-            author: "Admin",
-            img: "assets/sample-berita3.jpg",
-            content:
-              "Dinas Peternakan bekerjasama dengan pemerintah desa mengadakan program vaksinasi massal untuk ternak warga. Program ini bertujuan untuk mencegah penyebaran penyakit ternak dan meningkatkan produktivitas peternakan desa. Seluruh peternak dihimbau untuk membawa ternaknya ke pos vaksinasi yang telah disediakan.",
-          },
-        };
-
-        const berita = data[id] || {
-          title: "Berita Tidak Ditemukan",
-          date: "",
-          author: "",
-          img: "assets/default.jpg",
-          content: "Maaf, berita yang Anda cari tidak ditemukan.",
-        };
-
-        document.getElementById("judul").textContent = berita.title;
-        document.getElementById("tanggal").innerHTML =
-          '<i class="fas fa-calendar-alt mr-1"></i>Dipublikasikan pada: ' +
-          berita.date +
-          (berita.author ? " oleh " + berita.author : "");
-        document.getElementById("gambar").src = berita.img;
-
-        // Format content as paragraphs
-        const contentDiv = document.getElementById("konten");
-        const paragraphs = berita.content.split(". ");
-        contentDiv.innerHTML = "";
-        paragraphs.forEach((paragraph) => {
-          if (paragraph.trim()) {
-            const p = document.createElement("p");
-            p.textContent = paragraph + (paragraph.endsWith(".") ? "" : ".");
-            contentDiv.appendChild(p);
-          }
-        });
-      });
     </script>
   </body>
 </html>
