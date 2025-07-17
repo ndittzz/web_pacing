@@ -1,3 +1,40 @@
+<?php
+include '../php/db.php';
+$error = null;
+if (!isset($_GET['id_galeri'])) {
+    header('Location: galeri.php');
+    exit();
+}
+$id_galeri = intval($_GET['id_galeri']);
+// Ambil data lama
+$result = $konek->query("SELECT * FROM galeri WHERE id_galeri=$id_galeri");
+if (!$result || $result->num_rows == 0) {
+    echo '<div class="alert alert-danger">Data tidak ditemukan.</div>';
+    exit();
+}
+$data = $result->fetch_assoc();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $judul = $konek->real_escape_string($_POST['judul']);
+    $deskripsi = $konek->real_escape_string($_POST['deskripsi']);
+    $gambar = $data['gambar'];
+    if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
+        $ext = pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);
+        $namaFile = 'galeri_' . time() . '.' . $ext;
+        $target = '../assets/' . $namaFile;
+        if (move_uploaded_file($_FILES['gambar']['tmp_name'], $target)) {
+            $gambar = $namaFile;
+        }
+    }
+    $sql = "UPDATE galeri SET judul='$judul', deskripsi='$deskripsi', gambar=" . ($gambar ? "'$gambar'" : 'NULL') . " WHERE id_galeri=$id_galeri";
+    if ($konek->query($sql)) {
+        header('Location: galeri.php');
+        exit();
+    } else {
+        $error = 'Gagal mengupdate data: ' . $konek->error;
+    }
+}
+?>
+
 <!-- admin/galeri_edit.php - Edit Galeri -->
 <!DOCTYPE html>
 <html lang="id">
@@ -162,29 +199,30 @@
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <form method="POST" enctype="multipart/form-data" action="galeri_edit.php?id_galeri=<?php echo $id_galeri; ?>">
                   <div class="form-group">
                     <label>Judul</label>
                     <input
                       type="text"
+                      name="judul"
                       class="form-control"
-                      value="Judul Gambar Contoh"
+                      required
+                      value="<?php echo htmlspecialchars($data['judul']); ?>"
                     />
                   </div>
                   <div class="form-group">
                     <label>Deskripsi</label>
-                    <textarea class="form-control">
-Deskripsi gambar contoh...</textarea
-                    >
+                    <textarea class="form-control" name="deskripsi"><?php echo htmlspecialchars($data['deskripsi']); ?></textarea>
                   </div>
                   <div class="form-group">
                     <label>Upload Gambar</label>
-                    <input type="file" class="form-control-file" />
+                    <input type="file" class="form-control-file" name="gambar" accept="image/*" />
+                    <?php if ($data['gambar']) { echo '<br><img src="../assets/' . htmlspecialchars($data['gambar']) . '" width="120">'; } ?>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label>Tanggal</label>
                     <input type="date" class="form-control" />
-                  </div>
+                  </div> -->
                   <button type="submit" class="btn btn-primary">Simpan</button>
                   <a href="galeri.php" class="btn btn-secondary">Kembali</a>
                 </form>

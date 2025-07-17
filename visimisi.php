@@ -1,3 +1,9 @@
+<?php
+include 'php/db.php';
+$visis = $konek->query("SELECT visi FROM visimisi");
+$misis = $konek->query("SELECT misi FROM visimisi");
+?>
+
 <html class="scroll-smooth" lang="id">
   <head>
     <meta charset="utf-8" />
@@ -356,79 +362,58 @@
         </h1>
 
         <!-- VISI -->
-        <section class="mb-10">
-          <h3
-            class="text-lg font-bold text-red-800 border-b border-red-800 pb-1 mb-2"
-          >
-            VISI
-          </h3>
-          <p class="font-semibold mb-3">
-            Mewujudkan Klaten Yang Maju Sejahtera Berkelanjutan
-          </p>
-          <ol
-            class="bg-gray-50 rounded-lg list-decimal ml-6 space-y-2 text-justify"
-          >
-            <li>
-              MAJU mengarah pada sumber daya manusia yang berkualitas. Dengan
-              SDM yang unggul, produktif dan berbudaya, akan mengakselerasi
-              pembangunan Klaten yang berdaya saing.
-            </li>
-            <li>
-              SEJAHTERA yang juga bisa dimaknai adil makmur sebagaimana menjadi
-              cita-cita nasional yang tertuang dalam Pembukaan UUD 1945 dapat
-              dimaknai masyarakat mampu memenuhi kebutuhan tanpa kekurangan,
-              baik secara material maupun spiritual.
-            </li>
-            <li>
-              BERKELANJUTAN berorientasi pada upaya pembangunan berkelanjutan
-              dalam arti pembangunan yang mendasarkan aspek yang menyeluruh baik
-              prinsip kesejahteraan ekonomi, keadilan sosial, dan pelestarian
-              lingkungan.
-            </li>
-          </ol>
-        </section>
+<!-- VISI -->
+<section class="mb-10">
+  <h3 class="text-lg font-bold text-red-800 border-b border-red-800 pb-1 mb-2">
+    VISI
+  </h3>
+
+  <ol class="bg-gray-50 rounded-lg list-decimal ml-6 space-y-2 text-justify">
+    <?php
+    $visis = $konek->query("SELECT visi FROM visimisi");
+    if ($visis && $row = $visis->fetch_assoc()) {
+        // Ambil isi kolom 'visi'
+        $visiContent = $row['visi'];
+
+        // Ambil isi di dalam setiap tag <p> menggunakan regex
+        preg_match_all('/<p>(.*?)<\/p>/s', $visiContent, $matches);
+
+        // Tampilkan sebagai list
+        foreach ($matches[1] as $item) {
+            echo "<li>$item</li>";
+        }
+    }
+    ?>
+  </ol>
+</section>
+
+
+
 
         <!-- MISI -->
-        <section>
-          <h3
-            class="text-lg font-bold text-red-800 border-b border-red-800 pb-1 mb-2"
-          >
-            MISI
-          </h3>
-          <ol
-            class="bg-gray-50 rounded-lg list-decimal ml-6 space-y-2 text-justify"
-          >
-            <li>
-              Membangun manusia yang produktif, berkualitas dan berkepribadian.
-            </li>
-            <li>
-              Efisiensi pelayanan dan memastikan akses kesehatan untuk rakyat
-              guna menciptakan manusia Indonesia yang sehat jasmani dan rohani.
-            </li>
-            <li>
-              Naik kelasnya ekonomi rakyat serta penguatan ekonomi inklusif dan
-              kreatif yang mendukung investasi daerah dalam rangka mewujudkan
-              keadilan sosial.
-            </li>
-            <li>
-              Akuntabilitas tata pemerintahan daerah tata kelola daerah yang
-              bersih bebas dari korupsi dan berkeadaban serta setia pada Amanat
-              Penderitaan Rakyat (Ampera), Pancasila, UUD 1945, Berasat Maju
-              menjunjung tinggi hukum demi menjamin hak-hak rakyat.
-            </li>
-            <li>
-              Nilai Daya Saing dan Kemandirian Daerah berbasis potensi daya
-              lokal yang didukung Pembangunan Infrastruktur yang Berkualitas dan
-              Merata serta Pengembangan Klaten sebagai Kabupaten Cerdas
-              (smartcity).
-            </li>
-            <li>
-              Gotong royong memajukan kebudayaan dalam semangat kebhinekaan dan
-              toleransi serta menjaga kelestarian lingkungan hidup warisan
-              leluhur bangsa Indonesia.
-            </li>
-          </ol>
-        </section>
+<!-- MISI -->
+<section>
+  <h3 class="text-lg font-bold text-red-800 border-b border-red-800 pb-1 mb-2">
+    MISI
+  </h3>
+
+  <ol class="bg-gray-50 rounded-lg list-decimal ml-6 space-y-2 text-justify">
+    <?php
+    $misis = $konek->query("SELECT misi FROM visimisi");
+    if ($misis && $row = $misis->fetch_assoc()) {
+        $misiContent = $row['misi'];
+        preg_match_all('/<p>(.*?)<\/p>/s', $misiContent, $matches);
+
+        foreach ($matches[1] as $item) {
+            echo "<li>$item</li>";
+        }
+    }
+    ?>
+  </ol>
+</section>
+
+
+
       </div>
     </main>
 

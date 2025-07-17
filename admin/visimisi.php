@@ -1,3 +1,9 @@
+<?php
+include '../php/db.php';
+// Ambil data visimisi
+$result = $konek->query("SELECT * FROM visimisi");
+?>
+
 <!-- admin/visimisi.php - CRUD Visi Misi dengan AdminLTE -->
 <!DOCTYPE html>
 <html lang="id">
@@ -175,21 +181,22 @@
         <section class="content">
           <div class="container-fluid">
             <div class="card">
+              <?php while ($row = $result->fetch_assoc()): ?>
               <div class="card-body">
                 <h5>Visi:</h5>
                 <p>
-                  Mewujudkan Desa Pacing yang Mandiri, Sejahtera, dan Berbudaya.
+                  <?php echo $row['visi']; ?>
                 </p>
                 <h5>Misi:</h5>
-                <ol>
-                  <li>Meningkatkan kualitas pelayanan publik.</li>
-                  <li>Memajukan ekonomi desa melalui UMKM dan pertanian.</li>
-                  <li>Melestarikan budaya dan lingkungan hidup.</li>
-                </ol>
-                <button class="btn btn-warning mt-3" onclick="window.location.href='visimisi_edit.php'">
+                <p>
+                  <?php echo $row['misi']; ?>
+                </p>
+                <a href="visimisi_edit.php?id_vm=<?php echo $row['id_vm']; ?>" class="btn btn-warning mt-3">
                   <i class="fas fa-edit"></i> Edit Visi Misi
-                </button>
+                </a>
+
               </div>
+              <?php endwhile; ?>
             </div>
           </div>
         </section>

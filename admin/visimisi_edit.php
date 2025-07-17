@@ -1,3 +1,33 @@
+<?php
+include '../php/db.php';
+$error = null;
+if (!isset($_GET['id_vm'])) {
+    header('Location: visimisi.php');
+    exit();
+}
+$id_vm = intval($_GET['id_vm']);
+
+// Ambil data lama
+$result = $konek->query("SELECT * FROM visimisi WHERE id_vm=$id_vm");
+if (!$result || $result->num_rows == 0) {
+    echo '<div class="alert alert-danger">Data tidak ditemukan.</div>';
+    exit();
+}
+$data = $result->fetch_assoc();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $visi = $konek->real_escape_string($_POST['visi']);
+    $misi = $konek->real_escape_string($_POST['misi']);
+
+    $sql = "UPDATE visimisi SET visi='$visi', misi='$misi' WHERE id_vm=$id_vm";
+    if ($konek->query($sql)) {
+        header('Location: visimisi.php');
+        exit();
+    } else {
+        $error = 'Gagal mengupdate data: ' . $konek->error;
+    }
+}
+?>
+
 <!-- admin/visimisi_edit.php - Edit Visi Misi -->
 <!DOCTYPE html>
 <html lang="id">
@@ -144,20 +174,17 @@
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <form method="POST" action="visimisi_edit.php?id_vm=<?php echo $id_vm; ?>">
                   <div class="form-group">
                     <label>Visi</label>
                     <div id="editor-visi" style="height: 100px">
-                      Mewujudkan Desa Pacing yang Mandiri, Sejahtera, dan
-                      Berbudaya.
+                        <?php echo $data['visi']; ?>
                     </div>
                   </div>
                   <div class="form-group">
                     <label>Misi</label>
                     <div id="editor-misi" style="height: 150px">
-                      Meningkatkan kualitas pelayanan publik.<br />Memajukan
-                      ekonomi desa melalui UMKM dan pertanian.<br />Melestarikan
-                      budaya dan lingkungan hidup.
+                        <?php echo $data['misi']; ?>
                     </div>
                   </div>
                   <input type="hidden" name="visi" id="input-visi" />

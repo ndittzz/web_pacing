@@ -1,5 +1,6 @@
 <?php
-include "php/db.php";
+include 'php/db.php';
+$result = $konek->query("SELECT * FROM galeri ORDER BY tanggal DESC");
 ?>
 
 <html class="scroll-smooth" lang="id">
@@ -878,70 +879,26 @@ include "php/db.php";
             </a>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <?php while ($row = $result->fetch_assoc()): ?>
             <article
               onclick="openModal(
-                'Kirab Gunungan, Ramalkan Festival Candi Kembar ke-5 di Desa Bugisan',
-                'Festival Candi Kembar ke-5 di Desa Bugisan dihadiri masyarakat dan pemuda dengan penuh semangat sebagai upaya melestarikan budaya lokal melalui kirab gunungan.',
-                'https://storage.googleapis.com/a1aa/image/dd93eb31-59bf-4880-0ff9-be9be03c7fe9.jpg'
+                '<?php echo htmlspecialchars($row['judul']); ?>',
+                '<?php echo htmlspecialchars($row['deskripsi']); ?>',
+                'assets/<?php echo htmlspecialchars($row['gambar']); ?>'
               )"
               class="bg-white rounded-lg shadow-md p-2 flex flex-col cursor-pointer hover:ring-2 hover:ring-red-500 transition-all"
             >
               <img
                 alt="Kirab Gunungan"
                 class="rounded-md mb-2 object-cover w-full h-36"
-                src="https://storage.googleapis.com/a1aa/image/dd93eb31-59bf-4880-0ff9-be9be03c7fe9.jpg"
+                src="assets/<?php echo htmlspecialchars($row['gambar']); ?>"
                 loading="lazy"
               />
               <h3 class="font-semibold text-xs sm:text-sm leading-tight">
-                Kirab Gunungan, Ramalkan Festival Candi Kembar ke-5 di Desa
-                Bugisan
+                <?php echo htmlspecialchars($row['judul']); ?>
               </h3>
             </article>
-
-            <article
-              onclick="openModal(
-                'Ribuan Warga Hadiri KBBS di Lapangan Jambakan, Bayat',
-                'Acara Kirab Budaya dan Bazar Seni (KBBS) yang diselenggarakan di Lapangan Jambakan, Bayat, dihadiri ribuan warga dengan antusias, memeriahkan suasana desa dan meningkatkan partisipasi masyarakat.',
-                'https://storage.googleapis.com/a1aa/image/7dc2a643-9de2-4e06-8aaf-aa39c0d06d15.jpg'
-              )"
-              aria-label="Galeri 2"
-              class="bg-white rounded-lg shadow-md p-2 flex flex-col cursor-pointer hover:ring-2 hover:ring-red-500 transition-all"
-            >
-              <img
-                alt="Ribuan Warga Hadiri KBBS di Lapangan Jambakan, Bayat"
-                class="rounded-md mb-2 object-cover w-full h-36"
-                height="200"
-                loading="lazy"
-                src="https://storage.googleapis.com/a1aa/image/7dc2a643-9de2-4e06-8aaf-aa39c0d06d15.jpg"
-                width="400"
-              />
-              <h3 class="font-semibold text-xs sm:text-sm leading-tight">
-                Ribuan Warga Hadiri KBBS di Lapangan Jambakan, Bayat
-              </h3>
-            </article>
-
-            <article
-              onclick="openModal(
-                'Sambang Warga Desa Jombor, Bupati: Sambang Warga Ikut Tentukan Arah Pembangunan',
-                'Bupati menghadiri acara Sambang Warga di Desa Jombor untuk mendengarkan aspirasi masyarakat secara langsung, sebagai langkah untuk menentukan arah pembangunan desa yang lebih baik dan berkelanjutan.',
-                'https://storage.googleapis.com/a1aa/image/9870ded1-5da5-40c7-aefb-269f761a6612.jpg'
-              )"
-              aria-label="Galeri 3"
-              class="bg-white rounded-lg shadow-md p-2 flex flex-col cursor-pointer hover:ring-2 hover:ring-red-500 transition-all"
-            >
-              <img
-                alt="Sambang Warga Desa Jombor, Bupati: Sambang Warga Ikut Tentukan Arah Pembangunan"
-                class="rounded-md mb-2 object-cover w-full h-36"
-                height="200"
-                loading="lazy"
-                src="https://storage.googleapis.com/a1aa/image/9870ded1-5da5-40c7-aefb-269f761a6612.jpg"
-                width="400"
-              />
-              <h3 class="font-semibold text-xs sm:text-sm leading-tight">
-                Sambang Warga Desa Jombor, Bupati: Sambang Warga Ikut Tentukan
-                Arah Pembangunan
-              </h3>
-            </article>
+          <?php endwhile; ?>
           </div>
         </section>
         <!-- Video -->

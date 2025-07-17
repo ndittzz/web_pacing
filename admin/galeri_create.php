@@ -1,3 +1,28 @@
+<?php
+include '../php/db.php';
+$error = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $judul = $konek->real_escape_string($_POST['judul']);
+    $deskripsi = $konek->real_escape_string($_POST['deskripsi']);
+    $gambar = null;
+    if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
+        $ext = pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);
+        $namaFile = 'galeri_' . time() . '.' . $ext;
+        $target = '../assets/' . $namaFile;
+        if (move_uploaded_file($_FILES['gambar']['tmp_name'], $target)) {
+            $gambar = $namaFile;
+        }
+    }
+    $sql = "INSERT INTO galeri (judul, deskripsi, gambar) VALUES ('$judul', '$deskripsi', " . ($gambar ? "'$gambar'" : 'NULL') . ")";
+    if ($konek->query($sql)) {
+        header('Location: galeri.php');
+        exit();
+    } else {
+        $error = 'Gagal menyimpan data: ' . $konek->error;
+    }
+}
+?>
+
 <!-- admin/galeri_create.php - Create Galeri -->
 <!DOCTYPE html>
 <html lang="id">
@@ -162,30 +187,35 @@
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <?php if ($error) echo '<div class="alert alert-danger">'.$error.'</div>'; ?>
+                <form method="POST" enctype="multipart/form-data" action="galeri_create.php">
                   <div class="form-group">
                     <label>Judul</label>
                     <input
                       type="text"
+                      name="judul"
                       class="form-control"
                       placeholder="Judul Gambar"
+                      required
                     />
                   </div>
                   <div class="form-group">
                     <label>Deskripsi</label>
                     <textarea
                       class="form-control"
+                      name="deskripsi"
                       placeholder="Deskripsi"
+                      required
                     ></textarea>
                   </div>
                   <div class="form-group">
                     <label>Upload Gambar</label>
-                    <input type="file" class="form-control-file" />
+                    <input type="file" class="form-control-file" name="gambar" accept="image/*" required />
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label>Tanggal</label>
-                    <input type="date" class="form-control" />
-                  </div>
+                    <input type="date" class="form-control" name="tanggal" required />
+                  </div> -->
                   <button type="submit" class="btn btn-primary">Simpan</button>
                   <a href="galeri.php" class="btn btn-secondary">Kembali</a>
                 </form>

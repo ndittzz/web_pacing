@@ -1,3 +1,8 @@
+<?php
+include 'php/db.php';
+$result = $konek->query("SELECT * FROM galeri ORDER BY tanggal DESC");
+?>
+
 <html class="scroll-smooth" lang="id">
   <head>
     <meta charset="utf-8" />
@@ -353,31 +358,31 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <!-- Galeri Item dengan Pop-up -->
-
+          <?php while ($row = $result->fetch_assoc()): ?>
           <article
             onclick="openModal(
-              '335 Atlet Desa Pacing Siap Bertanding',
-              'Pemerintah Desa Pacing melepas kontingen atlet untuk mengikuti kualifikasi pertandingan olahraga tingkat kabupaten. Acara ini disambut antusias oleh masyarakat.',
-              'https://storage.googleapis.com/a1aa/image/8d40d220-5392-4dea-bce0-b4473277f2cf.jpg'
+              '<?php echo htmlspecialchars($row['judul']); ?>',
+              '<?php echo htmlspecialchars($row['deskripsi']); ?>',
+              'assets/<?php echo htmlspecialchars($row['gambar']); ?>'
             )"
             class="cursor-pointer bg-white rounded-lg shadow-md p-3 flex flex-col hover:ring-2 hover:ring-red-500 transition-all"
           >
             <img
               alt="Atlet Desa Pacing"
               class="rounded-md mb-2 object-cover w-full h-40 sm:h-36"
-              src="https://storage.googleapis.com/a1aa/image/8d40d220-5392-4dea-bce0-b4473277f2cf.jpg"
+                src="assets/<?php echo htmlspecialchars($row['gambar']); ?>"
               loading="lazy"
             />
             <h3 class="font-semibold text-xs sm:text-sm mb-1 leading-tight">
-              335 Atlet Desa Pacing Siap Bertanding...
+              <?php echo htmlspecialchars($row['judul']); ?>
             </h3>
 
             <p class="text-gray-600 text-[9px] sm:text-xs mb-2 line-clamp-3">
-              Pemerintah Desa Pacing melepas kontingen untuk mengikuti
-              kualifikasi pertandingan...
+              <?php echo htmlspecialchars($row['deskripsi']); ?>
             </p>
-            <time class="text-gray-400 text-[9px] sm:text-xs">3 Jul, 2025</time>
+            <time class="text-gray-400 text-[9px] sm:text-xs"><?php echo htmlspecialchars($row['tanggal']); ?></time>
           </article>
+          <?php endwhile; ?>
         </div>
       </section>
     </main>

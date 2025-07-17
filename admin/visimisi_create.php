@@ -1,3 +1,20 @@
+<?php
+include '../php/db.php';
+$error = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $visi = $konek->real_escape_string($_POST['visi']);
+    $misi = $konek->real_escape_string($_POST['misi']);
+
+    $sql = "INSERT INTO visimisi (visi, misi) VALUES ('$visi', '$misi')";
+    if ($konek->query($sql)) {
+        header('Location: visimisi.php');
+        exit();
+    } else {
+        $error = 'Gagal menyimpan data: ' . $konek->error;
+    }
+}
+?>
+
 <!-- admin/visimisi_create.php - Create Visi Misi -->
 <!DOCTYPE html>
 <html lang="id">
@@ -165,10 +182,11 @@
             <div class="card">
               <div class="card-body">
                 <!-- ===== Form ===== -->
+                <?php if ($error) echo '<div class="alert alert-danger">'.$error.'</div>'; ?>
                 <form
-                  id="form-visimisi"
-                  action="visimisi_store.php"
                   method="POST"
+                  id="form-visimisi"
+                  action="visimisi_create.php"
                 >
                   <!-- === Visi === -->
                   <div class="form-group">

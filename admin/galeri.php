@@ -1,3 +1,20 @@
+<?php
+include '../php/db.php';
+$error = null;
+// Hapus data jika ada request delete
+if (isset($_GET['delete'])) {
+    $id_galeri = intval($_GET['delete']);
+    if (!$konek->query("DELETE FROM galeri WHERE id_galeri=$id_galeri")) {
+        $error = 'Gagal menghapus data: ' . $konek->error;
+    } else {
+        header('Location: galeri.php');
+        exit();
+    }
+}
+// Ambil data galeri
+$result = $konek->query("SELECT * FROM galeri ORDER BY tanggal DESC");
+?>
+
 <!-- admin/galeri.php - Dashboard Manajemen Galeri -->
 <!DOCTYPE html>
 <html lang="id">
@@ -164,23 +181,32 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Foto Kegiatan</td>
-                  <td>Deskripsi foto kegiatan</td>
-                  <td><img src="../assets/slider1.jpg" width="80" /></td>
-                  <td>2025-07-06</td>
-                  <td>
-                    <a href="galeri_edit.php" class="btn btn-warning btn-sm"
-                      ><i class="fas fa-edit"></i
-                    ></a>
-                    <button class="btn btn-danger btn-sm">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
+                                <?php
+                $no = 1;
+                if ($result) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<tr>';
+                        echo '<td>' . $no++ . '</td>';
+                        echo '<td>' . htmlspecialchars($row['judul']) . '</td>';
+                        echo '<td>';
+                        if ($row['gambar']) {
+                            echo '<img src="../assets/' . htmlspecialchars($row['gambar']) . '" width="80" />';
+                        }
+                        echo '</td>';
+                        echo '<td>' . htmlspecialchars($row['deskripsi']) . '</td>';
+                        echo '<td>' . htmlspecialchars($row['tanggal']) . '</td>';
+                        echo '<td>';
+                        echo '<a href="galeri_edit.php?id_galeri=' . $row['id_galeri'] . '" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a> ';
+                        echo '<a href="galeri.php?delete=' . $row['id_galeri'] . '" class="btn btn-sm btn-danger" onclick="return confirm(\'Yakin hapus data?\')"><i class="fas fa-trash"></i></a>';
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                }
+                ?>
+              </tbody>
               </tbody>
             </table>
+            <?php if ($error) echo '<div class="alert alert-danger">'.$error.'</div>'; ?>
           </div>
         </section>
       </div>
