@@ -154,6 +154,30 @@ $result = $konek->query("SELECT * FROM galeri ORDER BY tanggal DESC");
                   </li>
                 </ul>
               </li>
+              <!-- Publikasi Dropdown -->
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-bullhorn"></i>
+                  <p>
+                    Publikasi
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="agenda.php" class="nav-link">
+                      <i class="far fa-calendar-alt nav-icon"></i>
+                      <p>Manajemen Agenda</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="pengumuman.php" class="nav-link">
+                      <i class="fas fa-volume-up nav-icon"></i>
+                      <p>Manajemen Pengumuman</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </nav>
         </div>

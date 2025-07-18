@@ -166,6 +166,31 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
                   </li>
                 </ul>
               </li>
+
+              <!-- Publikasi Dropdown -->
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-bullhorn"></i>
+                  <p>
+                    Publikasi
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="agenda.php" class="nav-link">
+                      <i class="far fa-calendar-alt nav-icon"></i>
+                      <p>Manajemen Agenda</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="pengumuman.php" class="nav-link">
+                      <i class="fas fa-volume-up nav-icon"></i>
+                      <p>Manajemen Pengumuman</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </nav>
         </div>
@@ -224,6 +249,36 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
                     <i class="fas fa-bullseye"></i>
                   </div>
                   <a href="visimisi.php" class="small-box-footer"
+                    >Lihat Detail <i class="fas fa-arrow-circle-right"></i
+                  ></a>
+                </div>
+              </div>
+              <div class="col-lg-3 col-6">
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>8</h3>
+                    <p>Total Agenda</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-calendar-alt"></i>
+                  </div>
+                  <a href="agenda.php" class="small-box-footer"
+                    >Lihat Detail <i class="fas fa-arrow-circle-right"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-3 col-6">
+                <div class="small-box bg-secondary">
+                  <div class="inner">
+                    <h3>6</h3>
+                    <p>Total Pengumuman</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-megaphone"></i>
+                  </div>
+                  <a href="pengumuman.php" class="small-box-footer"
                     >Lihat Detail <i class="fas fa-arrow-circle-right"></i
                   ></a>
                 </div>
