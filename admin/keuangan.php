@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
+    header("Location: ../admin/login.php?pesan=belum_login");
+    exit();
+}
+?>
 <!-- admin/keuangan.php - Dashboard Manajemen Data Keuangan Desa -->
 <!DOCTYPE html>
 <html lang="id">

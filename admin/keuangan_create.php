@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
+    header("Location: ../admin/login.php?pesan=belum_login");
+    exit();
+}
+?>
 <!-- admin/kk_create.php - Create Data KK -->
 <!DOCTYPE html>
 <html lang="id">

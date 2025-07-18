@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (empty($_SESSION['username'])) {
-    header("location:../index.php?pesan=belum_login");
+    header("location:../admin/dashboard.php?pesan=belum_login");
 }
 ?>
 <html>

@@ -1,4 +1,11 @@
-<!-- admin/sejarah.php - Manajemen Sejarah Desa -->
+<?php
+session_start();
+
+if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
+    header("Location: ../admin/login.php?pesan=belum_login");
+    exit();
+}
+?><!-- admin/sejarah.php - Manajemen Sejarah Desa -->
 <!DOCTYPE html>
 <html lang="id">
   <head>

@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
+    header("Location: ../admin/login.php?pesan=belum_login");
+    exit();
+}
+?>
+
 <!-- admin/index.php - Dashboard AdminLTE Desa Pacing -->
 <!DOCTYPE html>
 <html lang="id">
@@ -19,18 +28,27 @@
   <body class="hold-transition sidebar-mini">
     <div class="wrapper">
       <!-- Navbar -->
-      <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#"
-              ><i class="fas fa-bars"></i
-            ></a>
-          </li>
-          <li class="nav-item d-none d-sm-inline-block">
-            <a href="dashboard.php" class="nav-link">Dashboard</a>
-          </li>
-        </ul>
-      </nav>
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="dashboard.php" class="nav-link">Dashboard</a>
+        </li>
+      </ul>
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href="../php/logout.php" class="nav-link text-danger">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </nav>
+
 
       <!-- Sidebar -->
       <aside class="main-sidebar sidebar-red elevation-4">

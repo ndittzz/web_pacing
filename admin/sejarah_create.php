@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
+    header("Location: ../admin/login.php?pesan=belum_login");
+    exit();
+}
+?>
 <!-- admin/sejarah_edit.php - Tambah/Edit Sejarah Desa -->
 <!DOCTYPE html>
 <html lang="id">

@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
+    header("Location: ../admin/login.php?pesan=belum_login");
+    exit();
+}
 include '../php/db.php';
 $error = null;
 if (!isset($_GET['id_vm'])) {
