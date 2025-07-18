@@ -1,3 +1,33 @@
+<?php
+include '../php/db.php';
+$error = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nama = $konek->real_escape_string($_POST['nama']);
+    $tempat_lahir = $konek->real_escape_string($_POST['tempat_lahir']);
+    $tanggal_lahir = $konek->real_escape_string($_POST['tanggal_lahir']);
+    $jabatan = $konek->real_escape_string($_POST['jabatan']);
+    $periode = $konek->real_escape_string($_POST['periode']);
+    $kategori = $konek->real_escape_string($_POST['kategori']);
+    $riwayat_pendidikan = $konek->real_escape_string($_POST['riwayat_pendidikan']);
+    $riwayat_jabatan = $konek->real_escape_string($_POST['riwayat_jabatan']);
+    $gambar = null;
+    if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
+        $ext = pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);
+        $namaFile = 'pejabat_' . time() . '.' . $ext;
+        $target = '../assets/' . $namaFile;
+        if (move_uploaded_file($_FILES['gambar']['tmp_name'], $target)) {
+            $gambar = $namaFile;
+        }
+    }
+    $sql = "INSERT INTO pejabat (nama, gambar, tempat_lahir, tanggal_lahir, jabatan, periode, kategori, riwayat_pendidikan, riwayat_jabatan) VALUES ('$nama', " . ($gambar ? "'$gambar'" : 'NULL') . ", '$tempat_lahir', '$tanggal_lahir', '$jabatan', '$periode', '$kategori', '$riwayat_pendidikan', '$riwayat_jabatan')";
+    if ($konek->query($sql)) {
+        header('Location: pejabat.php');
+        exit();
+    } else {
+        $error = 'Gagal menyimpan data: ' . $konek->error;
+    }
+}
+?>
 <!-- admin/pejabat_create.php - Create Pejabat -->
 <!DOCTYPE html>
 <html lang="id">
@@ -144,50 +174,34 @@
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <form method="POST" enctype="multipart/form-data" action="pejabat_create.php">
                   <div class="form-group">
                     <label>Nama</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Nama Pejabat"
-                    />
+                    <input type="text" class="form-control" name="nama" placeholder="Nama Pejabat" required />
                   </div>
                   <div class="form-group">
                     <label>Upload Gambar</label>
-                    <input type="file" class="form-control-file" />
+                    <input type="file" class="form-control-file" name="gambar" accept="image/*" />
                   </div>
                   <div class="form-group">
                     <label>Tempat Lahir</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Tempat Lahir"
-                    />
+                    <input type="text" class="form-control" name="tempat_lahir" placeholder="Tempat Lahir" required />
                   </div>
                   <div class="form-group">
                     <label>Tanggal Lahir</label>
-                    <input type="date" class="form-control" />
+                    <input type="date" class="form-control" name="tanggal_lahir" required />
                   </div>
                   <div class="form-group">
                     <label>Jabatan</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Jabatan"
-                    />
+                    <input type="text" class="form-control" name="jabatan" placeholder="Jabatan" required />
                   </div>
                   <div class="form-group">
                     <label>Periode</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="2020-2026"
-                    />
+                    <input type="text" class="form-control" name="periode" placeholder="2020-2026" required />
                   </div>
                   <div class="form-group">
                     <label>Kategori</label>
-                    <select class="form-control">
+                    <select class="form-control" name="kategori" required>
                       <option value="">Pilih Kategori</option>
                       <option value="Perangkat Desa">Perangkat Desa</option>
                       <option value="BPD">BPD</option>
@@ -201,19 +215,11 @@
                   </div>
                   <div class="form-group">
                     <label>Riwayat Pendidikan</label>
-                    <textarea
-                      class="form-control"
-                      rows="2"
-                      placeholder="Contoh: SMA Negeri 2 Klaten (2003–2006)\nSI Universitas Atmajaya Yogyakarta (2006–2011)"
-                    ></textarea>
+                    <textarea class="form-control" name="riwayat_pendidikan" rows="2" placeholder="Contoh: SMA Negeri 2 Klaten (2003–2006)\nSI Universitas Atmajaya Yogyakarta (2006–2011)" required></textarea>
                   </div>
                   <div class="form-group">
                     <label>Riwayat Jabatan</label>
-                    <textarea
-                      class="form-control"
-                      rows="2"
-                      placeholder="Contoh: Anggota DPRD Kabupaten Klaten (2014–2019)\nKetua DPRD Kabupaten Klaten (2019–2024)"
-                    ></textarea>
+                    <textarea class="form-control" name="riwayat_jabatan" rows="2" placeholder="Contoh: Anggota DPRD Kabupaten Klaten (2014–2019)\nKetua DPRD Kabupaten Klaten (2019–2024)" required></textarea>
                   </div>
                   <button type="submit" class="btn btn-primary">Simpan</button>
                   <a href="pejabat.php" class="btn btn-secondary">Kembali</a>

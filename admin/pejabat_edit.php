@@ -1,3 +1,49 @@
+<?php
+include '../php/db.php';
+$error = null;
+if (!isset($_GET['id'])) {
+    header('Location: pejabat.php');
+    exit();
+}
+$id = intval($_GET['id']);
+// Ambil data lama
+$result = $konek->query("SELECT * FROM pejabat WHERE id=$id");
+if (!$result || $result->num_rows == 0) {
+    echo '<div class="alert alert-danger">Data tidak ditemukan.</div>';
+    exit();
+}
+$data = $result->fetch_assoc();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nama = $konek->real_escape_string($_POST['nama']);
+    $tempat_lahir = $konek->real_escape_string($_POST['tempat_lahir']);
+    $tanggal_lahir = $konek->real_escape_string($_POST['tanggal_lahir']);
+    $jabatan = $konek->real_escape_string($_POST['jabatan']);
+    $periode = $konek->real_escape_string($_POST['periode']);
+    $kategori = $konek->real_escape_string($_POST['kategori']);
+    $riwayat_pendidikan = $konek->real_escape_string($_POST['riwayat_pendidikan']);
+    $riwayat_jabatan = $konek->real_escape_string($_POST['riwayat_jabatan']);
+    $gambar = $data['gambar'];
+    if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
+        $ext = pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);
+        $namaFile = 'pejabat_' . time() . '.' . $ext;
+        $target = '../assets/' . $namaFile;
+        if (move_uploaded_file($_FILES['gambar']['tmp_name'], $target)) {
+            // Hapus gambar lama jika ada
+            if ($gambar && file_exists("../assets/".$gambar)) {
+                unlink("../assets/".$gambar);
+            }
+            $gambar = $namaFile;
+        }
+    }
+    $sql = "UPDATE pejabat SET nama='$nama', gambar=" . ($gambar ? "'$gambar'" : 'NULL') . ", tempat_lahir='$tempat_lahir', tanggal_lahir='$tanggal_lahir', jabatan='$jabatan', periode='$periode', kategori='$kategori', riwayat_pendidikan='$riwayat_pendidikan', riwayat_jabatan='$riwayat_jabatan' WHERE id=$id";
+    if ($konek->query($sql)) {
+        header('Location: pejabat.php');
+        exit();
+    } else {
+        $error = 'Gagal mengupdate data: ' . $konek->error;
+    }
+}
+?>
 <!-- admin/pejabat_edit.php - Edit Pejabat -->
 <!DOCTYPE html>
 <html lang="id">
@@ -144,66 +190,53 @@
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <form method="POST" enctype="multipart/form-data" action="pejabat_edit.php?id=<?php echo $id; ?>">
                   <div class="form-group">
                     <label>Nama</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      value="Budi Santoso"
-                    />
+                    <input type="text" class="form-control" name="nama" required value="<?php echo htmlspecialchars($data['nama']); ?>" />
                   </div>
                   <div class="form-group">
                     <label>Tempat Lahir</label>
-                    <input type="text" class="form-control" value="Klaten" />
+                    <input type="text" class="form-control" name="tempat_lahir" required value="<?php echo htmlspecialchars($data['tempat_lahir']); ?>" />
                   </div>
                   <div class="form-group">
                     <label>Tanggal Lahir</label>
-                    <input
-                      type="date"
-                      class="form-control"
-                      value="1988-11-26"
-                    />
+                    <input type="date" class="form-control" name="tanggal_lahir" required value="<?php echo htmlspecialchars($data['tanggal_lahir']); ?>" />
                   </div>
                   <div class="form-group">
                     <label>Jabatan</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      value="Kepala Desa"
-                    />
+                    <input type="text" class="form-control" name="jabatan" required value="<?php echo htmlspecialchars($data['jabatan']); ?>" />
                   </div>
                   <div class="form-group">
                     <label>Periode</label>
-                    <input type="text" class="form-control" value="2020-2026" />
+                    <input type="text" class="form-control" name="periode" required value="<?php echo htmlspecialchars($data['periode']); ?>" />
                   </div>
                   <div class="form-group">
                     <label>Kategori</label>
-                    <select class="form-control">
+                    <select class="form-control" name="kategori" required>
                       <option value="">Pilih Kategori</option>
-                      <option value="Perangkat Desa">Perangkat Desa</option>
-                      <option value="BPD">BPD</option>
-                      <option value="Karang Taruna">Karang Taruna</option>
-                      <option value="BUMDes">BUMDes</option>
-                      <option value="KDMP">KDMP</option>
-                      <option value="Kelompok Tani">Kelompok Tani</option>
-                      <option value="PKK">PKK</option>
-                      <option value="RT/RW">RT/RW</option>
+                      <option value="Perangkat Desa" <?php if($data['kategori']=='Perangkat Desa') echo 'selected'; ?>>Perangkat Desa</option>
+                      <option value="BPD" <?php if($data['kategori']=='BPD') echo 'selected'; ?>>BPD</option>
+                      <option value="Karang Taruna" <?php if($data['kategori']=='Karang Taruna') echo 'selected'; ?>>Karang Taruna</option>
+                      <option value="BUMDes" <?php if($data['kategori']=='BUMDes') echo 'selected'; ?>>BUMDes</option>
+                      <option value="KDMP" <?php if($data['kategori']=='KDMP') echo 'selected'; ?>>KDMP</option>
+                      <option value="Kelompok Tani" <?php if($data['kategori']=='Kelompok Tani') echo 'selected'; ?>>Kelompok Tani</option>
+                      <option value="PKK" <?php if($data['kategori']=='PKK') echo 'selected'; ?>>PKK</option>
+                      <option value="RT/RW" <?php if($data['kategori']=='RT/RW') echo 'selected'; ?>>RT/RW</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label>Riwayat Pendidikan</label>
-                    <textarea class="form-control" rows="2">
-SMA Negeri 2 Klaten (2003–2006)
-SI Universitas Atmajaya Yogyakarta (2006–2011)</textarea
-                    >
+                    <textarea class="form-control" name="riwayat_pendidikan" rows="2" required><?php echo htmlspecialchars($data['riwayat_pendidikan']); ?></textarea>
                   </div>
                   <div class="form-group">
                     <label>Riwayat Jabatan</label>
-                    <textarea class="form-control" rows="2">
-Anggota DPRD Kabupaten Klaten (2014–2019)
-Ketua DPRD Kabupaten Klaten (2019–2024)</textarea
-                    >
+                    <textarea class="form-control" name="riwayat_jabatan" rows="2" required><?php echo htmlspecialchars($data['riwayat_jabatan']); ?></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Upload Gambar</label>
+                    <input type="file" class="form-control-file" name="gambar" accept="image/*" />
+                    <?php if ($data['gambar']) { echo '<br><img src="../assets/' . htmlspecialchars($data['gambar']) . '" width="120">'; } ?>
                   </div>
                   <button type="submit" class="btn btn-primary">Simpan</button>
                   <a href="pejabat.php" class="btn btn-secondary">Kembali</a>

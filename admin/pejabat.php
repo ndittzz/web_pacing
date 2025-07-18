@@ -1,3 +1,25 @@
+<?php
+include '../php/db.php';
+$error = null;
+// Hapus data jika ada request delete
+if (isset($_GET['delete'])) {
+    $id = intval($_GET['delete']);
+    $get = $konek->query("SELECT gambar FROM pejabat WHERE id=$id");
+    if ($get && $row = $get->fetch_assoc()) {
+        if ($row['gambar'] && file_exists("../assets/".$row['gambar'])) {
+            unlink("../assets/".$row['gambar']);
+        }
+    }
+    if (!$konek->query("DELETE FROM pejabat WHERE id=$id")) {
+        $error = 'Gagal menghapus data: ' . $konek->error;
+    } else {
+        header('Location: pejabat.php');
+        exit();
+    }
+}
+// Ambil data pejabat
+$result = $konek->query("SELECT * FROM pejabat ORDER BY id ASC");
+?>
 <!-- admin/pejabat.php - CRUD Pejabat dengan AdminLTE -->
 <!DOCTYPE html>
 <html lang="id">
@@ -195,237 +217,33 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Budi Santoso</td>
-                  <td><img src="../assets/slider1.jpg" width="80" /></td>
-                  <td>Klaten</td>
-                  <td>1988-11-26</td>
-                  <td>Kepala Desa</td>
-                  <td>2020-2026</td>
-                  <td>Perangkat Desa</td>
-                  <td>
-                    SMA Negeri 2 Klaten (2003–2006)<br />
-                    SI Universitas Atmajaya Yogyakarta (2006–2011)
-                  </td>
-                  <td>
-                    Anggota DPRD Kabupaten Klaten (2014–2019)<br />
-                    Ketua DPRD Kabupaten Klaten (2019–2024)
-                  </td>
-                  <td>
-                    <button
-                      class="btn btn-sm btn-warning"
-                      onclick="window.location.href='pejabat_edit.php'"
-                    >
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Siti Aminah</td>
-                  <td><img src="../assets/slider1.jpg" width="80" /></td>
-                  <td>Klaten</td>
-                  <td>1990-03-15</td>
-                  <td>Ketua BPD</td>
-                  <td>2021-2027</td>
-                  <td>BPD</td>
-                  <td>
-                    SMA Negeri 1 Klaten (2005–2008)<br />
-                    S1 Universitas Gadjah Mada (2008–2012)
-                  </td>
-                  <td>
-                    Sekretaris BPD (2015–2021)<br />
-                    Ketua BPD (2021–2027)
-                  </td>
-                  <td>
-                    <button
-                      class="btn btn-sm btn-warning"
-                      onclick="window.location.href='pejabat_edit.php'"
-                    >
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Agus Prasetyo</td>
-                  <td><img src="../assets/slider1.jpg" width="80" /></td>
-                  <td>Klaten</td>
-                  <td>1985-07-10</td>
-                  <td>Ketua Karang Taruna</td>
-                  <td>2022-2026</td>
-                  <td>Karang Taruna</td>
-                  <td>
-                    SMA PGRI Klaten (2000–2003)<br />
-                    D3 Politeknik Negeri Semarang (2003–2006)
-                  </td>
-                  <td>
-                    Anggota Karang Taruna (2015–2022)<br />
-                    Ketua Karang Taruna (2022–2026)
-                  </td>
-                  <td>
-                    <button
-                      class="btn btn-sm btn-warning"
-                      onclick="window.location.href='pejabat_edit.php'"
-                    >
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Dewi Lestari</td>
-                  <td><img src="../assets/slider1.jpg" width="80" /></td>
-                  <td>Klaten</td>
-                  <td>1992-12-01</td>
-                  <td>Direktur BUMDes</td>
-                  <td>2021-2025</td>
-                  <td>BUMDes</td>
-                  <td>
-                    SMK Negeri 1 Klaten (2007–2010)<br />
-                    S1 Universitas Sebelas Maret (2010–2014)
-                  </td>
-                  <td>
-                    Staf BUMDes (2017–2021)<br />
-                    Direktur BUMDes (2021–2025)
-                  </td>
-                  <td>
-                    <button
-                      class="btn btn-sm btn-warning"
-                      onclick="window.location.href='pejabat_edit.php'"
-                    >
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>Rudi Hartono</td>
-                  <td><img src="../assets/slider1.jpg" width="80" /></td>
-                  <td>Klaten</td>
-                  <td>1983-05-20</td>
-                  <td>Ketua KDMP</td>
-                  <td>2020-2024</td>
-                  <td>KDMP</td>
-                  <td>
-                    SMA Muhammadiyah Klaten (1998–2001)<br />
-                    D3 Akademi Pertanian (2001–2004)
-                  </td>
-                  <td>
-                    Anggota KDMP (2010–2020)<br />
-                    Ketua KDMP (2020–2024)
-                  </td>
-                  <td>
-                    <button
-                      class="btn btn-sm btn-warning"
-                      onclick="window.location.href='pejabat_edit.php'"
-                    >
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>Sri Wahyuni</td>
-                  <td><img src="../assets/slider1.jpg" width="80" /></td>
-                  <td>Klaten</td>
-                  <td>1987-09-09</td>
-                  <td>Ketua Kelompok Tani</td>
-                  <td>2019-2025</td>
-                  <td>Kelompok Tani</td>
-                  <td>
-                    SMA Negeri 3 Klaten (2002–2005)<br />
-                    S1 Universitas Negeri Yogyakarta (2005–2009)
-                  </td>
-                  <td>
-                    Anggota Kelompok Tani (2012–2019)<br />
-                    Ketua Kelompok Tani (2019–2025)
-                  </td>
-                  <td>
-                    <button
-                      class="btn btn-sm btn-warning"
-                      onclick="window.location.href='pejabat_edit.php'"
-                    >
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>7</td>
-                  <td>Murniati</td>
-                  <td><img src="../assets/slider1.jpg" width="80" /></td>
-
-                  <td>Klaten</td>
-                  <td>1995-04-18</td>
-                  <td>Ketua PKK</td>
-                  <td>2023-2027</td>
-                  <td>PKK</td>
-                  <td>
-                    SMA Negeri 4 Klaten (2010–2013)<br />
-                    S1 Universitas Diponegoro (2013–2017)
-                  </td>
-                  <td>
-                    Sekretaris PKK (2018–2023)<br />
-                    Ketua PKK (2023–2027)
-                  </td>
-                  <td>
-                    <button
-                      class="btn btn-sm btn-warning"
-                      onclick="window.location.href='pejabat_edit.php'"
-                    >
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>8</td>
-                  <td>Slamet Widodo</td>
-                  <td><img src="../assets/slider1.jpg" width="80" /></td>
-
-                  <td>Klaten</td>
-                  <td>1978-11-30</td>
-                  <td>Ketua RT 01/RW 02</td>
-                  <td>2022-2025</td>
-                  <td>RT/RW</td>
-                  <td>SMA Negeri 5 Klaten (1993–1996)</td>
-                  <td>
-                    Anggota RT (2015–2022)<br />
-                    Ketua RT 01/RW 02 (2022–2025)
-                  </td>
-                  <td>
-                    <button
-                      class="btn btn-sm btn-warning"
-                      onclick="window.location.href='pejabat_edit.php'"
-                    >
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
+                <?php
+                $no = 1;
+                if ($result) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<tr>';
+                        echo '<td>' . $no++ . '</td>';
+                        echo '<td>' . htmlspecialchars($row['nama']) . '</td>';
+                        echo '<td>';
+                        if ($row['gambar']) {
+                            echo '<img src="../assets/' . htmlspecialchars($row['gambar']) . '" width="80" />';
+                        }
+                        echo '</td>';
+                        echo '<td>' . htmlspecialchars($row['tempat_lahir']) . '</td>';
+                        echo '<td>' . htmlspecialchars($row['tanggal_lahir']) . '</td>';
+                        echo '<td>' . htmlspecialchars($row['jabatan']) . '</td>';
+                        echo '<td>' . htmlspecialchars($row['periode']) . '</td>';
+                        echo '<td>' . htmlspecialchars($row['kategori']) . '</td>';
+                        echo '<td>' . nl2br(htmlspecialchars($row['riwayat_pendidikan'])) . '</td>';
+                        echo '<td>' . nl2br(htmlspecialchars($row['riwayat_jabatan'])) . '</td>';
+                        echo '<td>';
+                        echo '<a href="pejabat_edit.php?id=' . $row['id'] . '" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a> ';
+                        echo '<a href="pejabat.php?delete=' . $row['id'] . '" class="btn btn-sm btn-danger" onclick="return confirm(\'Yakin hapus data?\')"><i class="fas fa-trash"></i></a>';
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                }
+                ?>
               </tbody>
             </table>
           </div>

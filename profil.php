@@ -1,3 +1,17 @@
+<?php
+include 'php/db.php';
+// Ambil semua data pejabat
+$pejabat = [];
+$q = $konek->query("SELECT * FROM pejabat ORDER BY kategori, id ASC");
+if ($q) {
+  while ($row = $q->fetch_assoc()) {
+    $pejabat[$row['kategori']][] = $row;
+  }
+}
+$kategori_list = [
+  'Perangkat Desa', 'BPD', 'Karang Taruna', 'BUMDes', 'KDMP', 'Kelompok Tani', 'PKK', 'RT/RW'
+];
+?>
 <html class="scroll-smooth" lang="id">
   <head>
     <meta charset="utf-8" />
@@ -346,219 +360,66 @@
           aria-label="Pilih kategori pejabat"
           class="w-full border border-gray-300 rounded-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
         >
-          <option value="Perangkat Desa">Perangkat Desa</option>
-          <option value="BPD">BPD</option>
-          <option value="Karang Taruna">Karang Taruna</option>
-          <option value="BUMDes">BUMDes</option>
-          <option value="KDMP">KDMP</option>
-          <option value="Kelompok Tani">Kelompok Tani</option>
-          <option value="PKK">PKK</option>
-          <option value="RT/RW">RT/RW</option>
+<?php foreach($kategori_list as $kat): ?>
+          <option value="<?php echo $kat; ?>"><?php echo $kat; ?></option>
+<?php endforeach; ?>
         </select>
       </div>
-      <div id="pejabat-list"></div>
-    </main>
-    <script>
-      // Data dummy, mudah diganti ke database/REST API
-      const dataPejabat = [
-        {
-          nama: "Budi Santoso",
-          tempat_lahir: "Klaten",
-          tanggal_lahir: "1988-11-26",
-          jabatan: "Kepala Desa",
-          periode: "2020-2026",
-          kategori: "Perangkat Desa",
-          riwayat_pendidikan: [
-            "SMA Negeri 2 Klaten (2003–2006)",
-            "SI Universitas Atmajaya Yogyakarta (2006–2011)",
-          ],
-          riwayat_jabatan: [
-            "Anggota DPRD Kabupaten Klaten (2014–2019)",
-            "Ketua DPRD Kabupaten Klaten (2019–2024)",
-          ],
-          foto: "assets/pejabat-klaten.jpg",
-        },
-        {
-          nama: "Siti Aminah",
-          tempat_lahir: "Klaten",
-          tanggal_lahir: "1990-03-15",
-          jabatan: "Ketua BPD",
-          periode: "2021-2027",
-          kategori: "BPD",
-          riwayat_pendidikan: [
-            "SMA Negeri 1 Klaten (2005–2008)",
-            "S1 Universitas Gadjah Mada (2008–2012)",
-          ],
-          riwayat_jabatan: [
-            "Sekretaris BPD (2015–2021)",
-            "Ketua BPD (2021–2027)",
-          ],
-          foto: "assets/pejabat-klaten.jpg",
-        },
-        {
-          nama: "Agus Prasetyo",
-          tempat_lahir: "Klaten",
-          tanggal_lahir: "1985-07-10",
-          jabatan: "Ketua Karang Taruna",
-          periode: "2022-2026",
-          kategori: "Karang Taruna",
-          riwayat_pendidikan: [
-            "SMA PGRI Klaten (2000–2003)",
-            "D3 Politeknik Negeri Semarang (2003–2006)",
-          ],
-          riwayat_jabatan: [
-            "Anggota Karang Taruna (2015–2022)",
-            "Ketua Karang Taruna (2022–2026)",
-          ],
-          foto: "assets/pejabat-klaten.jpg",
-        },
-        {
-          nama: "Dewi Lestari",
-          tempat_lahir: "Klaten",
-          tanggal_lahir: "1992-12-01",
-          jabatan: "Direktur BUMDes",
-          periode: "2021-2025",
-          kategori: "BUMDes",
-          riwayat_pendidikan: [
-            "SMK Negeri 1 Klaten (2007–2010)",
-            "S1 Universitas Sebelas Maret (2010–2014)",
-          ],
-          riwayat_jabatan: [
-            "Staf BUMDes (2017–2021)",
-            "Direktur BUMDes (2021–2025)",
-          ],
-          foto: "assets/pejabat-klaten.jpg",
-        },
-        {
-          nama: "Rudi Hartono",
-          tempat_lahir: "Klaten",
-          tanggal_lahir: "1983-05-20",
-          jabatan: "Ketua KDMP",
-          periode: "2020-2024",
-          kategori: "KDMP",
-          riwayat_pendidikan: [
-            "SMA Muhammadiyah Klaten (1998–2001)",
-            "D3 Akademi Pertanian (2001–2004)",
-          ],
-          riwayat_jabatan: [
-            "Anggota KDMP (2010–2020)",
-            "Ketua KDMP (2020–2024)",
-          ],
-          foto: "assets/pejabat-klaten.jpg",
-        },
-        {
-          nama: "Sri Wahyuni",
-          tempat_lahir: "Klaten",
-          tanggal_lahir: "1987-09-09",
-          jabatan: "Ketua Kelompok Tani",
-          periode: "2019-2025",
-          kategori: "Kelompok Tani",
-          riwayat_pendidikan: [
-            "SMA Negeri 3 Klaten (2002–2005)",
-            "S1 Universitas Negeri Yogyakarta (2005–2009)",
-          ],
-          riwayat_jabatan: [
-            "Anggota Kelompok Tani (2012–2019)",
-            "Ketua Kelompok Tani (2019–2025)",
-          ],
-          foto: "assets/pejabat-klaten.jpg",
-        },
-        {
-          nama: "Murniati",
-          tempat_lahir: "Klaten",
-          tanggal_lahir: "1995-04-18",
-          jabatan: "Ketua PKK",
-          periode: "2023-2027",
-          kategori: "PKK",
-          riwayat_pendidikan: [
-            "SMA Negeri 4 Klaten (2010–2013)",
-            "S1 Universitas Diponegoro (2013–2017)",
-          ],
-          riwayat_jabatan: [
-            "Sekretaris PKK (2018–2023)",
-            "Ketua PKK (2023–2027)",
-          ],
-          foto: "assets/pejabat-klaten.jpg",
-        },
-        {
-          nama: "Slamet Widodo",
-          tempat_lahir: "Klaten",
-          tanggal_lahir: "1978-11-30",
-          jabatan: "Ketua RT 01/RW 02",
-          periode: "2022-2025",
-          kategori: "RT/RW",
-          riwayat_pendidikan: ["SMA Negeri 5 Klaten (1993–1996)"],
-          riwayat_jabatan: [
-            "Anggota RT (2015–2022)",
-            "Ketua RT 01/RW 02 (2022–2025)",
-          ],
-          foto: "assets/pejabat-klaten.jpg",
-        },
-      ];
-
-      function renderPejabat(kategori) {
-        const container = document.getElementById("pejabat-list");
-        container.innerHTML = "";
-        const pejabatKategori = dataPejabat.filter(
-          (p) => p.kategori === kategori
-        );
-        if (pejabatKategori.length === 0) {
-          container.innerHTML =
-            '<div class="text-gray-500">Belum ada data pejabat untuk kategori ini.</div>';
-          return;
-        }
-        pejabatKategori.forEach((p) => {
-          container.innerHTML += `
+      <div id="pejabat-list">
+<?php foreach($kategori_list as $kat): ?>
+        <div class="pejabat-kategori" data-kategori="<?php echo $kat; ?>" style="display:none;">
+<?php if(!empty($pejabat[$kat])): foreach($pejabat[$kat] as $p): ?>
           <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sm:p-8 mb-6">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
               <div class="flex items-center space-x-4">
-                <img src="${
-                  p.foto
-                }" alt="Foto Pejabat" class="w-32 h-40 rounded-md object-cover shadow" />
+                <img src="assets/<?php echo htmlspecialchars($p['gambar'] ?: 'slider1.jpg'); ?>" alt="Foto Pejabat" class="w-32 h-40 rounded-md object-cover shadow" />
                 <div>
-                  <h2 class="text-2xl font-bold text-gray-800">${p.nama}</h2>
-                  <p class="text-sm text-gray-600 mt-1">Tempat/Tanggal Lahir: <strong>${
-                    p.tempat_lahir
-                  } / ${new Date(p.tanggal_lahir).toLocaleDateString("id-ID", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-          })}</strong></p>
+                  <h2 class="text-2xl font-bold text-gray-800"><?php echo htmlspecialchars($p['nama']); ?></h2>
+                  <p class="text-sm text-gray-600 mt-1">Tempat/Tanggal Lahir: <strong><?php echo htmlspecialchars($p['tempat_lahir']); ?> / <?php echo date('d M Y', strtotime($p['tanggal_lahir'])); ?></strong></p>
                   <div class="mt-2 flex gap-2">
-                    <span class="bg-red-200 text-red-800 px-3 py-1 rounded-full text-xs font-semibold">${
-                      p.jabatan
-                    }</span>
+                    <span class="bg-red-200 text-red-800 px-3 py-1 rounded-full text-xs font-semibold"><?php echo htmlspecialchars($p['jabatan']); ?></span>
                   </div>
-                  <div class="mt-2 text-xs text-gray-500">Periode: ${
-                    p.periode
-                  }</div>
+                  <div class="mt-2 text-xs text-gray-500">Periode: <?php echo htmlspecialchars($p['periode']); ?></div>
                 </div>
               </div>
             </div>
             <div class="mb-6">
               <h3 class="text-lg font-semibold text-red-800 border-b pb-1 mb-2">Riwayat Pendidikan</h3>
               <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
-                ${p.riwayat_pendidikan.map((rp) => `<li>${rp}</li>`).join("")}
+                <?php foreach(explode("\n", $p['riwayat_pendidikan']) as $rp): ?>
+                  <li><?php echo htmlspecialchars($rp); ?></li>
+                <?php endforeach; ?>
               </ul>
             </div>
             <div>
               <h3 class="text-lg font-semibold text-red-800 border-b pb-1 mb-2">Riwayat Jabatan</h3>
               <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
-                ${p.riwayat_jabatan.map((rj) => `<li>${rj}</li>`).join("")}
+                <?php foreach(explode("\n", $p['riwayat_jabatan']) as $rj): ?>
+                  <li><?php echo htmlspecialchars($rj); ?></li>
+                <?php endforeach; ?>
               </ul>
             </div>
           </div>
-          `;
-        });
-      }
-      document
-        .getElementById("kategori-pejabat")
-        .addEventListener("change", function () {
-          renderPejabat(this.value);
-        });
-      // Render default kategori
-      renderPejabat(document.getElementById("kategori-pejabat").value);
-    </script>
+<?php endforeach; else: ?>
+          <div class="text-gray-500">Belum ada data pejabat untuk kategori ini.</div>
+<?php endif; ?>
+        </div>
+<?php endforeach; ?>
+      </div>
+    </main>
+<script>
+  function showPejabatKategori(kat) {
+    document.querySelectorAll('.pejabat-kategori').forEach(function(div) {
+      div.style.display = div.getAttribute('data-kategori') === kat ? '' : 'none';
+    });
+  }
+  const select = document.getElementById('kategori-pejabat');
+  select.addEventListener('change', function() {
+    showPejabatKategori(this.value);
+  });
+  // Tampilkan default kategori pertama
+  showPejabatKategori(select.value);
+</script>
 
     <!-- Footer -->
     <footer class="bg-black text-white text-xs sm:text-sm mt-10">
