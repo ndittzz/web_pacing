@@ -1,3 +1,78 @@
+<?php
+include '../php/db.php';
+
+$message = '';
+$error = '';
+$berita = null;
+
+// Get ID from URL
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+// Fetch existing data
+if ($id > 0) {
+    $stmt = $konek->prepare("SELECT * FROM berita WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $berita = $result->fetch_assoc();
+    
+    if (!$berita) {
+        header('Location: berita.php?error=Data tidak ditemukan');
+        exit();
+    }
+}
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $berita) {
+    $judul = $_POST['judul'] ?? '';
+    $deskripsi = $_POST['deskripsi'] ?? '';
+    $penulis = $_POST['penulis'] ?? '';
+    $tanggal = $_POST['tanggal'] ?? '';
+    $gambar = $berita['gambar']; // Keep existing image by default
+
+    // Handle file upload
+    if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === 0) {
+        $uploadDir = '../assets/';
+        $fileName = time() . '_' . basename($_FILES['gambar']['name']);
+        $uploadPath = $uploadDir . $fileName;
+        
+        // Check file type
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+        if (in_array($_FILES['gambar']['type'], $allowedTypes)) {
+            if (move_uploaded_file($_FILES['gambar']['tmp_name'], $uploadPath)) {
+                // Delete old image if exists
+                if ($berita['gambar'] && file_exists($uploadDir . $berita['gambar'])) {
+                    unlink($uploadDir . $berita['gambar']);
+                }
+                $gambar = $fileName;
+            } else {
+                $error = 'Gagal mengupload gambar.';
+            }
+        } else {
+            $error = 'Format gambar tidak valid. Gunakan JPG, PNG, atau GIF.';
+        }
+    }
+
+    // Update data if no errors
+    if (empty($error)) {
+        $stmt = $konek->prepare("UPDATE berita SET judul = ?, deskripsi = ?, gambar = ?, tanggal = ?, penulis = ? WHERE id = ?");
+        $stmt->bind_param("sssssi", $judul, $deskripsi, $gambar, $tanggal, $penulis, $id);
+        
+        if ($stmt->execute()) {
+            header('Location: berita.php?success=Data berhasil diupdate');
+            exit();
+        } else {
+            $error = 'Gagal mengupdate data: ' . $konek->error;
+        }
+    }
+}
+
+// Redirect if no valid ID
+if (!$berita) {
+    header('Location: berita.php');
+    exit();
+}
+?>
 <!-- admin/berita_edit.php - Edit Berita -->
 <!DOCTYPE html>
 <html lang="id">
@@ -52,7 +127,7 @@
             >
               <!-- Dashboard -->
               <li class="nav-item">
-                <a href="dashboard.php" class="nav-link active">
+                <a href="dashboard.php" class="nav-link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>Dashboard</p>
                 </a>
@@ -125,7 +200,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="berita.php" class="nav-link">
+                    <a href="berita.php" class="nav-link active">
                       <i class="far fa-newspaper nav-icon"></i>
                       <p>Manajemen Berita</p>
                     </a>
@@ -160,35 +235,78 @@
         </div>
         <section class="content">
           <div class="container-fluid">
+            <?php if ($error): ?>
+              <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <?php echo htmlspecialchars($error); ?>
+              </div>
+            <?php endif; ?>
+            
             <div class="card">
               <div class="card-body">
-                <form>
+                <form method="POST" enctype="multipart/form-data">
                   <div class="form-group">
-                    <label>Judul</label>
+                    <label>Judul <span class="text-danger">*</span></label>
                     <input
                       type="text"
+                      name="judul"
                       class="form-control"
                       placeholder="Judul Berita"
+                      value="<?php echo htmlspecialchars($berita['judul']); ?>"
+                      required
                     />
                   </div>
                   <div class="form-group">
-                    <label>Deskripsi</label>
+                    <label>Deskripsi <span class="text-danger">*</span></label>
                     <textarea
+                      name="deskripsi"
                       class="form-control"
+                      rows="5"
                       placeholder="Isi Berita"
-                    ></textarea>
+                      required
+                    ><?php echo htmlspecialchars($berita['deskripsi']); ?></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Penulis <span class="text-danger">*</span></label>
+                    <input
+                      type="text"
+                      name="penulis"
+                      class="form-control"
+                      placeholder="Nama Penulis"
+                      value="<?php echo htmlspecialchars($berita['penulis']); ?>"
+                      required
+                    />
                   </div>
                   <div class="form-group">
                     <label>Upload Gambar</label>
-                    <input type="file" class="form-control-file" />
+                    <?php if ($berita['gambar']): ?>
+                      <div class="mb-2">
+                        <img src="../assets/<?php echo htmlspecialchars($berita['gambar']); ?>" 
+                             alt="Current Image" 
+                             style="max-width: 200px; max-height: 150px;" 
+                             class="img-thumbnail">
+                        <small class="text-muted d-block">Gambar saat ini</small>
+                      </div>
+                    <?php endif; ?>
+                    <input type="file" name="gambar" class="form-control-file" accept="image/*" />
+                    <small class="form-text text-muted">Format yang didukung: JPG, PNG, GIF. Maksimal 2MB. Kosongkan jika tidak ingin mengubah gambar.</small>
                   </div>
-
                   <div class="form-group">
-                    <label>Tanggal</label>
-                    <input type="date" class="form-control" />
+                    <label>Tanggal <span class="text-danger">*</span></label>
+                    <input 
+                      type="date" 
+                      name="tanggal" 
+                      class="form-control" 
+                      value="<?php echo htmlspecialchars($berita['tanggal']); ?>"
+                      required
+                    />
                   </div>
-                  <button type="submit" class="btn btn-primary">Simpan</button>
-                  <a href="berita.php" class="btn btn-secondary">Kembali</a>
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Update
+                  </button>
+                  <a href="berita.php" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                  </a>
                 </form>
               </div>
             </div>

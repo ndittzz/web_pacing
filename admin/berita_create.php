@@ -1,3 +1,49 @@
+<?php
+include '../php/db.php';
+
+$message = '';
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $judul = $_POST['judul'] ?? '';
+    $deskripsi = $_POST['deskripsi'] ?? '';
+    $penulis = $_POST['penulis'] ?? '';
+    $tanggal = $_POST['tanggal'] ?? '';
+    $gambar = '';
+
+    // Handle file upload
+    if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === 0) {
+        $uploadDir = '../assets/';
+        $fileName = time() . '_' . basename($_FILES['gambar']['name']);
+        $uploadPath = $uploadDir . $fileName;
+        
+        // Check file type
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+        if (in_array($_FILES['gambar']['type'], $allowedTypes)) {
+            if (move_uploaded_file($_FILES['gambar']['tmp_name'], $uploadPath)) {
+                $gambar = $fileName;
+            } else {
+                $error = 'Gagal mengupload gambar.';
+            }
+        } else {
+            $error = 'Format gambar tidak valid. Gunakan JPG, PNG, atau GIF.';
+        }
+    }
+
+    // Insert data if no errors
+    if (empty($error)) {
+        $stmt = $konek->prepare("INSERT INTO berita (judul, deskripsi, gambar, tanggal, penulis) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $judul, $deskripsi, $gambar, $tanggal, $penulis);
+        
+        if ($stmt->execute()) {
+            header('Location: berita.php?success=1');
+            exit();
+        } else {
+            $error = 'Gagal menyimpan data: ' . $konek->error;
+        }
+    }
+}
+?>
 <!-- admin/berita_create.php - Create Berita -->
 <!DOCTYPE html>
 <html lang="id">
@@ -52,7 +98,7 @@
             >
               <!-- Dashboard -->
               <li class="nav-item">
-                <a href="dashboard.php" class="nav-link active">
+                <a href="dashboard.php" class="nav-link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>Dashboard</p>
                 </a>
@@ -125,7 +171,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="berita.php" class="nav-link">
+                    <a href="berita.php" class="nav-link active">
                       <i class="far fa-newspaper nav-icon"></i>
                       <p>Manajemen Berita</p>
                     </a>
@@ -160,34 +206,69 @@
         </div>
         <section class="content">
           <div class="container-fluid">
+            <?php if ($error): ?>
+              <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <?php echo htmlspecialchars($error); ?>
+              </div>
+            <?php endif; ?>
+            
             <div class="card">
               <div class="card-body">
-                <form>
+                <form method="POST" enctype="multipart/form-data">
                   <div class="form-group">
-                    <label>Judul</label>
+                    <label>Judul <span class="text-danger">*</span></label>
                     <input
                       type="text"
+                      name="judul"
                       class="form-control"
                       placeholder="Judul Berita"
+                      value="<?php echo htmlspecialchars($_POST['judul'] ?? ''); ?>"
+                      required
                     />
                   </div>
                   <div class="form-group">
-                    <label>Deskripsi</label>
+                    <label>Deskripsi <span class="text-danger">*</span></label>
                     <textarea
+                      name="deskripsi"
                       class="form-control"
+                      rows="5"
                       placeholder="Isi Berita"
-                    ></textarea>
+                      required
+                    ><?php echo htmlspecialchars($_POST['deskripsi'] ?? ''); ?></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Penulis <span class="text-danger">*</span></label>
+                    <input
+                      type="text"
+                      name="penulis"
+                      class="form-control"
+                      placeholder="Nama Penulis"
+                      value="<?php echo htmlspecialchars($_POST['penulis'] ?? ''); ?>"
+                      required
+                    />
                   </div>
                   <div class="form-group">
                     <label>Upload Gambar</label>
-                    <input type="file" class="form-control-file" />
+                    <input type="file" name="gambar" class="form-control-file" accept="image/*" />
+                    <small class="form-text text-muted">Format yang didukung: JPG, PNG, GIF. Maksimal 2MB.</small>
                   </div>
                   <div class="form-group">
-                    <label>Tanggal</label>
-                    <input type="date" class="form-control" />
+                    <label>Tanggal <span class="text-danger">*</span></label>
+                    <input 
+                      type="date" 
+                      name="tanggal" 
+                      class="form-control" 
+                      value="<?php echo $_POST['tanggal'] ?? date('Y-m-d'); ?>"
+                      required
+                    />
                   </div>
-                  <button type="submit" class="btn btn-primary">Simpan</button>
-                  <a href="berita.php" class="btn btn-secondary">Kembali</a>
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Simpan
+                  </button>
+                  <a href="berita.php" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                  </a>
                 </form>
               </div>
             </div>

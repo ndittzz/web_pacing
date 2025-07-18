@@ -1,3 +1,7 @@
+<?php
+include 'php/db.php';
+$result = $konek->query("SELECT * FROM berita ORDER BY tanggal DESC");
+?>
 <html class="scroll-smooth" lang="id">
   <head>
     <meta charset="utf-8" />
@@ -131,7 +135,7 @@
                 >
               </div>
             </li>
-            
+           
             <li class="relative group active">
               <button
                 class="flex items-center space-x-1 hover:text-gray-700 focus:outline-none"
@@ -337,7 +341,7 @@
       </nav>
     </section>
 
-    <main class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+    <main class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
       <section aria-labelledby="berita-title" class="mt-6 space-y-4">
         <h3
           class="text-2xl font-bold text-red-800 mb-6 border-b-4 border-red-700 pb-2"
@@ -345,364 +349,34 @@
           Berita Desa Pacing
         </h3>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <!-- Berita item 1 -->
-           <a href="#" data-id="1" class="berita-link block hover:shadow-lg transition">
-          <article
-            aria-label="Berita 1"
-            class="bg-white rounded-lg shadow-md p-3 flex flex-col"
-          >
-            <img
-              alt="Photo of a man standing in front of a banner in a room, event related to Desa Pacing Siap Bertanding"
-              class="rounded-md mb-2 object-cover w-full h-40 sm:h-36"
-              height="200"
-              loading="lazy"
-              src="https://storage.googleapis.com/a1aa/image/8d40d220-5392-4dea-bce0-b4473277f2cf.jpg"
-              width="400"
-            />
-            <h3 class="font-semibold text-xs sm:text-sm mb-1 leading-tight">
-              335 Atlet Desa Pacing Siap Bertanding...
-            </h3>
-            <div
-              class="flex items-center text-gray-600 text-[10px] sm:text-xs mb-1 space-x-1"
-            >
-              <i class="fas fa-user-circle"> </i>
-              <span> Admin </span>
-            </div>
-            <p class="text-gray-600 text-[9px] sm:text-xs mb-2 line-clamp-3">
-              PACING – Pemerintah Kabupaten (Pemkab) Desa Pacing melepas
-              kontingen untuk mengikuti ibookk kualifikasi...
-            </p>
-            <time
-              class="text-gray-400 text-[9px] sm:text-xs"
-              datetime="2025-07-03"
-            >
-              3 Jul, 2025
-            </time>
-          </article>
-           </a>
-
-          <!-- Berita item 2 -->
-           <a href="#" data-id="2" class="berita-link block hover:shadow-lg transition">
-          <article
-            aria-label="Berita 2"
-            class="bg-white rounded-lg shadow-md p-3 flex flex-col"
-          >
-            <img
-              alt="Photo of a man sitting on a chair speaking into a microphone, event about optimizing public information"
-              class="rounded-md mb-2 object-cover w-full h-40 sm:h-36"
-              height="200"
-              loading="lazy"
-              src="https://storage.googleapis.com/a1aa/image/641f01fb-84d0-48ea-e236-11e1057c8820.jpg"
-              width="400"
-            />
-            <h3 class="font-semibold text-xs sm:text-sm mb-1 leading-tight">
-              Optimalkan Informasi Publik...
-            </h3>
-            <div
-              class="flex items-center text-gray-600 text-[10px] sm:text-xs mb-1 space-x-1"
-            >
-              <i class="fas fa-user-circle"> </i>
-              <span> Admin </span>
-            </div>
-            <p class="text-gray-600 text-[9px] sm:text-xs mb-2 line-clamp-3">
-              PACING- Bupati PACING, Hamenang Wijaya Ismoyo mengajak para admin
-              media sosial dalam forum...
-            </p>
-            <time
-              class="text-gray-400 text-[9px] sm:text-xs"
-              datetime="2025-07-03"
-            >
-              3 Jul, 2025
-            </time>
-          </article>
-           </a>
-
-          <!-- Berita item 3 -->
-           <a href="#" data-id="3" class="berita-link block hover:shadow-lg transition">
-          <article
-            aria-label="Berita 3"
-            class="bg-white rounded-lg shadow-md p-3 flex flex-col"
-          >
-            <img
-              alt="Photo of a group of people outdoors holding a certificate, event KBMKB Ke-XXX"
-              class="rounded-md mb-2 object-cover w-full h-40 sm:h-36"
-              height="200"
-              loading="lazy"
-              src="https://storage.googleapis.com/a1aa/image/ac336750-4442-4df5-bebd-c152df6b2aa7.jpg"
-              width="400"
-            />
-            <h3 class="font-semibold text-xs sm:text-sm mb-1 leading-tight">
-              KBMKB Ke-XXX Digelar, 1.000...
-            </h3>
-            <div
-              class="flex items-center text-gray-600 text-[10px] sm:text-xs mb-1 space-x-1"
-            >
-              <i class="fas fa-user-circle"> </i>
-              <span> Admin </span>
-            </div>
-            <p class="text-gray-600 text-[9px] sm:text-xs mb-2 line-clamp-3">
-              PACING – Pemerintah Kabupaten (Pemkab) Pacing resmi menggelar
-              program Karya Bakti Mandiri Pacing...
-            </p>
-            <time
-              class="text-gray-400 text-[9px] sm:text-xs"
-              datetime="2025-07-02"
-            >
-              2 Jul, 2025
-            </time>
-          </article>
-           </a>
-
-          <!-- Berita item 4 -->
-           <a href="#" data-id="4" class="berita-link block hover:shadow-lg transition">
-          <article
-            aria-label="Berita 4"
-            class="bg-white rounded-lg shadow-md p-3 flex flex-col"
-          >
-            <img
-              alt="Photo of a meeting room with people attending, event about improving public services"
-              class="rounded-md mb-2 object-cover w-full h-40 sm:h-36"
-              height="200"
-              loading="lazy"
-              src="https://storage.googleapis.com/a1aa/image/273c81f8-687f-49cf-cdba-d3ab560a2be8.jpg"
-              width="400"
-            />
-            <h3 class="font-semibold text-xs sm:text-sm mb-1 leading-tight">
-              Tingkatkan Layanan Publik...
-            </h3>
-            <div
-              class="flex items-center text-gray-600 text-[10px] sm:text-xs mb-1 space-x-1"
-            >
-              <i class="fas fa-user-circle"> </i>
-              <span> Admin </span>
-            </div>
-            <p class="text-gray-600 text-[9px] sm:text-xs mb-2 line-clamp-3">
-              PACING – Dinas Komunikasi dan Informatika (Diskominfo) Kabupaten
-              Pacing menggelar sosialisasi...
-            </p>
-            <time
-              class="text-gray-400 text-[9px] sm:text-xs"
-              datetime="2025-07-01"
-            >
-              1 Jul, 2025
-            </time>
-          </article>
-           </a>
-
-          <!-- Berita item 5 -->
-           <a href="#" data-id="5" class="berita-link block hover:shadow-lg transition">
-          <article
-            aria-label="Berita 5"
-            class="bg-white rounded-lg shadow-md p-3 flex flex-col"
-          >
-            <img
-              alt="Photo of a meeting with officials, event about Desa Pacing receiving verification team"
-              class="rounded-md mb-2 object-cover w-full h-40 sm:h-36"
-              height="200"
-              loading="lazy"
-              src="https://storage.googleapis.com/a1aa/image/d03a9911-f377-4535-bbab-db0c1889087e.jpg"
-              width="400"
-            />
-            <h3 class="font-semibold text-xs sm:text-sm mb-1 leading-tight">
-              Desa Pacing Terima Tim Verifikator...
-            </h3>
-            <div
-              class="flex items-center text-gray-600 text-[10px] sm:text-xs mb-1 space-x-1"
-            >
-              <i class="fas fa-user-circle"> </i>
-              <span> Admin </span>
-            </div>
-            <p class="text-gray-600 text-[9px] sm:text-xs mb-2 line-clamp-3">
-              PACING- Pemerintah Kabupaten Pacing terima Tim Verifikator
-              Kementerian Kesehatan Republik...
-            </p>
-            <time
-              class="text-gray-400 text-[9px] sm:text-xs"
-              datetime="2025-06-24"
-            >
-              24 Jun, 2025
-            </time>
-          </article>
-           </a>
-
-          <!-- Berita item 6 -->
-           <a href="#" data-id="6" class="berita-link block hover:shadow-lg transition">
-          <article
-            aria-label="Berita 6"
-            class="bg-white rounded-lg shadow-md p-3 flex flex-col"
-          >
-            <img
-              alt="Photo of three men in suits holding a document, event about Desa Pacing cooperation"
-              class="rounded-md mb-2 object-cover w-full h-40 sm:h-36"
-              height="200"
-              loading="lazy"
-              src="https://storage.googleapis.com/a1aa/image/7191d68b-2f33-4a55-f0e0-d1bd3564b185.jpg"
-              width="400"
-            />
-            <h3 class="font-semibold text-xs sm:text-sm mb-1 leading-tight">
-              Pacing Jalin Kerja Sama...
-            </h3>
-            <div
-              class="flex items-center text-gray-600 text-[10px] sm:text-xs mb-1 space-x-1"
-            >
-              <i class="fas fa-user-circle"> </i>
-              <span> Admin </span>
-            </div>
-            <p class="text-gray-600 text-[9px] sm:text-xs mb-2 line-clamp-3">
-              PACING – Pemerintah Kabupaten (Pemkab) Pacing menjalin kerja sama
-              internasional dengan Pemerintah...
-            </p>
-            <time
-              class="text-gray-400 text-[9px] sm:text-xs"
-              datetime="2025-06-24"
-            >
-              24 Jun, 2025
-            </time>
-          </article>
-           </a>
-
-          <!-- Berita item 7 -->
-           <a href="#" data-id="7" class="berita-link block hover:shadow-lg transition">
-          <article
-            aria-label="Berita 7"
-            class="bg-white rounded-lg shadow-md p-3 flex flex-col"
-          >
-            <img
-              alt="Photo of group of people outdoors with Prambanan temple in background, event Pacing Wakil Jateng Terima"
-              class="rounded-md mb-2 object-cover w-full h-40 sm:h-36"
-              height="200"
-              loading="lazy"
-              src="https://storage.googleapis.com/a1aa/image/34f19a6b-db37-4de3-3a09-f78dad233b8c.jpg"
-              width="400"
-            />
-            <h3 class="font-semibold text-xs sm:text-sm mb-1 leading-tight">
-              Pacing Wakil Jateng Terima...
-            </h3>
-            <div
-              class="flex items-center text-gray-600 text-[10px] sm:text-xs mb-1 space-x-1"
-            >
-              <i class="fas fa-user-circle"> </i>
-              <span> Admin </span>
-            </div>
-            <p class="text-gray-600 text-[9px] sm:text-xs mb-2 line-clamp-3">
-              PACING - Desa Pacing mewakili Provinsi Jawa Tengah menerima
-              statistik potaka kirab...
-            </p>
-            <time
-              class="text-gray-400 text-[9px] sm:text-xs"
-              datetime="2025-06-24"
-            >
-              24 Jun, 2025
-            </time>
-          </article>
-           </a>
-
-          <!-- Berita item 8 -->
-           <a href="#" data-id="8" class="berita-link block hover:shadow-lg transition">
-          <article
-            aria-label="Berita 8"
-            class="bg-white rounded-lg shadow-md p-3 flex flex-col"
-          >
-            <img
-              alt="Photo of group of people outdoors, event 4.136 Mahasiswa Ikuti KKN"
-              class="rounded-md mb-2 object-cover w-full h-40 sm:h-36"
-              height="200"
-              loading="lazy"
-              src="https://storage.googleapis.com/a1aa/image/fd73ed3d-d1d3-4cdc-127f-4487c46a0561.jpg"
-              width="400"
-            />
-            <h3 class="font-semibold text-xs sm:text-sm mb-1 leading-tight">
-              4.136 Mahasiswa Ikuti KKN Di...
-            </h3>
-            <div
-              class="flex items-center text-gray-600 text-[10px] sm:text-xs mb-1 space-x-1"
-            >
-              <i class="fas fa-user-circle"> </i>
-              <span> Admin </span>
-            </div>
-            <p class="text-gray-600 text-[9px] sm:text-xs mb-2 line-clamp-3">
-              PACING – Pemerintah Kabupaten (Pemkab) Pacing menerima 4.136
-              mahasiswa yang mengikuti program...
-            </p>
-            <time
-              class="text-gray-400 text-[9px] sm:text-xs"
-              datetime="2025-06-24"
-            >
-              24 Jun, 2025
-            </time>
-          </article>
-          <!-- Berita item 9 -->
-           <a href="#" data-id="9" class="berita-link block hover:shadow-lg transition">
-          <article
-            aria-label="Berita 9"
-            class="bg-white rounded-lg shadow-md p-3 flex flex-col"
-          >
-            <img
-              alt="Photo of a meeting room with people attending, event about increasing literacy culture"
-              class="rounded-md mb-2 object-cover w-full h-40 sm:h-36"
-              height="200"
-              loading="lazy"
-              src="https://storage.googleapis.com/a1aa/image/74931e07-0676-4a5d-7150-183d039798a0.jpg"
-              width="400"
-            />
-            <h3 class="font-semibold text-xs sm:text-sm mb-1 leading-tight">
-              Tingkatkan Budaya Literasi...
-            </h3>
-            <div
-              class="flex items-center text-gray-600 text-[10px] sm:text-xs mb-1 space-x-1"
-            >
-              <i class="fas fa-user-circle"> </i>
-              <span> Admin </span>
-            </div>
-            <p class="text-gray-600 text-[9px] sm:text-xs mb-2 line-clamp-3">
-              PACING – Pemerintah Desa Pacing melalui Dinas Perpustakaan dan
-              Kearsipan (Dispersip) menggelu...
-            </p>
-            <time
-              class="text-gray-400 text-[9px] sm:text-xs"
-              datetime="2025-06-23"
-            >
-              23 Jun, 2025
-            </time>
-          </article>
-           </a>
-
-          <!-- Berita item 10 -->
-           <a href="#" data-id="10" class="berita-link block hover:shadow-lg transition">
-          <article
-            aria-label="Berita 10"
-            class="bg-white rounded-lg shadow-md p-3 flex flex-col"
-          >
-            <img
-              alt="Photo of a meeting room with people attending, event about increasing literacy culture"
-              class="rounded-md mb-2 object-cover w-full h-40 sm:h-36"
-              height="200"
-              loading="lazy"
-              src="https://storage.googleapis.com/a1aa/image/74931e07-0676-4a5d-7150-183d039798a0.jpg"
-              width="400"
-            />
-            <h3 class="font-semibold text-xs sm:text-sm mb-1 leading-tight">
-              Tingkatkan Budaya Literasi...
-            </h3>
-            <div
-              class="flex items-center text-gray-600 text-[10px] sm:text-xs mb-1 space-x-1"
-            >
-              <i class="fas fa-user-circle"> </i>
-              <span> Admin </span>
-            </div>
-            <p class="text-gray-600 text-[9px] sm:text-xs mb-2 line-clamp-3">
-              PACING – Pemerintah Desa Pacing melalui Dinas Perpustakaan dan
-              Kearsipan (Dispersip) menggelu...
-            </p>
-            <time
-              class="text-gray-400 text-[9px] sm:text-xs"
-              datetime="2025-06-23"
-            >
-              23 Jun, 2025
-            </time>
-          </article>
-           </a>
+         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <?php while ($row = $result->fetch_assoc()): ?>
+            <a href="detail_berita.php?id=<?php echo $row['id']; ?>" class="block hover:shadow-lg transition">
+              <article class="bg-white rounded-lg shadow-md p-3 flex flex-col">
+                <img
+                  alt="<?php echo htmlspecialchars($row['judul']); ?>"
+                  class="rounded-md mb-2 object-cover w-full h-40 sm:h-36"
+                  height="200"
+                  loading="lazy"
+                  src="assets/<?php echo htmlspecialchars($row['gambar']); ?>"
+                  width="400"
+                />
+                <h3 class="font-semibold text-xs sm:text-sm mb-1 leading-tight">
+                  <?php echo htmlspecialchars($row['judul']); ?>
+                </h3>
+                <div class="flex items-center text-gray-600 text-[10px] sm:text-xs mb-1 space-x-1">
+                  <i class="fas fa-user-circle"></i>
+                  <span><?php echo htmlspecialchars($row['penulis']); ?></span>
+                </div>
+                <p class="text-gray-600 text-[9px] sm:text-xs mb-2 line-clamp-3">
+                  <?php echo htmlspecialchars(mb_strimwidth(strip_tags($row['deskripsi']), 0, 120, '...')); ?>
+                </p>
+                <time class="text-gray-400 text-[9px] sm:text-xs" datetime="<?php echo htmlspecialchars($row['tanggal']); ?>">
+                  <?php echo date('j M, Y', strtotime($row['tanggal'])); ?>
+                </time>
+              </article>
+            </a>
+          <?php endwhile; ?>
         </div>
       </section>
     </main>
@@ -777,4 +451,4 @@
     </footer>
   </body>
   <script src="js/script.js"></script>
-</html>
+</php>

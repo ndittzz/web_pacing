@@ -1,4 +1,22 @@
-<!-- admin/berita.php - CRUD Berita dengan AdminLTE -->
+<?php
+include '../php/db.php';
+$error = null;
+
+// Hapus data jika ada request delete
+if (isset($_GET['delete'])) {
+    $id = intval($_GET['delete']);
+    if (!$konek->query("DELETE FROM berita WHERE id=$id")) {
+        $error = 'Gagal menghapus data: ' . $konek->error;
+    } else {
+        header('Location: berita.php');
+        exit();
+    }
+}
+
+// Ambil data berita
+$result = $konek->query("SELECT * FROM berita ORDER BY tanggal DESC");
+?>
+<!-- admin/berita.php - Dashboard Manajemen Berita -->
 <!DOCTYPE html>
 <html lang="id">
   <head>
@@ -59,7 +77,7 @@
             >
               <!-- Dashboard -->
               <li class="nav-item">
-                <a href="dashboard.php" class="nav-link active">
+                <a href="dashboard.php" class="nav-link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>Dashboard</p>
                 </a>
@@ -132,7 +150,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="berita.php" class="nav-link">
+                    <a href="berita.php" class="nav-link active">
                       <i class="far fa-newspaper nav-icon"></i>
                       <p>Manajemen Berita</p>
                     </a>
@@ -165,12 +183,9 @@
                 <h1 class="m-0">Manajemen Berita</h1>
               </div>
               <div class="col-sm-6 text-right">
-                <button
-                  class="btn btn-primary"
-                  onclick="window.location.href='berita_create.php'"
-                >
+                <a href="berita_create.php" class="btn btn-primary">
                   <i class="fas fa-plus"></i> Tambah Berita
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -183,33 +198,40 @@
                 <tr>
                   <th>No</th>
                   <th>Judul</th>
-                  <th>Deskripsi</th>
                   <th>Gambar</th>
+                  <th>Deskripsi</th>
                   <th>Tanggal</th>
+                  <th>Penulis</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Judul Berita Contoh</td>
-                  <td>Deskripsi berita pacing</td>
-                  <td><img src="../assets/slider1.jpg" width="80" /></td>
-                  <td>2025-07-06</td>
-                  <td>
-                    <button
-                      class="btn btn-sm btn-warning"
-                      onclick="window.location.href='berita_edit.php'"
-                    >
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
+                <?php
+                $no = 1;
+                if ($result) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<tr>';
+                        echo '<td>' . $no++ . '</td>';
+                        echo '<td>' . htmlspecialchars($row['judul']) . '</td>';
+                        echo '<td>';
+                        if ($row['gambar']) {
+                            echo '<img src="../assets/' . htmlspecialchars($row['gambar']) . '" width="80" />';
+                        }
+                        echo '</td>';
+                        echo '<td>' . htmlspecialchars($row['deskripsi']) . '</td>';
+                        echo '<td>' . htmlspecialchars($row['tanggal']) . '</td>';
+                        echo '<td>' . htmlspecialchars($row['penulis']) . '</td>';
+                        echo '<td>';
+                        echo '<a href="berita_edit.php?id=' . $row['id'] . '" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a> ';
+                        echo '<a href="berita.php?delete=' . $row['id'] . '" class="btn btn-sm btn-danger" onclick="return confirm(\'Yakin hapus data?\')"><i class="fas fa-trash"></i></a>';
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                }
+                ?>
               </tbody>
             </table>
+            <?php if ($error) echo '<div class="alert alert-danger">'.$error.'</div>'; ?>
           </div>
         </section>
       </div>
@@ -218,50 +240,6 @@
         <div class="float-right d-none d-sm-block"><b>Version</b> 1.0</div>
         <strong>Desa Pacing</strong> All rights reserved.
       </footer>
-    </div>
-
-    <!-- Modal Tambah -->
-    <div class="modal fade" id="modalTambah" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Tambah Berita</h5>
-            <button type="button" class="close" data-dismiss="modal">
-              <span>&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label>Judul</label>
-                <input type="text" class="form-control" />
-              </div>
-              <div class="form-group">
-                <label>Isi Berita</label>
-                <textarea class="form-control"></textarea>
-              </div>
-              <div class="form-group">
-                <label>Penulis</label>
-                <input type="text" class="form-control" />
-              </div>
-              <div class="form-group">
-                <label>Tanggal</label>
-                <input type="date" class="form-control" />
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Simpan</button>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Tutup
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
