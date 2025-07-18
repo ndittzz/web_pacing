@@ -1,64 +1,28 @@
+<?php
+include 'php/db.php';
+$legenda = mysqli_fetch_assoc(mysqli_query($konek, "SELECT * FROM sejarah_desa WHERE bagian='legenda' LIMIT 1"));
+$sejarah_umum = mysqli_fetch_assoc(mysqli_query($konek, "SELECT * FROM sejarah_desa WHERE bagian='sejarah_umum' LIMIT 1"));
+$penutup = mysqli_fetch_assoc(mysqli_query($konek, "SELECT * FROM sejarah_desa WHERE bagian='penutup' LIMIT 1"));
+$kepala = mysqli_query($konek, "SELECT * FROM tokoh_sejarah ORDER BY id ASC");
+?>
 <html class="scroll-smooth" lang="id">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Sejarah Desa Pacing - Pemerintah Desa Pacing</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <script
-      src="https://kit.fontawesome.com/a076d05399.js"
-      crossorigin="anonymous"
-    ></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link href="css/style.css" rel="stylesheet" />
-
     <style>
-      body {
-        font-family: "Inter", sans-serif;
-      }
-      /* Custom scrollbar for horizontal scroll containers */
-      .scrollbar-hide::-webkit-scrollbar {
-        display: none;
-      }
-      .scrollbar-hide {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-      .timeline-item {
-        position: relative;
-        padding-left: 30px;
-        margin-bottom: 30px;
-      }
-      .timeline-item::before {
-        content: "";
-        position: absolute;
-        left: 8px;
-        top: 8px;
-        width: 12px;
-        height: 12px;
-        background-color: #991b1b;
-        border-radius: 50%;
-        border: 3px solid white;
-        box-shadow: 0 0 0 2px #991b1b;
-      }
-      .timeline-item::after {
-        content: "";
-        position: absolute;
-        left: 13px;
-        top: 25px;
-        width: 2px;
-        height: calc(100% + 5px);
-        background-color: #e5e7eb;
-      }
-      .timeline-item:last-child::after {
-        display: none;
-      }
+      body { font-family: "Inter", sans-serif; }
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      .timeline-item { position: relative; padding-left: 30px; margin-bottom: 30px; }
+      .timeline-item::before { content: ""; position: absolute; left: 8px; top: 8px; width: 12px; height: 12px; background-color: #991b1b; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px #991b1b; }
+      .timeline-item::after { content: ""; position: absolute; left: 13px; top: 25px; width: 2px; height: calc(100% + 5px); background-color: #e5e7eb; }
+      .timeline-item:last-child::after { display: none; }
     </style>
   </head>
   <body class="bg-white text-black">
@@ -380,58 +344,53 @@
             Sejarah Desa Pacing
           </h1>
         </div>
-
-        <!-- Sejarah Awal -->
+        <!-- Legenda/Asal Usul Desa -->
         <div class="mb-8">
-          <h2
-            class="text-xl font-semibold text-gray-800 mb-4 flex items-center"
-          >
+          <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
             <i class="fas fa-landmark text-red-700 mr-2"></i>
             Asal Usul Desa Pacing
           </h2>
           <div class="bg-gray-50 rounded-lg p-6 mb-6 text-justify">
-            <p class="text-gray-700 leading-relaxed">
-              Menurut cerita turun-temurun dari para sesepuh desa, nama Pacing
-              berasal dari kata "Pacin" yang berarti tempat yang sering dilalui
-              atau tempat persinggahan. Hal ini disebabkan karena lokasi desa
-              yang strategis sebagai jalur perdagangan dan perjalanan antar
-              wilayah pada masa kerajaan Mataram.
-            </p>
+            <div class="flex flex-col md:flex-row items-start gap-6">
+              <?php if ($legenda && $legenda['gambar']) { ?>
+                <div class="md:w-1/3 w-full mb-4 md:mb-0 flex-shrink-0">
+                  <img src="assets/<?= $legenda['gambar'] ?>" alt="Legenda Desa" class="rounded shadow max-h-64 w-full object-cover" />
+                </div>
+                <div class="md:w-2/3 w-full">
+                  <p class="text-gray-700 leading-relaxed">
+                    <?= nl2br($legenda['konten'] ?? '-') ?>
+                  </p>
+                </div>
+              <?php } else { ?>
+                <div class="w-full">
+                  <p class="text-gray-700 leading-relaxed">
+                    <?= nl2br($legenda['konten'] ?? '-') ?>
+                  </p>
+                </div>
+              <?php } ?>
+            </div>
           </div>
         </div>
-
-        <!-- Sejarah Awal -->
+        <!-- Sejarah Umum -->
         <div class="mb-8">
-          <h2
-            class="text-xl font-semibold text-gray-800 mb-4 flex items-center"
-          >
+          <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
             <i class="fas fa-landmark text-red-700 mr-2"></i>
-            Sejarah Desa Pacing
+            Sejarah Umum Desa Pacing
           </h2>
           <div class="bg-gray-50 rounded-lg p-6 mb-6 text-justify">
             <p class="text-gray-700 leading-relaxed">
-              Menurut cerita turun-temurun dari para sesepuh desa, nama Pacing
-              berasal dari kata "Pacin" yang berarti tempat yang sering dilalui
-              atau tempat persinggahan. Hal ini disebabkan karena lokasi desa
-              yang strategis sebagai jalur perdagangan dan perjalanan antar
-              wilayah pada masa kerajaan Mataram.
+              <?= nl2br($sejarah_umum['konten'] ?? '-') ?>
             </p>
           </div>
         </div>
-
-        <!-- Tokoh Bersejarah -->
+        <!-- Daftar Kepala Desa -->
         <div class="mb-8">
-          <h2
-            class="text-xl font-semibold text-gray-800 mb-4 flex items-center"
-          >
+          <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
             <i class="fas fa-users text-red-700 mr-2"></i>
-            Tokoh Bersejarah
+            Daftar Kepala Desa
           </h2>
-
           <div class="overflow-x-auto">
-            <table
-              class="min-w-full bg-white border border-gray-300 text-sm rounded-lg overflow-hidden"
-            >
+            <table class="min-w-full bg-white border border-gray-300 text-sm rounded-lg overflow-hidden">
               <thead class="bg-red-100 text-red-800">
                 <tr>
                   <th class="px-4 py-2 border-b text-left">Nama</th>
@@ -441,49 +400,28 @@
                 </tr>
               </thead>
               <tbody>
+                <?php while ($d = mysqli_fetch_assoc($kepala)) { ?>
                 <tr class="hover:bg-red-50">
-                  <td class="px-4 py-2 border-b font-semibold">
-                    Mbah Suro Dirjo
-                  </td>
-                  <td class="px-4 py-2 border-b">Dukuh Selatan, Desa Pacing</td>
-                  <td class="px-4 py-2 border-b">1920–1950</td>
-                  <td class="px-4 py-2 border-b">
-                    Tokoh spiritual dan pemimpin masyarakat yang mempertahankan
-                    nilai budaya Jawa.
-                  </td>
+                  <td class="px-4 py-2 border-b font-semibold"><?= htmlspecialchars($d['nama']) ?></td>
+                  <td class="px-4 py-2 border-b"><?= htmlspecialchars($d['alamat']) ?></td>
+                  <td class="px-4 py-2 border-b"><?= htmlspecialchars($d['periode']) ?></td>
+                  <td class="px-4 py-2 border-b"><?= htmlspecialchars($d['keterangan']) ?></td>
                 </tr>
-                <tr class="hover:bg-red-50">
-                  <td class="px-4 py-2 border-b font-semibold">
-                    Kyai Haji Ahmad Dahlan
-                  </td>
-                  <td class="px-4 py-2 border-b">Dukuh Utara, Desa Pacing</td>
-                  <td class="px-4 py-2 border-b">1930–1970</td>
-                  <td class="px-4 py-2 border-b">
-                    Tokoh agama yang mendirikan pondok pesantren dan memajukan
-                    pendidikan Islam di desa.
-                  </td>
-                </tr>
+                <?php } ?>
               </tbody>
             </table>
           </div>
         </div>
-
-        <!-- Tradisi dan Budaya -->
+        <!-- Penutup -->
         <div class="mb-8">
           <h2 class="text-xl font-semibold text-red-800 mb-4 flex items-center">
             <i class="fas fa-heart text-red-700 mr-2"></i>
             Penutup
           </h2>
         </div>
-
-        <!-- Penutup -->
         <div class="bg-red-50 rounded-lg p-6 border border-red-200">
           <p class="text-gray-700 leading-relaxed">
-            Sejarah Desa Pacing merupakan warisan berharga yang harus dijaga dan
-            dilestarikan. Melalui pemahaman akan sejarah desa, diharapkan
-            generasi muda dapat lebih menghargai dan menjaga nilai-nilai luhur
-            yang telah diwariskan oleh para pendahulu, serta terus berkontribusi
-            dalam pembangunan desa yang berkelanjutan.
+            <?= nl2br($penutup['konten'] ?? '-') ?>
           </p>
         </div>
       </div>

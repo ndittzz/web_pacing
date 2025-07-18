@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Jul 2025 pada 11.45
+-- Waktu pembuatan: 18 Jul 2025 pada 18.35
 -- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Versi PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -52,8 +52,8 @@ CREATE TABLE `berita` (
   `judul` varchar(255) NOT NULL,
   `deskripsi` text NOT NULL,
   `gambar` varchar(255) DEFAULT NULL,
-  `tanggal` datetime NOT NULL DEFAULT current_timestamp(),
-  `penulis` varchar(100) NOT NULL DEFAULT 'Admin'
+  `tanggal` datetime DEFAULT current_timestamp(),
+  `penulis` varchar(100) DEFAULT 'Admin'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -61,7 +61,7 @@ CREATE TABLE `berita` (
 --
 
 INSERT INTO `berita` (`id`, `judul`, `deskripsi`, `gambar`, `tanggal`, `penulis`) VALUES
-(2, 'tes', 'tes', '1752831403_Kucing-Domestik-1.jpg', '2025-07-18 16:36:43', 'admin');
+(6, 'banjir', 'banjir', '1752849069_Screenshot (871).png', '2025-07-18 21:31:09', 'delphi');
 
 -- --------------------------------------------------------
 
@@ -87,33 +87,6 @@ INSERT INTO `galeri` (`id_galeri`, `judul`, `deskripsi`, `gambar`, `tanggal`) VA
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pejabat`
---
-
-CREATE TABLE `pejabat` (
-  `id` int(11) NOT NULL,
-  `nama` varchar(100) NOT NULL,
-  `gambar` varchar(255) DEFAULT NULL,
-  `tempat_lahir` varchar(100) NOT NULL,
-  `tanggal_lahir` date NOT NULL,
-  `jabatan` varchar(100) NOT NULL,
-  `periode` varchar(20) NOT NULL,
-  `kategori` varchar(50) NOT NULL,
-  `riwayat_pendidikan` text DEFAULT NULL,
-  `riwayat_jabatan` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `pejabat`
---
-
-INSERT INTO `pejabat` (`id`, `nama`, `gambar`, `tempat_lahir`, `tanggal_lahir`, `jabatan`, `periode`, `kategori`, `riwayat_pendidikan`, `riwayat_jabatan`) VALUES
-(1, 'Budi Santoso', 'slider1.jpg', 'Klaten', '1988-11-26', 'Kepala Desa', '2020-2026', 'Perangkat Desa', 'SMA Negeri 2 Klaten (2003–2006)\r\nSI Universitas Atmajaya Yogyakarta (2006–2011)', 'Anggota DPRD Kabupaten Klaten (2014–2019)\r\nKetua DPRD Kabupaten Klaten (2019–2024)'),
-(2, 'Siti Aminah', 'slider1.jpg', 'Klaten', '1990-03-15', 'Ketua BPD', '2021-2027', 'BPD', 'SMA Negeri 1 Klaten (2005–2008)\nS1 Universitas Gadjah Mada (2008–2012)', 'Sekretaris BPD (2015–2021)\nKetua BPD (2021–2027)');
-
--- --------------------------------------------------------
-
---
 -- Struktur dari tabel `potensi`
 --
 
@@ -132,7 +105,54 @@ CREATE TABLE `potensi` (
 
 INSERT INTO `potensi` (`id`, `judul`, `deskripsi`, `gambar`, `tanggal`, `penulis`) VALUES
 (5, 'Tes Potensi 1', 'Ini potensi pertama', 'potensi_1752742993.png', '2025-07-17 15:48:25', 'Leon'),
-(8, 'Potensi Pertanian Desa Pacing ', 'Desa Pacing merupakan salah satu desa di kabupaten Klaten yang memiliki potensi dibagian pertanian.  Sebagian besar wilayah di desa Pacing merupakan sawah , hal ini sejajar dengan kondisi penduduk di desa ini yang mayoritas bermata pencaharian sebagai petani', 'potensi_1752746276.jpg', '2025-07-17 16:57:56', 'Tim Pengembang Website');
+(8, 'Potensi Pertanian Desa Pacing ', 'Desa Pacing merupakan salah satu desa di kabupaten Klaten yang memiliki potensi dibagian pertanian.  Sebagian besar wilayah di desa Pacing merupakan sawah , hal ini sejajar dengan kondisi penduduk di desa ini yang mayoritas bermata pencaharian sebagai petani', 'potensi_1752746276.jpg', '2025-07-17 16:57:56', 'Tim Pengembang Website'),
+(10, 'gatau', 'keren', 'potensi_1752813079.png', '2025-07-18 11:31:19', 'delphi');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `sejarah_desa`
+--
+
+CREATE TABLE `sejarah_desa` (
+  `id` int(11) NOT NULL,
+  `bagian` enum('legenda','sejarah_umum','penutup') NOT NULL,
+  `konten` text NOT NULL,
+  `gambar` varchar(255) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `sejarah_desa`
+--
+
+INSERT INTO `sejarah_desa` (`id`, `bagian`, `konten`, `gambar`, `updated_at`) VALUES
+(1, 'legenda', '<p>fak</p>', 'legenda_1752855018.png', '2025-07-18 16:10:18'),
+(2, 'sejarah_umum', '<p>bebas</p>', NULL, '2025-07-18 16:13:40'),
+(3, 'penutup', '<p>tutup</p><p><br></p>', NULL, '2025-07-18 16:16:46');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tokoh_sejarah`
+--
+
+CREATE TABLE `tokoh_sejarah` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `alamat` varchar(100) DEFAULT NULL,
+  `periode` varchar(50) DEFAULT NULL,
+  `keterangan` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tokoh_sejarah`
+--
+
+INSERT INTO `tokoh_sejarah` (`id`, `nama`, `alamat`, `periode`, `keterangan`, `created_at`, `updated_at`) VALUES
+(2, 'Shah Delphi Muhammad', 'Klaten', '2020 - 2025', 'pp', '2025-07-18 16:25:49', '2025-07-18 16:25:49');
 
 -- --------------------------------------------------------
 
@@ -176,15 +196,21 @@ ALTER TABLE `galeri`
   ADD PRIMARY KEY (`id_galeri`);
 
 --
--- Indeks untuk tabel `pejabat`
---
-ALTER TABLE `pejabat`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indeks untuk tabel `potensi`
 --
 ALTER TABLE `potensi`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `sejarah_desa`
+--
+ALTER TABLE `sejarah_desa`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `tokoh_sejarah`
+--
+ALTER TABLE `tokoh_sejarah`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -207,7 +233,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT untuk tabel `berita`
 --
 ALTER TABLE `berita`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `galeri`
@@ -216,16 +242,22 @@ ALTER TABLE `galeri`
   MODIFY `id_galeri` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `pejabat`
---
-ALTER TABLE `pejabat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT untuk tabel `potensi`
 --
 ALTER TABLE `potensi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT untuk tabel `sejarah_desa`
+--
+ALTER TABLE `sejarah_desa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `tokoh_sejarah`
+--
+ALTER TABLE `tokoh_sejarah`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `visimisi`

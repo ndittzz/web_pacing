@@ -5,6 +5,22 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     header("Location: ../admin/login.php?pesan=belum_login");
     exit();
 }
+include '../php/db.php';
+
+// Proses insert
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nama = mysqli_real_escape_string($konek, $_POST['nama']);
+    $alamat = mysqli_real_escape_string($konek, $_POST['alamat']);
+    $periode = mysqli_real_escape_string($konek, $_POST['periode']);
+    $keterangan = mysqli_real_escape_string($konek, $_POST['keterangan']);
+    if ($nama && $alamat && $periode) {
+        mysqli_query($konek, "INSERT INTO tokoh_sejarah (nama, alamat, periode, keterangan) VALUES ('$nama', '$alamat', '$periode', '$keterangan')");
+        header('Location: sejarah.php');
+        exit();
+    } else {
+        $error = "Semua field wajib diisi kecuali keterangan.";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -12,19 +28,10 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tambah Kepala Desa - Desa Pacing</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
-    <link
-      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
   </head>
   <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -44,24 +51,13 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
 
       <!-- Sidebar -->
       <aside class="main-sidebar sidebar-red elevation-4">
-        <!-- Brand Logo -->
         <a href="../index.php" class="brand-link">
-          <img
-            src="../assets/klaten.jpg"
-            alt="Logo"
-            class="brand-image img-circle elevation-3"
-            style="opacity: 0.8"
-          />
+          <img src="../assets/klaten.jpg" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
           <span class="brand-text font-weight-light">Desa Pacing</span>
         </a>
         <div class="sidebar">
           <nav class="mt-2">
-            <ul
-              class="nav nav-pills nav-sidebar flex-column"
-              data-widget="treeview"
-              role="menu"
-              data-accordion="false"
-            >
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-item">
                 <a href="dashboard.php" class="nav-link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -161,49 +157,25 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form action="proses_tambah_kepaladesa.php" method="POST">
+                <?php if (!empty($error)) { ?>
+                  <div class="alert alert-danger"><?= $error ?></div>
+                <?php } ?>
+                <form method="POST">
                   <div class="form-group">
                     <label for="nama">Nama</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="nama"
-                      name="nama"
-                      placeholder="Masukkan nama kepala desa"
-                      required
-                    />
+                    <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama kepala desa" required />
                   </div>
                   <div class="form-group">
                     <label for="alamat">Alamat</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="alamat"
-                      name="alamat"
-                      placeholder="Masukkan alamat"
-                      required
-                    />
+                    <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan alamat" required />
                   </div>
                   <div class="form-group">
                     <label for="periode">Periode</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="periode"
-                      name="periode"
-                      placeholder="Contoh: 2010 - 2015"
-                      required
-                    />
+                    <input type="text" class="form-control" id="periode" name="periode" placeholder="Contoh: 2010 - 2015" required />
                   </div>
                   <div class="form-group">
                     <label for="keterangan">Keterangan</label>
-                    <textarea
-                      class="form-control"
-                      id="keterangan"
-                      name="keterangan"
-                      rows="3"
-                      placeholder="Tambahkan keterangan (opsional)"
-                    ></textarea>
+                    <textarea class="form-control" id="keterangan" name="keterangan" rows="3" placeholder="Tambahkan keterangan (opsional)"></textarea>
                   </div>
                   <button type="submit" class="btn btn-success">
                     <i class="fas fa-save"></i> Simpan
