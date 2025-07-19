@@ -5,6 +5,26 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     header("Location: ../admin/login.php?pesan=belum_login");
     exit();
 }
+include '../php/db.php';
+$error = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $kategori = $konek->real_escape_string($_POST['kategori']);
+    $total = intval($_POST['total']);
+
+    // Validasi sederhana
+    if ($kategori === '' || $total < 0) {
+        $error = "Kategori dan pendidikan penduduk wajib diisi dengan benar.";
+    } else {
+        $sql = "INSERT INTO penduduk_pendidikan (kategori, total) VALUES ('$kategori', '$total')";
+        if ($konek->query($sql)) {
+            header('Location: penduduk.php');
+            exit();
+        } else {
+            $error = 'Gagal menyimpan data: ' . $konek->error;
+        }
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -152,19 +172,22 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <?php if ($error) echo '<div class="alert alert-danger">'.$error.'</div>'; ?>
+                <form method="post" action="edu_penduduk_create.php">
                   <div class="form-group">
                     <label>Tingkat Pendidikan</label>
-                    <select class="form-control" id="tingkat-pendidikan">
+                    <select class="form-control" id="tingkat-pendidikan" name="kategori">
                       <option value="">Pilih Tingkat Pendidikan</option>
-                      <option value="tidak-sekolah">Tidak Sekolah</option>
-                      <option value="sd-sederajat">SD/Sederajat</option>
-                      <option value="smp-sederajat">SMP/Sederajat</option>
-                      <option value="sma-sederajat">SMA/Sederajat</option>
-                      <option value="diploma-sarjana">Diploma/Sarjana</option>
+                      <option value="Tidak Sekolah">Tidak Sekolah</option>
+                      <option value="Taman Kanak-Kanak">Taman Kanak-Kanak</option>
+                      <option value="SD/Sederajat">SD/Sederajat</option>
+                      <option value="SMP/Sederajat">SMP/Sederajat</option>
+                      <option value="SMA/Sederajat">SMA/Sederajat</option>
+                      <option value="Akademi (D1 - D3)">Akademi (D1 - D3)</option>
+                      <option value="Sarjana (S1 - S3)">Sarjana (S1 - S3)</option>
                     </select>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label>Laki-laki</label>
                     <input
                       type="number"
@@ -185,17 +208,15 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
                       min="0"
                       value="0"
                     />
-                  </div>
+                  </div> -->
                   <div class="form-group">
                     <label>Total Penduduk</label>
                     <input
                       type="number"
                       id="total"
+                      name="total"
                       class="form-control"
-                      placeholder="Total akan dihitung otomatis"
-                      readonly
-                      style="background-color: #f8f9fa; font-weight: bold;"
-                      value="0"
+                      placeholder="Total"
                     />
                   </div>
                   
@@ -220,7 +241,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
     
-    <script>
+    <!-- <script>
       // Fungsi untuk menghitung total otomatis
       function hitungTotal() {
         const lakiLaki = parseInt(document.getElementById('laki-laki').value) || 0;
@@ -238,6 +259,6 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
       
       // Hitung total saat halaman dimuat
       document.addEventListener('DOMContentLoaded', hitungTotal);
-    </script>
+    </script> -->
   </body>
 </html>

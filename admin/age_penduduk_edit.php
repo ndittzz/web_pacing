@@ -5,6 +5,33 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     header("Location: ../admin/login.php?pesan=belum_login");
     exit();
 }
+include '../php/db.php';
+$error = null;
+if (!isset($_GET['id'])) {
+    header('Location: penduduk.php');
+    exit();
+}
+$id = intval($_GET['id']);
+
+// Ambil data lama
+$result = $konek->query("SELECT * FROM penduduk_usia WHERE id=$id");
+if (!$result || $result->num_rows == 0) {
+    echo '<div class="alert alert-danger">Data tidak ditemukan.</div>';
+    exit();
+}
+$data = $result->fetch_assoc();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $kategori = $_POST['kategori'];
+    $total = $_POST['total'];
+
+    $sql = "UPDATE penduduk_usia SET kategori='$kategori', total='$total' WHERE id=$id";
+    if ($konek->query($sql)) {
+        header('Location: penduduk.php');
+        exit();
+    } else {
+        $error = 'Gagal mengupdate data: ' . $konek->error;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -152,51 +179,29 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <form method="post" action="age_penduduk_edit.php?id=<?= $id ?>">
                   <div class="form-group">
                     <label>Kategori Usia</label>
-                    <select class="form-control" id="kategori-usia">
+                    <select class="form-control" id="kategori-usia" name="kategori">
                       <option value="">Pilih Kategori Usia</option>
-                      <option value="0-4">0-4 tahun</option>
-                      <option value="5-9">5-9 tahun</option>
-                      <option value="10-14">10-14 tahun</option>
-                      <option value="15-19">15-19 tahun</option>
-                      <option value="20-59">20-59 tahun</option>
-                      <option value="60+">60+ tahun</option>
+                      <?php
+                        $options = ['0-3', '4-6', '7-12', '13-15', '16-18', '19+'];
+                        foreach ($options as $opt) {
+                          $selected = ($data['kategori'] == $opt) ? 'selected' : '';
+                          echo "<option value='$opt' $selected>$opt tahun</option>";
+                        }
+                      ?>
                     </select>
                   </div>
-                  <div class="form-group">
-                    <label>Laki-laki</label>
-                    <input
-                      type="number"
-                      id="laki-laki"
-                      class="form-control"
-                      placeholder="Masukkan jumlah laki-laki"
-                      min="0"
-                      value="0"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label>Perempuan</label>
-                    <input 
-                      type="number" 
-                      id="perempuan"
-                      class="form-control" 
-                      placeholder="Masukkan jumlah perempuan"
-                      min="0"
-                      value="0"
-                    />
-                  </div>
+                
                   <div class="form-group">
                     <label>Total Penduduk</label>
                     <input
                       type="number"
-                      id="total"
+                      name="total"
                       class="form-control"
-                      placeholder="Total akan dihitung otomatis"
-                      readonly
-                      style="background-color: #f8f9fa; font-weight: bold;"
-                      value="0"
+                      value="<?= $data['total']; ?>"
+                      placeholder="Total"
                     />
                   </div>
                   
@@ -221,7 +226,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
     
-    <script>
+    <!-- <script>
       // Fungsi untuk menghitung total otomatis
       function hitungTotal() {
         const lakiLaki = parseInt(document.getElementById('laki-laki').value) || 0;
@@ -239,6 +244,6 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
       
       // Hitung total saat halaman dimuat
       document.addEventListener('DOMContentLoaded', hitungTotal);
-    </script>
+    </script> -->
   </body>
 </html>

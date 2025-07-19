@@ -5,6 +5,12 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     header("Location: ../admin/login.php?pesan=belum_login");
     exit();
 }
+include '../php/db.php';
+$result = $konek->query(query: "SELECT * FROM penduduk_kelamin");
+$result2 = $konek->query(query: "SELECT * FROM penduduk_usia ORDER BY id ASC");
+$result3 = $konek->query(query: "SELECT * FROM penduduk_pekerjaan ORDER BY id ASC");
+$result4 = $konek->query(query: "SELECT * FROM penduduk_pendidikan ORDER BY id ASC");
+
 ?>
 <!-- admin/penduduk.php - Dashboard Manajemen Data Penduduk -->
 <!DOCTYPE html>
@@ -193,26 +199,30 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
                   <thead>
                     <tr>
                       <th>No</th>
-                      <th>Kategori</th>
                       <th>Laki-laki</th>
                       <th>Perempuan</th>
                       <th>Total</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
-                  <tbody>
+                 <tbody>
+                  <?php 
+                    $no = 1; // Ditaruh di sini, sebelum loop
+                    while ($row = $result->fetch_assoc()): 
+                  ?>
                     <tr>
-                      <td>1</td>
-                      <td>Total Penduduk</td>
-                      <td>125</td>
-                      <td>135</td>
-                      <td>260</td>
+                      <td><?php echo $no++; ?></td>
+                      <td><?php echo $row['laki_laki']; ?></td>
+                      <td><?php echo $row['perempuan']; ?></td>
+                      <td><?php echo $row['total']; ?></td>
                       <td>
-                        <a href="gender_penduduk_create.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="Total Penduduk" data-table="gender"><i class="fas fa-trash"></i></button>
+                        <a href="gender_penduduk_edit.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                        <a href="../php/gender_delete.php?delete=<?php echo $row['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus data?')"><i class="fas fa-trash"></i></a>
                       </td>
                     </tr>
-                  </tbody>
+                  <?php endwhile; ?>
+                </tbody>
+
                 </table>
               </div>
             </div>
@@ -235,80 +245,35 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
                     <tr>
                       <th>No</th>
                       <th>Kategori Usia</th>
-                      <th>Laki-laki</th>
-                      <th>Perempuan</th>
                       <th>Total</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>0-4 tahun</td>
-                      <td>15</td>
-                      <td>12</td>
-                      <td>27</td>
-                      <td>
-                        <a href="age_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="0-4 tahun" data-table="age"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>5-9 tahun</td>
-                      <td>18</td>
-                      <td>16</td>
-                      <td>34</td>
-                      <td>
-                        <a href="age_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="5-9 tahun" data-table="age"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>10-14 tahun</td>
-                      <td>20</td>
-                      <td>18</td>
-                      <td>38</td>
-                      <td>
-                        <a href="age_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="10-14 tahun" data-table="age"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>15-19 tahun</td>
-                      <td>22</td>
-                      <td>25</td>
-                      <td>47</td>
-                      <td>
-                        <a href="age_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="15-19 tahun" data-table="age"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>5</td>
-                      <td>20-59 tahun</td>
-                      <td>35</td>
-                      <td>45</td>
-                      <td>80</td>
-                      <td>
-                        <a href="age_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="20-59 tahun" data-table="age"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>6</td>
-                      <td>60+ tahun</td>
-                      <td>15</td>
-                      <td>19</td>
-                      <td>34</td>
-                      <td>
-                        <a href="age_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="60+ tahun" data-table="age"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                  </tbody>
+                    <tbody>
+                      <?php 
+                      $no = 1;
+                      while ($row = $result2->fetch_assoc()): ?>
+                        <tr>
+                          <td><?= $no++; ?></td>
+                          <td><?= htmlspecialchars($row['kategori']); ?> tahun</td>
+                          <td><?= $row['total']; ?></td>
+                          <td>
+                            <a href="age_penduduk_edit.php?id=<?= $row['id']; ?>" class="btn btn-warning btn-sm">
+                              <i class="fas fa-edit"></i>
+                            </a>
+                            <a 
+                              href="../php/age_delete.php?id=<?= $row['id']; ?>" 
+                              class="btn btn-danger btn-sm"
+                              onclick="return confirm('Yakin ingin menghapus data ini?')"
+                            >
+                              <i class="fas fa-trash"></i>
+                            </a>
+
+                          </td>
+                        </tr>
+                      <?php endwhile; ?>
+                    </tbody>
+
                 </table>
               </div>
             </div>
@@ -331,69 +296,34 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
                     <tr>
                       <th>No</th>
                       <th>Tingkat Pendidikan</th>
-                      <th>Laki-laki</th>
-                      <th>Perempuan</th>
                       <th>Total</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Tidak Sekolah</td>
-                      <td>8</td>
-                      <td>12</td>
-                      <td>20</td>
-                      <td>
-                        <a href="edu_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="Tidak Sekolah" data-table="education"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>SD/Sederajat</td>
-                      <td>35</td>
-                      <td>40</td>
-                      <td>75</td>
-                      <td>
-                        <a href="edu_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="SD/Sederajat" data-table="education"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>SMP/Sederajat</td>
-                      <td>28</td>
-                      <td>32</td>
-                      <td>60</td>
-                      <td>
-                        <a href="edu_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="SMP/Sederajat" data-table="education"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>SMA/Sederajat</td>
-                      <td>42</td>
-                      <td>38</td>
-                      <td>80</td>
-                      <td>
-                        <a href="edu_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="SMA/Sederajat" data-table="education"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>5</td>
-                      <td>Diploma/Sarjana</td>
-                      <td>12</td>
-                      <td>13</td>
-                      <td>25</td>
-                      <td>
-                        <a href="edu_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="Diploma/Sarjana" data-table="education"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                  </tbody>
+                      <?php 
+                      $no = 1;
+                      while ($row = $result4->fetch_assoc()): ?>
+                        <tr>
+                          <td><?= $no++; ?></td>
+                          <td><?= htmlspecialchars($row['kategori']); ?></td>
+                          <td><?= $row['total']; ?></td>
+                          <td>
+                            <a href="edu_penduduk_edit.php?id=<?= $row['id']; ?>" class="btn btn-warning btn-sm">
+                              <i class="fas fa-edit"></i>
+                            </a>
+                            <a 
+                              href="../php/edu_delete.php?id=<?= $row['id']; ?>" 
+                              class="btn btn-danger btn-sm"
+                              onclick="return confirm('Yakin ingin menghapus data ini?')"
+                            >
+                              <i class="fas fa-trash"></i>
+                            </a>
+
+                          </td>
+                        </tr>
+                      <?php endwhile; ?>
+                    </tbody>
                 </table>
               </div>
             </div>
@@ -416,80 +346,34 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
                     <tr>
                       <th>No</th>
                       <th>Jenis Pekerjaan</th>
-                      <th>Laki-laki</th>
-                      <th>Perempuan</th>
                       <th>Total</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Petani</td>
-                      <td>45</td>
-                      <td>25</td>
-                      <td>70</td>
-                      <td>
-                        <a href="job_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="Petani" data-table="job"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Buruh</td>
-                      <td>20</td>
-                      <td>15</td>
-                      <td>35</td>
-                      <td>
-                        <a href="job_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="Buruh" data-table="job"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Pedagang</td>
-                      <td>15</td>
-                      <td>20</td>
-                      <td>35</td>
-                      <td>
-                        <a href="job_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="Pedagang" data-table="job"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>PNS</td>
-                      <td>8</td>
-                      <td>12</td>
-                      <td>20</td>
-                      <td>
-                        <a href="job_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="PNS" data-table="job"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>5</td>
-                      <td>Swasta</td>
-                      <td>18</td>
-                      <td>22</td>
-                      <td>40</td>
-                      <td>
-                        <a href="job_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="Swasta" data-table="job"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>6</td>
-                      <td>Tidak Bekerja</td>
-                      <td>19</td>
-                      <td>41</td>
-                      <td>60</td>
-                      <td>
-                        <a href="job_penduduk_edit.php" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-danger btn-sm delete-btn" data-category="Tidak Bekerja" data-table="job"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                  </tbody>
+                      <?php 
+                      $no = 1;
+                      while ($row = $result3->fetch_assoc()): ?>
+                        <tr>
+                          <td><?= $no++; ?></td>
+                          <td><?= htmlspecialchars($row['kategori']); ?> </td>
+                          <td><?= $row['total']; ?></td>
+                          <td>
+                            <a href="job_penduduk_edit.php?id=<?= $row['id']; ?>" class="btn btn-warning btn-sm">
+                              <i class="fas fa-edit"></i>
+                            </a>
+                            <a 
+                              href="../php/job_delete.php?id=<?= $row['id']; ?>" 
+                              class="btn btn-danger btn-sm"
+                              onclick="return confirm('Yakin ingin menghapus data ini?')"
+                            >
+                              <i class="fas fa-trash"></i>
+                            </a>
+
+                          </td>
+                        </tr>
+                      <?php endwhile; ?>
+                    </tbody>
                 </table>
               </div>
             </div>
@@ -503,7 +387,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
       </footer>
     </div>
 
-    <!-- Delete Confirmation Modal -->
+    <!-- Delete Confirmation Modal
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -532,9 +416,9 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <!-- Success Alert Modal -->
+    <!-- Success Alert Modal
     <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -558,55 +442,12 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
     
-    <script>
-      $(document).ready(function() {
-        let currentDeleteRow = null;
-        
-        // Handle delete button click
-        $('.delete-btn').click(function() {
-          const category = $(this).data('category');
-          const table = $(this).data('table');
-          currentDeleteRow = $(this).closest('tr');
-          
-          // Set the item name in the modal
-          $('#deleteItemName').text(category);
-          
-          // Show the delete confirmation modal
-          $('#deleteModal').modal('show');
-        });
-        
-        // Handle confirm delete button click
-        $('#confirmDeleteBtn').click(function() {
-          // Hide the delete modal
-          $('#deleteModal').modal('hide');
-          
-          // Simulate deletion with a delay
-          setTimeout(function() {
-            // Remove the row from the table
-            if (currentDeleteRow) {
-              currentDeleteRow.fadeOut(300, function() {
-                $(this).remove();
-                
-                // Show success modal
-                $('#successModal').modal('show');
-              });
-            }
-          }, 300);
-        });
-        
-        // Auto-hide success modal after 2 seconds
-        $('#successModal').on('shown.bs.modal', function () {
-          setTimeout(function() {
-            $('#successModal').modal('hide');
-          }, 2000);
-        });
-      });
-    </script>
+
   </body>
 </html>

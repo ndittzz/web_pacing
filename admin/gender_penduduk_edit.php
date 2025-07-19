@@ -5,6 +5,34 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     header("Location: ../admin/login.php?pesan=belum_login");
     exit();
 }
+include '../php/db.php';
+$error = null;
+if (!isset($_GET['id'])) {
+    header('Location: penduduk.php');
+    exit();
+}
+$id = intval($_GET['id']);
+
+// Ambil data lama
+$result = $konek->query("SELECT * FROM penduduk_kelamin WHERE id=$id");
+if (!$result || $result->num_rows == 0) {
+    echo '<div class="alert alert-danger">Data tidak ditemukan.</div>';
+    exit();
+}
+$data = $result->fetch_assoc();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $laki_laki = $konek->real_escape_string($_POST['laki_laki']);
+    $perempuan = $konek->real_escape_string($_POST['perempuan']);
+    $total = $konek->real_escape_string($_POST['total']);
+
+    $sql = "UPDATE penduduk_kelamin SET laki_laki='$laki_laki', perempuan='$perempuan', total='$total' WHERE id=$id";
+    if ($konek->query($sql)) {
+        header('Location: penduduk.php');
+        exit();
+    } else {
+        $error = 'Gagal mengupdate data: ' . $konek->error;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -151,30 +179,44 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <form method="POST" action="gender_penduduk_edit.php?id=<?php echo $id; ?>">
                   <div class="form-group">
                     <label>Laki-laki</label>
                     <input
                       type="number"
+                      name="laki_laki"
                       id="laki-laki"
                       class="form-control"
                       placeholder="Masukkan jumlah laki-laki"
                       min="0"
-                      value="0"
+                      value="<?php echo htmlspecialchars($data['laki_laki']); ?>"
                     />
                   </div>
                   <div class="form-group">
                     <label>Perempuan</label>
-                    <input 
-                      type="number" 
+                    <input
+                      type="number"
+                      name="perempuan"
                       id="perempuan"
-                      class="form-control" 
+                      class="form-control"
                       placeholder="Masukkan jumlah perempuan"
                       min="0"
-                      value="0"
+                      value="<?php echo htmlspecialchars($data['perempuan']); ?>"
                     />
                   </div>
                   <div class="form-group">
+                    <label>Total Penduduk</label>
+                    <input
+                      type="number"
+                      name="total"
+                      id="total"
+                      class="form-control"
+                      placeholder="Total akan dihitung otomatis"
+                      value="0"
+                      readonly
+                    />
+                  </div>
+                  <!-- <div class="form-group">
                     <label>Total Penduduk</label>
                     <input
                       type="number"
@@ -185,7 +227,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
                       style="background-color: #f8f9fa; font-weight: bold;"
                       value="0"
                     />
-                  </div>
+                  </div> -->
                   <button type="submit" class="btn btn-primary">Simpan</button>
                   <a href="penduduk.php" class="btn btn-secondary">Kembali</a>
                 </form>

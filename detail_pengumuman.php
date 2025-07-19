@@ -388,17 +388,13 @@
 
       <!-- Tombol Download -->
       <div class="mb-6">
-        <a
-          href="files/pengumuman-komisaris.pdf"
-          class="inline-flex items-center px-4 py-2 bg-red-700 text-white rounded hover:bg-red-900 text-sm"
-          download
-        >
-          <i class="fas fa-download mr-2"></i> Download Pengumuman
+        <a href="pengumuman.php" class="inline-flex items-center px-4 py-2 bg-red-700 text-white rounded hover:bg-red-900 text-sm">
+          <i class="fas fa-arrow-left mr-2"></i> Kembali ke Pengumuman
         </a>
       </div>
 
       <!-- Preview PDF -->
-      <div class="mb-8">
+      <!-- <div class="mb-8">
         <h2 class="text-lg font-semibold text-red-800 mb-2">
           Pratinjau File Pengumuman
         </h2>
@@ -409,7 +405,7 @@
             frameborder="0"
           ></iframe>
         </div>
-      </div>
+      </div> -->
     </main>
 
     <!-- Footer -->

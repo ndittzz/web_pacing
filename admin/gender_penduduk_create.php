@@ -5,6 +5,21 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     header("Location: ../admin/login.php?pesan=belum_login");
     exit();
 }
+include '../php/db.php';
+$error = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $laki_laki = $konek->real_escape_string($_POST['laki-laki']);
+    $perempuan = $konek->real_escape_string($_POST['perempuan']);
+
+    $total = $laki_laki + $perempuan;
+    $sql = "INSERT INTO penduduk_kelamin (laki_laki, perempuan, total) VALUES ('$laki_laki', '$perempuan', '$total')";
+    if ($konek->query($sql)) {
+        header('Location: penduduk.php');
+        exit();
+    } else {
+        $error = 'Gagal menyimpan data: ' . $konek->error;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -151,11 +166,13 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <?php if ($error) echo '<div class="alert alert-danger">'.$error.'</div>'; ?>
+                <form method="POST" action="gender_penduduk_create.php">
                   <div class="form-group">
                     <label>Laki-laki</label>
                     <input
                       type="number"
+                      name="laki-laki"
                       id="laki-laki"
                       class="form-control"
                       placeholder="Masukkan jumlah laki-laki"
@@ -165,8 +182,9 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
                   </div>
                   <div class="form-group">
                     <label>Perempuan</label>
-                    <input 
-                      type="number" 
+                    <input
+                      type="number"
+                      name="perempuan"
                       id="perempuan"
                       class="form-control" 
                       placeholder="Masukkan jumlah perempuan"

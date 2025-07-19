@@ -1,3 +1,76 @@
+<?php
+include 'php/db.php';
+
+// Gender
+$gender = $konek->query("SELECT * FROM penduduk_kelamin")->fetch_assoc();
+$dataGender = [$gender['laki_laki'], $gender['perempuan']];
+$totalPenduduk = $gender['laki_laki'] + $gender['perempuan'];
+
+// Usia
+$usia = $konek->query("SELECT * FROM penduduk_usia ORDER BY id ASC");
+$dataUsia = [];
+$labelUsia = [];
+$dewasa19Plus = 0;
+
+while ($row = $usia->fetch_assoc()) {
+  $labelUsia[] = $row['kategori'];
+  $dataUsia[] = $row['total'];
+
+  // Cek jika kategori adalah 19+
+  if ($row['kategori'] == '19+') {
+    $dewasa19Plus = $row['total'];
+  }
+}
+
+// Pekerjaan
+$pekerjaan = $konek->query("SELECT * FROM penduduk_pekerjaan ORDER BY id ASC");
+$dataPekerjaan = [];
+$labelPekerjaan = [];
+while ($row = $pekerjaan->fetch_assoc()) {
+  $labelPekerjaan[] = $row['kategori'];
+  $dataPekerjaan[] = $row['total'];
+}
+
+// Pendidikan
+$pendidikan = $konek->query("SELECT * FROM penduduk_pendidikan ORDER BY id ASC");
+$dataPendidikan = [];
+$labelPendidikan = [];
+while ($row = $pendidikan->fetch_assoc()) {
+  $labelPendidikan[] = $row['kategori'];
+  $dataPendidikan[] = $row['total'];
+}
+
+// Hitung anak-anak (0-18)
+$anakAnak = 0;
+foreach ($labelUsia as $index => $kategori) {
+  // Pisahkan batas usia (misal: "4-6")
+  if ($kategori !== '19+') {
+    $anakAnak += $dataUsia[$index];
+  }
+}
+
+// Hitung persentase
+$persenLaki = round($gender['laki_laki'] / $totalPenduduk * 100, 1);
+$persenPerempuan = round($gender['perempuan'] / $totalPenduduk * 100, 1);
+$persenAnak = round($anakAnak / $totalPenduduk * 100, 1);
+$persenDewasa = round($dewasa19Plus / $totalPenduduk * 100, 1);
+
+// Pekerjaan terbanyak
+$maxPekerjaan = max($dataPekerjaan);
+$indexPekerjaan = array_search($maxPekerjaan, $dataPekerjaan);
+$pekerjaanTerbanyak = $labelPekerjaan[$indexPekerjaan];
+
+// Pendidikan terbanyak
+$maxPendidikan = max($dataPendidikan);
+$indexPendidikan = array_search($maxPendidikan, $dataPendidikan);
+$pendidikanTerbanyak = $labelPendidikan[$indexPendidikan];
+
+// Rasio gender
+$rasioGender = round($gender['laki_laki'] / $gender['perempuan'] * 100);
+?>
+
+
+
 <html class="scroll-smooth" lang="id">
   <head>
     <meta charset="utf-8" />
@@ -357,7 +430,7 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm opacity-90">Total Penduduk</p>
-                <p class="text-2xl font-bold" id="totalPenduduk">2,991</p>
+                <p class="text-2xl font-bold" id="totalPenduduk"><?php echo number_format($totalPenduduk, 0, ',', '.'); ?></p>
               </div>
               <i class="fas fa-users text-2xl opacity-80"></i>
             </div>
@@ -368,29 +441,35 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm opacity-90">Laki-laki</p>
-                <p class="text-2xl font-bold">1,423</p>
+                <p class="text-2xl font-bold">
+                  <?php echo number_format($gender['laki_laki'], 0, ',', '.'); ?>
+                </p>
               </div>
               <i class="fas fa-male text-2xl opacity-80"></i>
             </div>
           </div>
+
           <div
             class="bg-gradient-to-r from-pink-500 to-pink-600 text-white p-4 rounded-lg shadow"
           >
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm opacity-90">Perempuan</p>
-                <p class="text-2xl font-bold">1,568</p>
+                <p class="text-2xl font-bold">
+                  <?php echo number_format($gender['perempuan'], 0, ',', '.'); ?>
+                </p>
               </div>
               <i class="fas fa-female text-2xl opacity-80"></i>
             </div>
           </div>
+
           <div
             class="bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-lg shadow"
           >
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm opacity-90">Dewasa (19+)</p>
-                <p class="text-2xl font-bold">1,941</p>
+                <p class="text-2xl font-bold"><?= $dewasa19Plus ?></p>
               </div>
               <i class="fas fa-user-check text-2xl opacity-80"></i>
             </div>
@@ -459,34 +538,36 @@
             <div class="bg-red-700 text-white p-4">
               <h3 class="font-semibold">Ringkasan Data</h3>
             </div>
-            <div class="p-4">
-              <table class="w-full text-sm">
-                <tbody class="divide-y divide-gray-200">
-                  <tr>
-                    <td class="py-2 font-medium">Total Penduduk</td>
-                    <td class="py-2 text-right">2,991 orang</td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 font-medium">Laki-laki</td>
-                    <td class="py-2 text-right">1,423 orang (47.6%)</td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 font-medium">Perempuan</td>
-                    <td class="py-2 text-right">1,568 orang (52.4%)</td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 font-medium">Anak-anak (0-18)</td>
-                    <td class="py-2 text-right">1,050 orang (35.1%)</td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 font-medium">Dewasa (19+)</td>
-                    <td class="py-2 text-right">1,941 orang (64.9%)</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div class="p-4">
+            <table class="w-full text-sm">
+              <tbody class="divide-y divide-gray-200">
+                <tr>
+                  <td class="py-2 font-medium">Total Penduduk</td>
+                  <td class="py-2 text-right"><?= number_format($totalPenduduk, 0, ',', '.') ?> orang</td>
+                </tr>
+                <tr>
+                  <td class="py-2 font-medium">Laki-laki</td>
+                  <td class="py-2 text-right"><?= number_format($gender['laki_laki'], 0, ',', '.') ?> orang (<?= $persenLaki ?>%)</td>
+                </tr>
+                <tr>
+                  <td class="py-2 font-medium">Perempuan</td>
+                  <td class="py-2 text-right"><?= number_format($gender['perempuan'], 0, ',', '.') ?> orang (<?= $persenPerempuan ?>%)</td>
+                </tr>
+                <tr>
+                  <td class="py-2 font-medium">Anak-anak (0-18)</td>
+                  <td class="py-2 text-right"><?= number_format($anakAnak, 0, ',', '.') ?> orang (<?= $persenAnak ?>%)</td>
+                </tr>
+                <tr>
+                  <td class="py-2 font-medium">Dewasa (19+)</td>
+                  <td class="py-2 text-right"><?= number_format($dewasa19Plus, 0, ',', '.') ?> orang (<?= $persenDewasa ?>%)</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+        </div>
 
+
+          <!-- Key Statistics -->
           <!-- Key Statistics -->
           <div class="bg-white border rounded-lg overflow-hidden">
             <div class="bg-red-700 text-white p-4">
@@ -496,37 +577,32 @@
               <div class="space-y-3">
                 <div class="flex justify-between items-center">
                   <span class="text-sm font-medium">Pendidikan Tertinggi</span>
-                  <span
-                    class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded"
-                    >SD (600 orang)</span
-                  >
+                  <span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
+                    <?= $pendidikanTerbanyak ?> (<?= number_format($maxPendidikan, 0, ',', '.') ?> orang)
+                  </span>
                 </div>
                 <div class="flex justify-between items-center">
                   <span class="text-sm font-medium">Pekerjaan Utama</span>
-                  <span
-                    class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded"
-                    >Petani (500 orang)</span
-                  >
+                  <span class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                    <?= $pekerjaanTerbanyak ?> (<?= number_format($maxPekerjaan, 0, ',', '.') ?> orang)
+                  </span>
                 </div>
                 <div class="flex justify-between items-center">
-                  <span class="text-sm font-medium"
-                    >Kelompok Usia Terbanyak</span
-                  >
-                  <span
-                    class="text-sm bg-purple-100 text-purple-800 px-2 py-1 rounded"
-                    >Dewasa 19+ (1,941 orang)</span
-                  >
+                  <span class="text-sm font-medium">Kelompok Usia Terbanyak</span>
+                  <span class="text-sm bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                    Dewasa 19+ (<?= number_format($dewasa19Plus, 0, ',', '.') ?> orang)
+                  </span>
                 </div>
                 <div class="flex justify-between items-center">
                   <span class="text-sm font-medium">Rasio Jenis Kelamin</span>
-                  <span
-                    class="text-sm bg-gray-100 text-gray-800 px-2 py-1 rounded"
-                    >91:100 (L:P)</span
-                  >
+                  <span class="text-sm bg-gray-100 text-gray-800 px-2 py-1 rounded">
+                    <?= $rasioGender ?>:100 (L:P)
+                  </span>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </section>
     </main>
@@ -594,9 +670,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
     <script>
-      // Global chart variables
       let chartGender, chartUsia, chartPendidikan, chartPekerjaan;
 
+      // Global chart variables
+      const dataGender = <?= json_encode($dataGender) ?>;
+      const dataUsia = <?= json_encode($dataUsia) ?>;
+      const labelUsia = <?= json_encode($labelUsia) ?>;
+      const dataPekerjaan = <?= json_encode($dataPekerjaan) ?>;
+      const labelPekerjaan = <?= json_encode($labelPekerjaan) ?>;
+      const dataPendidikan = <?= json_encode($dataPendidikan) ?>;
+      const labelPendidikan = <?= json_encode($labelPendidikan) ?>;
       // Wait for DOM to be fully loaded
       document.addEventListener("DOMContentLoaded", function () {
         // Initialize charts
@@ -611,10 +694,12 @@
 
       function initializeCharts() {
         // Destroy existing charts if they exist
+        // Destroy existing charts if they exist
         if (chartGender) chartGender.destroy();
         if (chartUsia) chartUsia.destroy();
         if (chartPendidikan) chartPendidikan.destroy();
         if (chartPekerjaan) chartPekerjaan.destroy();
+
 
         // Gender Chart
         const ctxGender = document.getElementById("barChartPenduduk");
@@ -626,7 +711,7 @@
               datasets: [
                 {
                   label: "Jumlah Penduduk",
-                  data: [1423, 1568],
+                  data: dataGender,
                   backgroundColor: ["#dc2626", "#f87171"],
                   borderColor: ["#b91c1c", "#ef4444"],
                   borderWidth: 1,
@@ -671,18 +756,11 @@
           chartUsia = new Chart(ctxUsia, {
             type: "bar",
             data: {
-              labels: [
-                "0-3 Tahun",
-                "4-6 Tahun",
-                "7-12 Tahun",
-                "13-15 Tahun",
-                "16-18 Tahun",
-                "19+ Tahun",
-              ],
+              labels: labelUsia,
               datasets: [
                 {
                   label: "Jumlah Penduduk",
-                  data: [320, 280, 600, 450, 400, 1941],
+                  data: dataUsia,
                   backgroundColor: [
                     "#fef3c7",
                     "#fde047",
@@ -741,10 +819,10 @@
           chartPendidikan = new Chart(ctxPendidikan, {
             type: "pie",
             data: {
-              labels: ["TK", "SD", "SMP", "SMA", "D1-D3", "S1-S3"],
+              labels: labelPendidikan,
               datasets: [
                 {
-                  data: [150, 600, 400, 500, 200, 150],
+                  data: dataPendidikan,
                   backgroundColor: [
                     "#ef4444",
                     "#f97316",
@@ -788,22 +866,10 @@
           chartPekerjaan = new Chart(ctxPekerjaan, {
             type: "pie",
             data: {
-              labels: [
-                "Karyawan",
-                "PNS",
-                "ABRI",
-                "Swasta",
-                "Wiraswasta",
-                "Petani",
-                "Pertukangan",
-                "Buruh Tani",
-                "Pensiunan",
-                "Nelayan",
-                "Pemulung",
-              ],
+              labels: labelPekerjaan,
               datasets: [
                 {
-                  data: [400, 120, 50, 200, 300, 500, 80, 150, 60, 90, 20],
+                  data: dataPekerjaan,
                   backgroundColor: [
                     "#ef4444",
                     "#f97316",
@@ -814,8 +880,8 @@
                     "#ec4899",
                     "#14b8a6",
                     "#6366f1",
-                    "#f59e0b",
-                    "#e11d48",
+                    "#10b981", // Emerald — hijau kebiruan terang
+                    "#0ea5e9", // Sky — biru muda cerah   
                   ],
                   borderColor: "#ffffff",
                   borderWidth: 2,

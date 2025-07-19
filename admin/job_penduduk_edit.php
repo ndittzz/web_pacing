@@ -5,6 +5,33 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     header("Location: ../admin/login.php?pesan=belum_login");
     exit();
 }
+include '../php/db.php';
+$error = null;
+if (!isset($_GET['id'])) {
+    header('Location: penduduk.php');
+    exit();
+}
+$id = intval($_GET['id']);
+
+// Ambil data lama
+$result = $konek->query("SELECT * FROM penduduk_pekerjaan WHERE id=$id");
+if (!$result || $result->num_rows == 0) {
+    echo '<div class="alert alert-danger">Data tidak ditemukan.</div>';
+    exit();
+}
+$data = $result->fetch_assoc();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $kategori = $_POST['kategori'];
+    $total = $_POST['total'];
+
+    $sql = "UPDATE penduduk_pekerjaan SET kategori='$kategori', total='$total' WHERE id=$id";
+    if ($konek->query($sql)) {
+        header('Location: penduduk.php');
+        exit();
+    } else {
+        $error = 'Gagal mengupdate data: ' . $konek->error;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -151,51 +178,32 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <form method="post" action="job_penduduk_edit.php?id=<?= $id ?>">
                   <div class="form-group">
                     <label>Jenis Pekerjaan</label>
-                    <select class="form-control" id="jenis-pekerjaan">
-                      <option value="">Pilih Jenis Pekerjaan</option>
-                      <option value="petani">Petani</option>
-                      <option value="buruh">Buruh</option>
-                      <option value="pedagang">Pedagang</option>
-                      <option value="pns">PNS</option>
-                      <option value="swasta">Swasta</option>
-                      <option value="tidak-bekerja">Tidak Bekerja</option>
+                    <select class="form-control" id="kategori-pekerjaan" name="kategori">
+                      <option value="">Pilih Kategori Pekerjaan</option>
+                      <?php
+                          $options = [
+                            "PNS", "ABRI", "Swasta", "Wiraswasta", "Petani", "Buruh Tani",
+                            "Pertukangan", "Pensiunan", "Nelayan", "Pemulung", "Jasa", "Tidak Bekerja"
+                          ];                        
+                          foreach ($options as $opt) {
+                          $selected = ($data['kategori'] == $opt) ? 'selected' : '';
+                          echo "<option value='$opt' $selected>$opt</option>";
+                        }
+                      ?>
                     </select>
                   </div>
-                  <div class="form-group">
-                    <label>Laki-laki</label>
-                    <input
-                      type="number"
-                      id="laki-laki"
-                      class="form-control"
-                      placeholder="Masukkan jumlah laki-laki"
-                      min="0"
-                      value="0"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label>Perempuan</label>
-                    <input 
-                      type="number" 
-                      id="perempuan"
-                      class="form-control" 
-                      placeholder="Masukkan jumlah perempuan"
-                      min="0"
-                      value="0"
-                    />
-                  </div>
+
                   <div class="form-group">
                     <label>Total Penduduk</label>
                     <input
                       type="number"
-                      id="total"
+                      name="total"
                       class="form-control"
-                      placeholder="Total akan dihitung otomatis"
-                      readonly
-                      style="background-color: #f8f9fa; font-weight: bold;"
-                      value="0"
+                      value="<?= $data['total']; ?>"
+                      placeholder="Total"
                     />
                   </div>
                   
@@ -220,7 +228,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
     
-    <script>
+    <!-- <script>
       // Fungsi untuk menghitung total otomatis
       function hitungTotal() {
         const lakiLaki = parseInt(document.getElementById('laki-laki').value) || 0;
@@ -238,6 +246,6 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
       
       // Hitung total saat halaman dimuat
       document.addEventListener('DOMContentLoaded', hitungTotal);
-    </script>
+    </script> -->
   </body>
 </html>

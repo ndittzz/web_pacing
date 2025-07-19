@@ -5,6 +5,26 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     header("Location: ../admin/login.php?pesan=belum_login");
     exit();
 }
+include '../php/db.php';
+$error = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $kategori = $konek->real_escape_string($_POST['kategori']);
+    $total = intval($_POST['total']);
+
+    // Validasi sederhana
+    if ($kategori === '' || $total < 0) {
+        $error = "Kategori dan pekerjaan penduduk wajib diisi dengan benar.";
+    } else {
+        $sql = "INSERT INTO penduduk_pekerjaan (kategori, total) VALUES ('$kategori', '$total')";
+        if ($konek->query($sql)) {
+            header('Location: penduduk.php');
+            exit();
+        } else {
+            $error = 'Gagal menyimpan data: ' . $konek->error;
+        }
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -151,20 +171,27 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
           <div class="container-fluid">
             <div class="card">
               <div class="card-body">
-                <form>
+                <?php if ($error) echo '<div class="alert alert-danger">'.$error.'</div>'; ?>
+                <form method="post" action="job_penduduk_create.php">
                   <div class="form-group">
                     <label>Jenis Pekerjaan</label>
-                    <select class="form-control" id="jenis-pekerjaan">
+                    <select class="form-control" id="jenis-pekerjaan" name="kategori">
                       <option value="">Pilih Jenis Pekerjaan</option>
-                      <option value="petani">Petani</option>
-                      <option value="buruh">Buruh</option>
-                      <option value="pedagang">Pedagang</option>
-                      <option value="pns">PNS</option>
-                      <option value="swasta">Swasta</option>
-                      <option value="tidak-bekerja">Tidak Bekerja</option>
+                      <option value="PNS">PNS</option>
+                      <option value="ABRI">ABRI</option>
+                      <option value="Swasta">Swasta</option>
+                      <option value="Wiraswasta">Wiraswasta</option>
+                      <option value="Petani">Petani</option>
+                      <option value="Buruh Tani">Buruh Tani</option>
+                      <option value="Pertukangan">Pertukangan</option>
+                      <option value="Pensiunan">Pensiunan</option>
+                      <option value="Nelayan">Nelayan</option>
+                      <option value="Pemulung">Pemulung</option>
+                      <option value="Jasa">Jasa</option>
+                      <option value="Tidak Bekerja">Tidak Bekerja</option>
                     </select>
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label>Laki-laki</label>
                     <input
                       type="number"
@@ -185,17 +212,16 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
                       min="0"
                       value="0"
                     />
-                  </div>
+                  </div> -->
                   <div class="form-group">
                     <label>Total Penduduk</label>
                     <input
                       type="number"
                       id="total"
+                      name="total"
                       class="form-control"
-                      placeholder="Total akan dihitung otomatis"
-                      readonly
-                      style="background-color: #f8f9fa; font-weight: bold;"
-                      value="0"
+                      placeholder="Total"
+                      
                     />
                   </div>
                   
@@ -220,7 +246,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
     
-    <script>
+    <!-- <script>
       // Fungsi untuk menghitung total otomatis
       function hitungTotal() {
         const lakiLaki = parseInt(document.getElementById('laki-laki').value) || 0;
@@ -238,6 +264,6 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
       
       // Hitung total saat halaman dimuat
       document.addEventListener('DOMContentLoaded', hitungTotal);
-    </script>
+    </script> -->
   </body>
 </html>
