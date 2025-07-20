@@ -1,8 +1,18 @@
+<?php
+include 'php/db.php';
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$pengumuman = mysqli_fetch_assoc(mysqli_query($konek, "SELECT * FROM pengumuman WHERE id=$id"));
+
+if (!$pengumuman) {
+    header('Location: pengumuman.php');
+    exit();
+}
+?>
 <html class="scroll-smooth" lang="id">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>Pemerintah Desa Pacing</title>
+    <title><?= htmlspecialchars($pengumuman['judul']) ?> - Pemerintah Desa Pacing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -20,6 +30,9 @@
     <style>
       body {
         font-family: "Inter", sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
       }
       /* Custom scrollbar for horizontal scroll containers */
       .scrollbar-hide::-webkit-scrollbar {
@@ -29,6 +42,8 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
+      main { flex: 1; }
+      footer { margin-top: auto; }
     </style>
   </head>
   <body class="bg-white text-black">
@@ -275,7 +290,7 @@
       </div>
     </header>
     <!-- Search bar and category select -->
-    <section class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+    <section class="max-w-[1280px] px-4 sm:px-6 lg:px-8 mt-4">
       <div
         class="flex flex-col sm:flex-row items-center sm:items-stretch gap-3 sm:gap-4"
       >
@@ -318,7 +333,7 @@
     </section>
 
     <!-- Breadcrumb -->
-    <section class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+    <section class="max-w-[1280px] px-4 sm:px-6 lg:px-8 mt-4">
       <nav
         class="flex text-xs sm:text-sm text-gray-600"
         aria-label="Breadcrumb"
@@ -351,43 +366,31 @@
       </nav>
     </section>
 
-    <main class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+    <main class="max-w-[1280px] px-4 sm:px-6 lg:px-8 mt-6 flex-1">
       <!-- Judul -->
       <h1 class="text-2xl font-bold text-red-800 mb-4">
-        Pengumuman Seleksi Calon Anggota Komisaris PT. Aneka Usaha
+        <?= htmlspecialchars($pengumuman['judul']) ?>
       </h1>
 
       <!-- Gambar -->
-      <img
-        src="assets/pengumuman1.jpg"
-        alt="Gambar Pengumuman"
-        class="w-full h-64 object-cover rounded-md mb-4"
-      />
+      <?php if (!empty($pengumuman['gambar'])) { ?>
+        <div class="mb-4">
+          <img src="assets/<?= $pengumuman['gambar'] ?>" alt="Gambar Pengumuman" class="w-full max-w-2xl h-64 object-cover rounded-md">
+        </div>
+      <?php } ?>
 
       <!-- Tanggal -->
       <p class="text-sm text-gray-500 mb-4">
-        <i class="fas fa-calendar-alt mr-1"></i> Diumumkan pada: 24 April 2025
+        <i class="fas fa-calendar-alt mr-1"></i> Diumumkan pada: <?= date('d F Y', strtotime($pengumuman['tanggal'])) ?>
       </p>
 
       <!-- Deskripsi -->
       <div class="text-sm sm:text-base text-gray-700 space-y-3 mb-6">
-        <p>
-          Pemerintah Desa Pacing membuka kesempatan kepada warga yang memenuhi
-          syarat untuk mengikuti seleksi Calon Anggota Komisaris PT. Aneka
-          Usaha.
-        </p>
-        <p>
-          Seleksi akan dilaksanakan secara terbuka dan transparan demi mendorong
-          profesionalisme dan akuntabilitas dalam pengelolaan BUMDes.
-        </p>
-        <p>
-          Informasi lebih lanjut terkait persyaratan, jadwal, dan tata cara
-          pendaftaran dapat diunduh melalui tombol di bawah ini.
-        </p>
+        <?= htmlspecialchars_decode($pengumuman['konten']) ?>
       </div>
 
-      <!-- Tombol Download -->
-      <div class="mb-6">
+      <!-- Tombol Kembali -->
+      <div class="mb-6 text-left">
         <a href="pengumuman.php" class="inline-flex items-center px-4 py-2 bg-red-700 text-white rounded hover:bg-red-900 text-sm">
           <i class="fas fa-arrow-left mr-2"></i> Kembali ke Pengumuman
         </a>
@@ -409,9 +412,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-black text-white text-xs sm:text-sm mt-10">
+    <footer class="bg-black text-white text-xs sm:text-sm">
       <div
-        class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 md:grid-cols-3 gap-6"
+        class="max-w-[1280px] px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 md:grid-cols-3 gap-6"
       >
         <div>
           <h4 class="font-semibold mb-2">Desa Pacing</h4>
@@ -470,7 +473,7 @@
         </div>
       </div>
       <div
-        class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-2 border-t border-gray-700 flex justify-between text-[10px] sm:text-xs"
+        class="max-w-[1280px] px-4 sm:px-6 lg:px-8 py-2 border-t border-gray-700 flex justify-between text-[10px] sm:text-xs"
       >
         <p>©Copyright Desa Pacing</p>
         <p>Dibuat Oleh Desa Pacing</p>

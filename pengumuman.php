@@ -1,3 +1,7 @@
+<?php
+include 'php/db.php';
+$pengumuman = mysqli_query($konek, "SELECT * FROM pengumuman ORDER BY tanggal DESC");
+?>
 <html class="scroll-smooth" lang="id">
   <head>
     <meta charset="utf-8" />
@@ -346,65 +350,34 @@
         </h3>
 
         <div class="space-y-4">
-          <!-- Item 1 -->
-          <div
-            class="flex items-start bg-white p-4 rounded-md shadow border border-gray-200"
-          >
-            <i class="fas fa-bullhorn text-red-800 text-xl mr-3 mt-1"></i>
+          <?php while ($d = mysqli_fetch_assoc($pengumuman)) { ?>
+          <!-- Item Pengumuman -->
+          <div class="flex items-start bg-white p-4 rounded-md shadow border border-gray-200">
+            <?php if (!empty($d['gambar'])) { ?>
+              <img src="assets/<?= $d['gambar'] ?>" alt="Gambar Pengumuman" class="w-20 h-20 object-cover rounded-md mr-3 flex-shrink-0">
+            <?php } else { ?>
+              <i class="fas fa-bullhorn text-red-800 text-xl mr-3 mt-1 flex-shrink-0"></i>
+            <?php } ?>
             <div class="flex-1 flex flex-col">
               <div>
                 <h4 class="font-semibold text-red-800 text-sm sm:text-base">
-                  Pengumuman Seleksi Calon Anggota Komisaris PT. Aneka Usaha
+                  <?= htmlspecialchars($d['judul']) ?>
                 </h4>
                 <p class="text-gray-500 text-xs sm:text-sm mt-1">
-                  24 Apr, 2025
+                  <?= date('d M, Y', strtotime($d['tanggal'])) ?>
                 </p>
                 <p class="text-gray-700 text-sm line-clamp-2 mt-2">
-                  Pemerintah Desa Pacing membuka kesempatan bagi warga yang
-                  memenuhi syarat untuk mendaftar sebagai calon anggota Dewan
-                  Komisaris PT. Aneka Usaha...
+                  <?= htmlspecialchars_decode(substr(strip_tags($d['konten']), 0, 150)) ?>...
                 </p>
               </div>
               <div class="flex justify-end mt-4">
-                <a
-                  href="detail_pengumuman.php"
-                  class="px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-900 transition duration-300 text-xs sm:text-sm"
-                >
+                <a href="detail_pengumuman.php?id=<?= $d['id'] ?>" class="px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-900 transition duration-300 text-xs sm:text-sm">
                   Lihat Detail
                 </a>
               </div>
             </div>
           </div>
-
-          <!-- Item 2 -->
-          <div
-            class="flex items-start bg-white p-4 rounded-md shadow border border-gray-200"
-          >
-            <i class="fas fa-bullhorn text-red-800 text-xl mr-3 mt-1"></i>
-            <div class="flex-1 flex flex-col">
-              <div>
-                <h4 class="font-semibold text-red-800 text-sm sm:text-base">
-                  Keputusan Nomor 31/2024 Tahun 2024
-                </h4>
-                <p class="text-gray-500 text-xs sm:text-sm mt-1">
-                  25 Mar, 2025
-                </p>
-                <p class="text-gray-700 text-sm line-clamp-2 mt-2">
-                  Keputusan Nomor 31/2024 Tahun 2024 tentang poket pengaduan
-                  barang/jasa strategis Desa Pacing yang berlaku mulai bulan
-                  April...
-                </p>
-              </div>
-              <div class="flex justify-end mt-4">
-                <a
-                  href="detail_pengumuman.php"
-                  class="px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-900 transition duration-300 text-xs sm:text-sm"
-                >
-                  Lihat Detail
-                </a>
-              </div>
-            </div>
-          </div>
+          <?php } ?>
         </div>
       </section>
       <br />
