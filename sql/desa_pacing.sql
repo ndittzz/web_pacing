@@ -306,6 +306,32 @@ INSERT INTO `visimisi` (`id_vm`, `visi`, `misi`) VALUES
 (3, '<p>Terwujudnya&nbsp;Masyarakat Desa Pacing yang lebih baik dan sejahtera</p>', '<p>Mewujudkan Tata Kelola Pemerintahan Desa yang Baik.</p><p>Meningkatkan Pelayanan Pemenuhan Hak hak Dasar Rakyat.</p><p>Pembangunan Infrastruktur Dasar.</p>');
 
 --
+-- Struktur dari tabel `agenda`
+--
+CREATE TABLE `agenda` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `tanggal` DATE NOT NULL,
+  `jam_mulai` TIME NOT NULL,
+  `jam_selesai` TIME NOT NULL,
+  `kegiatan` VARCHAR(255) NOT NULL,
+  `tempat` VARCHAR(255) NOT NULL,
+  `hadir` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Indeks untuk tabel `agenda`
+--
+ALTER TABLE `agenda`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT untuk tabel `agenda`
+--
+ALTER TABLE `agenda`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Indexes for dumped tables
 --
 

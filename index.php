@@ -2,6 +2,7 @@
 include 'php/db.php';
 $result = $konek->query("SELECT * FROM galeri ORDER BY tanggal DESC LIMIT 9");
 $result2 = $konek->query("SELECT * FROM berita ORDER BY tanggal DESC LIMIT 9");
+$result_agenda = $konek->query("SELECT * FROM agenda ORDER BY tanggal DESC, jam_mulai ASC LIMIT 5");
 ?>
 
 <html class="scroll-smooth" lang="id">
@@ -645,85 +646,44 @@ $result2 = $konek->query("SELECT * FROM berita ORDER BY tanggal DESC LIMIT 9");
             class="bg-white rounded-b-md shadow-md p-3 space-y-3 max-h-[280px] overflow-y-auto text-xs sm:text-sm"
             tabindex="0"
           >
+            <?php while ($agenda = $result_agenda->fetch_assoc()): ?>
             <article class="flex space-x-3">
               <div
                 class="text-red-800 font-semibold text-sm leading-none min-w-[30px]"
               >
-                28
+                <?php echo date('d', strtotime($agenda['tanggal'])); ?>
                 <br />
-                Jul
+                <?php echo date('M', strtotime($agenda['tanggal'])); ?>
               </div>
               <div class="flex-grow">
                 <h4 class="font-semibold leading-tight">
-                  Upacara Hari Jadi ke-220 Desa Pacing
+                  <?php echo htmlspecialchars($agenda['kegiatan']); ?>
                 </h4>
                 <div class="flex items-center space-x-1 text-gray-600">
                   <i class="fas fa-calendar-alt text-[10px]"> </i>
-                  <time class="text-[10px]" datetime="2024-07-28">
-                    Tanggal 28 Jul, 2024
+                  <time class="text-[10px]" datetime="<?php echo $agenda['tanggal']; ?>">
+                    Tanggal <?php echo date('d M, Y', strtotime($agenda['tanggal'])); ?>
                   </time>
                 </div>
                 <div class="flex items-center space-x-1 text-gray-600">
                   <i class="fas fa-clock text-[10px]"> </i>
-                  <time class="text-[10px]" datetime="2024-07-28T09:00">
-                    Pukul 09:00 s/d 09:00
+                  <time class="text-[10px]">
+                    Pukul <?php echo substr($agenda['jam_mulai'],0,5); ?> s/d <?php echo substr($agenda['jam_selesai'],0,5); ?>
                   </time>
                 </div>
+                <div class="flex items-center space-x-1 text-gray-600">
+                  <i class="fas fa-map-marker-alt text-[10px]"></i>
+                  <span><?php echo htmlspecialchars($agenda['tempat']); ?></span>
+                </div>
+                <?php if (!empty($agenda['hadir'])): ?>
+                <div class="flex items-center space-x-1 text-gray-600">
+                  <i class="fas fa-user text-[10px]"></i>
+                  <span><?php echo htmlspecialchars($agenda['hadir']); ?></span>
+                </div>
+                <?php endif; ?>
               </div>
             </article>
-            <article class="flex space-x-3">
-              <div
-                class="text-red-800 font-semibold text-sm leading-none min-w-[30px]"
-              >
-                28
-                <br />
-                Jul
-              </div>
-              <div class="flex-grow">
-                <h4 class="font-semibold leading-tight">
-                  Kirap Ageng Metil Bumi dan Tarian Kolosal Baro Klinthing
-                  Merapi
-                </h4>
-                <div class="flex items-center space-x-1 text-gray-600">
-                  <i class="fas fa-calendar-alt text-[10px]"> </i>
-                  <time class="text-[10px]" datetime="2024-07-28">
-                    Tanggal 28 Jul, 2024
-                  </time>
-                </div>
-                <div class="flex items-center space-x-1 text-gray-600">
-                  <i class="fas fa-clock text-[10px]"> </i>
-                  <time class="text-[10px]" datetime="2024-07-28T10:00">
-                    Pukul 10:00 s/d 10:00
-                  </time>
-                </div>
-              </div>
-            </article>
-            <article class="flex space-x-3">
-              <div
-                class="text-red-800 font-semibold text-sm leading-none min-w-[30px]"
-              >
-                28
-                <br />
-                Jul
-              </div>
-              <div class="flex-grow">
-                <h4 class="font-semibold leading-tight">
-                  Desa Pacing Lurik Carnival
-                </h4>
-                <div class="flex items-center space-x-1 text-gray-600">
-                  <i class="fas fa-calendar-alt text-[10px]"> </i>
-                  <time class="text-[10px]" datetime="2024-07-28">
-                    Tanggal 28 Jul, 2024
-                  </time>
-                </div>
-                <div class="flex items-center space-x-1 text-gray-600">
-                  <i class="fas fa-clock text-[10px]"> </i>
-                  <time class="text-[10px]" datetime="2024-07-28T09:00">
-                    Pukul 09:00 s/d 09:00
-                  </time>
-                </div>
-              </div>
-            </article>
+            <?php endwhile; ?>
           </div>
           <a
             class="text-red-800 text-xs sm:text-sm font-semibold hover:underline flex items-center justify-end space-x-1"

@@ -345,63 +345,48 @@
         >
           Agenda Desa Pacing
         </h3>
-
-        <!-- Tanggal Agenda -->
-        <div
-          class="flex items-start bg-white shadow-md rounded-xl overflow-hidden border border-gray-200"
-        >
-          <!-- Tanggal -->
+        <?php
+        include 'php/db.php';
+        $agenda_hari = [];
+        $result = $konek->query("SELECT * FROM agenda ORDER BY tanggal DESC, jam_mulai ASC");
+        while ($row = $result->fetch_assoc()) {
+            $agenda_hari[$row['tanggal']][] = $row;
+        }
+        ?>
+        <?php if (empty($agenda_hari)): ?>
+          <div class="text-center text-gray-500">Belum ada agenda.</div>
+        <?php else: ?>
+          <?php foreach ($agenda_hari as $tanggal => $agendas): ?>
           <div
-            class="bg-red-700 text-white text-center p-4 w-24 flex-shrink-0 flex flex-col items-center justify-center"
+            class="flex items-start bg-white shadow-md rounded-xl overflow-hidden border border-gray-200 mb-6"
           >
-            <div class="text-2xl font-bold leading-none">28</div>
-            <div class="text-sm uppercase mt-1">Jul</div>
-          </div>
-
-          <!-- Daftar Agenda Hari Itu -->
-          <div class="flex-1 p-4 space-y-4">
-            <!-- Baris Agenda 1 -->
-            <div class="border-b pb-3">
-              <div
-                class="grid grid-cols-4 gap-4 text-sm text-gray-600 font-semibold"
-              >
+            <!-- Tanggal -->
+            <div
+              class="bg-red-700 text-white text-center p-4 w-24 flex-shrink-0 flex flex-col items-center justify-center"
+            >
+              <div class="text-2xl font-bold leading-none"><?php echo date('d', strtotime($tanggal)); ?></div>
+              <div class="text-sm uppercase mt-1"><?php echo date('M', strtotime($tanggal)); ?></div>
+            </div>
+            <!-- Daftar Agenda Hari Itu -->
+            <div class="flex-1 p-4 space-y-4">
+              <div class="grid grid-cols-4 gap-4 text-sm text-gray-600 font-semibold">
                 <div>Jam</div>
                 <div>Kegiatan</div>
                 <div>Tempat</div>
                 <div>Hadir</div>
               </div>
-              <div class="grid grid-cols-4 gap-4 text-sm text-gray-800 mt-1">
-                <div>09:00 - 09:00</div>
-                <div>Upacara Hari Jadi ke-220 Klaten</div>
-                <div>Alun-alun Klaten</div>
-                <div>Bupati Klaten</div>
+              <?php foreach ($agendas as $agenda): ?>
+              <div class="grid grid-cols-4 gap-4 text-sm text-gray-800 mt-1 border-b pb-3">
+                <div><?php echo substr($agenda['jam_mulai'],0,5); ?> - <?php echo substr($agenda['jam_selesai'],0,5); ?></div>
+                <div><?php echo htmlspecialchars($agenda['kegiatan']); ?></div>
+                <div><?php echo htmlspecialchars($agenda['tempat']); ?></div>
+                <div><?php echo htmlspecialchars($agenda['hadir']); ?></div>
               </div>
-            </div>
-
-            <!-- Baris Agenda 2 -->
-            <div class="border-b pb-3">
-              <div class="grid grid-cols-4 gap-4 text-sm text-gray-800">
-                <div>10:00 - 10:00</div>
-                <div>
-                  Kirap Ageng Metri Bhumi dan Tarian Kolosal Baro Klinthing
-                  Merapi
-                </div>
-                <div>Deles Indah, Desa Sirorejo</div>
-                <div>-</div>
-              </div>
-            </div>
-
-            <!-- Baris Agenda 3 -->
-            <div>
-              <div class="grid grid-cols-4 gap-4 text-sm text-gray-800">
-                <div>09:00 - 09:00</div>
-                <div>Klaten Lurik Carnival</div>
-                <div>Sepanjang Jl. Pemuda - Alun-alun Klaten</div>
-                <div>-</div>
-              </div>
+              <?php endforeach; ?>
             </div>
           </div>
-        </div>
+          <?php endforeach; ?>
+        <?php endif; ?>
       </section>
     </main>
 
