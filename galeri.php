@@ -398,7 +398,7 @@ $result = $konek->query("SELECT * FROM galeri ORDER BY tanggal DESC");
           <address class="not-italic mb-1">
             Alamat
             <br />
-            Jl. Pemuda No. 294 57424
+            Dusun I, Pacing, Kec. Wedi, Kabupaten Klaten, Jawa Tengah 57461
           </address>
           <p class="mb-1">
             Telepon
@@ -411,25 +411,6 @@ $result = $konek->query("SELECT * FROM galeri ORDER BY tanggal DESC");
             <a class="hover:underline" href="mailto:pemkab@pacing.go.id">
               pemkab@pacing.go.id
             </a>
-          </p>
-        </div>
-        <div>
-          <h4 class="font-semibold mb-2">Statistik Pengunjung</h4>
-          <p>
-            Pengunjung Hari ini :
-            <strong> 96 Pengunjung </strong>
-            <br />
-            Kemarin :
-            <strong> 137 Pengunjung </strong>
-            <br />
-            Bulan ini :
-            <strong> 919 Pengunjung </strong>
-            <br />
-            Tahun ini :
-            <strong> 9723 Pengunjung </strong>
-            <br />
-            Total :
-            <strong> 21559 Pengunjung </strong>
           </p>
         </div>
         <div>

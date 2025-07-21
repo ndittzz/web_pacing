@@ -429,47 +429,21 @@ $kepala = mysqli_query($konek, "SELECT * FROM tokoh_sejarah ORDER BY id ASC");
 
     <!-- Footer -->
     <footer class="bg-black text-white text-xs sm:text-sm mt-10">
-      <div
-        class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 md:grid-cols-3 gap-6"
-      >
+      <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <h4 class="font-semibold mb-2">Desa Pacing</h4>
           <h5 class="font-semibold mb-1">Kebijakan Privasi</h5>
           <address class="not-italic mb-1">
-            Alamat
-            <br />
-            Jl. Pemuda No. 294 57424
+            Alamat<br />
+            Dusun I, Pacing, Kec. Wedi, Kabupaten Klaten, Jawa Tengah 57461
           </address>
           <p class="mb-1">
-            Telepon
-            <br />
-            <a class="hover:underline" href="tel:0272321046"> 0272-321046 </a>
+            Telepon<br />
+            <a class="hover:underline" href="tel:0272321046">0272-321046</a>
           </p>
           <p>
-            Email
-            <br />
-            <a class="hover:underline" href="mailto:pemkab@pacing.go.id">
-              pemkab@pacing.go.id
-            </a>
-          </p>
-        </div>
-        <div>
-          <h4 class="font-semibold mb-2">Statistik Pengunjung</h4>
-          <p>
-            Pengunjung Hari ini :
-            <strong> 96 Pengunjung </strong>
-            <br />
-            Kemarin :
-            <strong> 137 Pengunjung </strong>
-            <br />
-            Bulan ini :
-            <strong> 919 Pengunjung </strong>
-            <br />
-            Tahun ini :
-            <strong> 9723 Pengunjung </strong>
-            <br />
-            Total :
-            <strong> 21559 Pengunjung </strong>
+            Email<br />
+            <a class="hover:underline" href="mailto:pemkab@pacing.go.id">pemkab@pacing.go.id</a>
           </p>
         </div>
         <div>
@@ -488,9 +462,7 @@ $kepala = mysqli_query($konek, "SELECT * FROM tokoh_sejarah ORDER BY id ASC");
           </ul>
         </div>
       </div>
-      <div
-        class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-2 border-t border-gray-700 flex justify-between text-[10px] sm:text-xs"
-      >
+      <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-2 border-t border-gray-700 flex justify-between text-[10px] sm:text-xs">
         <p>©Copyright Desa Pacing</p>
         <p>Dibuat Oleh Desa Pacing</p>
       </div>
