@@ -11,6 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $judul = $konek->real_escape_string($_POST['judul']);
     $penulis = $konek->real_escape_string($_POST['penulis']);
     $deskripsi = $konek->real_escape_string($_POST['deskripsi']);
+    $tanggal = $konek->real_escape_string($_POST['tanggal']);
+
     $gambar = null;
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
         $ext = pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);
@@ -20,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $gambar = $namaFile;
         }
     }
-    $sql = "INSERT INTO potensi (judul, deskripsi, gambar, penulis) VALUES ('$judul', '$deskripsi', " . ($gambar ? "'$gambar'" : 'NULL') . ", '$penulis')";
+    $sql = "INSERT INTO potensi (judul, deskripsi, gambar, penulis, tanggal) VALUES ('$judul', '$deskripsi', " . ($gambar ? "'$gambar'" : 'NULL') . ", '$penulis', '$tanggal')";
     if ($konek->query($sql)) {
         header('Location: potensi.php');
         exit();
@@ -221,6 +223,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   <div class="form-group">
                     <label>Upload Gambar</label>
                     <input type="file" class="form-control-file" name="gambar" accept="image/*" />
+                  </div>
+                  <div class="form-group">
+                    <label>Tanggal</label>
+                    <input type="date" class="form-control" name="tanggal" value="<?php echo $_POST['tanggal'] ?? date('Y-m-d'); ?>" required />
                   </div>
                   <button type="submit" class="btn btn-primary">Simpan</button>
                   <a href="potensi.php" class="btn btn-secondary">Kembali</a>

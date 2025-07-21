@@ -207,7 +207,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="form-group">
                                 <label for="konten">Konten Pengumuman</label>
                                 <div id="editor" style="height: 300px">
-                                    Tulis pengumuman di sini...
                                 </div>
                                 <input type="hidden" name="konten" id="input-konten" />
                             </div>

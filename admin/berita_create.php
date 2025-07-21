@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $judul = $_POST['judul'] ?? '';
     $deskripsi = $_POST['deskripsi'] ?? '';
     $penulis = $_POST['penulis'] ?? '';
+    $tanggal = $_POST['tanggal'] ?? date('Y-m-d');
     $gambar = '';
 
     // Handle file upload
@@ -37,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Insert data if no errors
     if (empty($error)) {
-        $stmt = $konek->prepare("INSERT INTO berita (judul, deskripsi, gambar, penulis) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $judul, $deskripsi, $gambar, $penulis);
+        $stmt = $konek->prepare("INSERT INTO berita (judul, deskripsi, gambar, penulis, tanggal) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $judul, $deskripsi, $gambar, $penulis, $tanggal);
 
         if ($stmt->execute()) {
             header('Location: berita.php?success=1');
@@ -258,7 +259,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="file" name="gambar" class="form-control-file" accept="image/*" />
                     <small class="form-text text-muted">Format yang didukung: JPG, PNG, GIF. Maksimal 2MB.</small>
                   </div>
-                  <!-- <div class="form-group">
+                  <div class="form-group">
                     <label>Tanggal <span class="text-danger">*</span></label>
                     <input 
                       type="date" 
@@ -267,7 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                       value="<?php echo $_POST['tanggal'] ?? date('Y-m-d'); ?>"
                       required
                     />
-                  </div> -->
+                  </div>
                   <button type="submit" class="btn btn-primary">
                     <i class="fas fa-save"></i> Simpan
                   </button>

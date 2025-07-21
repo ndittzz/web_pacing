@@ -2,7 +2,9 @@
 include 'php/db.php';
 $result = $konek->query("SELECT * FROM galeri ORDER BY tanggal DESC LIMIT 9");
 $result2 = $konek->query("SELECT * FROM berita ORDER BY tanggal DESC LIMIT 9");
-$result_agenda = $konek->query("SELECT * FROM agenda ORDER BY tanggal DESC, jam_mulai ASC LIMIT 5");
+$result_agenda = $konek->query("SELECT * FROM agenda ORDER BY tanggal DESC, jam_mulai ASC LIMIT 3");
+$pengumuman = mysqli_query($konek, "SELECT * FROM pengumuman ORDER BY tanggal DESC LIMIT 3");
+
 ?>
 
 <html class="scroll-smooth" lang="id">
@@ -601,28 +603,25 @@ $result_agenda = $konek->query("SELECT * FROM agenda ORDER BY tanggal DESC, jam_
               href="detail_pengumuman.php"
               class="block hover:bg-gray-50 transition rounded-lg p-2"
             >
+            <?php while ($d = mysqli_fetch_assoc($pengumuman)) { ?>
               <article class="flex space-x-2">
                 <i class="fas fa-bullhorn text-red-800 mt-1"></i>
                 <div>
                   <h4 class="font-semibold text-red-800 leading-tight">
-                    Pengumuman Seleksi Calon Anggota Komisaris PT. Aneka Usaha
-                    (Perseroda) Desa Pacing
+                    <?= htmlspecialchars($d['judul']) ?>
                   </h4>
                   <div
                     class="flex items-center space-x-2 text-gray-600 text-[10px] sm:text-xs"
                   >
-                    <span>
-                      <i class="fas fa-user-circle"></i>
-                      Admin
-                    </span>
-                    <span> 24 Apr, 2025 </span>
+                    <span> <?= date('d M, Y', strtotime($d['tanggal'])) ?> </span>
                   </div>
                   <p class="text-gray-600 line-clamp-3 mt-1">
-                    Pemerintah Desa Pacing membutuhkan personil untuk jabatan
-                    Dewan Komisaris pada PT. Aneka Usaha...
+                    <?= htmlspecialchars_decode(substr(strip_tags($d['konten']), 0, 25)) ?>...
                   </p>
                 </div>
               </article>
+              <br>
+            <?php } ?>
             </a>
           </div>
           <a

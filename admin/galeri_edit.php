@@ -22,6 +22,8 @@ $data = $result->fetch_assoc();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $judul = $konek->real_escape_string($_POST['judul']);
     $deskripsi = $konek->real_escape_string($_POST['deskripsi']);
+    $tanggal = $konek->real_escape_string($_POST['tanggal']);
+
     $gambar = $data['gambar'];
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
         $ext = pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);
@@ -31,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $gambar = $namaFile;
         }
     }
-    $sql = "UPDATE galeri SET judul='$judul', deskripsi='$deskripsi', gambar=" . ($gambar ? "'$gambar'" : 'NULL') . " WHERE id_galeri=$id_galeri";
+    $sql = "UPDATE galeri SET judul='$judul', deskripsi='$deskripsi', gambar=" . ($gambar ? "'$gambar'" : 'NULL') . ", tanggal='$tanggal' WHERE id_galeri=$id_galeri";
     if ($konek->query($sql)) {
         header('Location: galeri.php');
         exit();
@@ -225,10 +227,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="file" class="form-control-file" name="gambar" accept="image/*" />
                     <?php if ($data['gambar']) { echo '<br><img src="../assets/' . htmlspecialchars($data['gambar']) . '" width="120">'; } ?>
                   </div>
-                  <!-- <div class="form-group">
-                    <label>Tanggal</label>
-                    <input type="date" class="form-control" />
-                  </div> -->
+                  <div class="form-group">
+                    <label>Tanggal <span class="text-danger">*</span></label>
+                    <input 
+                      type="date" 
+                      name="tanggal" 
+                      class="form-control" 
+                      value="<?php echo htmlspecialchars($berita['tanggal']); ?>"
+                      required
+                    />
+                  </div>
                   <button type="submit" class="btn btn-primary">Simpan</button>
                   <a href="galeri.php" class="btn btn-secondary">Kembali</a>
                 </form>

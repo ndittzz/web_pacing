@@ -23,6 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $judul = $konek->real_escape_string($_POST['judul']);
     $penulis = $konek->real_escape_string($_POST['penulis']);
     $deskripsi = $konek->real_escape_string($_POST['deskripsi']);
+    $tanggal = $konek->real_escape_string($_POST['tanggal']);
+
     $gambar = $data['gambar'];
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
         $ext = pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);
@@ -32,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $gambar = $namaFile;
         }
     }
-    $sql = "UPDATE potensi SET judul='$judul', deskripsi='$deskripsi', gambar=" . ($gambar ? "'$gambar'" : 'NULL') . ", penulis='$penulis' WHERE id=$id";
+    $sql = "UPDATE potensi SET judul='$judul', deskripsi='$deskripsi', gambar=" . ($gambar ? "'$gambar'" : 'NULL') . ", penulis='$penulis', tanggal='$tanggal' WHERE id=$id";
     if ($konek->query($sql)) {
         header('Location: potensi.php');
         exit();
@@ -234,6 +236,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label>Upload Gambar</label>
                     <input type="file" class="form-control-file" name="gambar" accept="image/*" />
                     <?php if ($data['gambar']) { echo '<br><img src="../assets/' . htmlspecialchars($data['gambar']) . '" width="120">'; } ?>
+                  </div>
+                  <div class="form-group">
+                    <label>Tanggal <span class="text-danger">*</span></label>
+                    <input 
+                      type="date" 
+                      name="tanggal" 
+                      class="form-control" 
+                      value="<?php echo htmlspecialchars($berita['tanggal']); ?>"
+                      required
+                    />
                   </div>
                   <button type="submit" class="btn btn-primary">Simpan</button>
                   <a href="potensi.php" class="btn btn-secondary">Kembali</a>

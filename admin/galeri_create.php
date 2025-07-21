@@ -8,9 +8,11 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
 }
 include '../php/db.php';
 $error = null;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $judul = $konek->real_escape_string($_POST['judul']);
     $deskripsi = $konek->real_escape_string($_POST['deskripsi']);
+    $tanggal = $konek->real_escape_string(string: $_POST['tanggal']);
     $gambar = null;
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
         $ext = pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION);
@@ -20,7 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $gambar = $namaFile;
         }
     }
-    $sql = "INSERT INTO galeri (judul, deskripsi, gambar) VALUES ('$judul', '$deskripsi', " . ($gambar ? "'$gambar'" : 'NULL') . ")";
+    $sql = "INSERT INTO galeri (judul, deskripsi, gambar, tanggal) 
+            VALUES ('$judul', '$deskripsi', " . ($gambar ? "'$gambar'" : 'NULL') . ", '$tanggal')";
     if ($konek->query($sql)) {
         header('Location: galeri.php');
         exit();
@@ -219,10 +222,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label>Upload Gambar</label>
                     <input type="file" class="form-control-file" name="gambar" accept="image/*" required />
                   </div>
-                  <!-- <div class="form-group">
+                  <div class="form-group">
                     <label>Tanggal</label>
-                    <input type="date" class="form-control" name="tanggal" required />
-                  </div> -->
+                    <input type="date" class="form-control" name="tanggal" value="<?php echo $_POST['tanggal'] ?? date('Y-m-d'); ?>" required />
+                  </div>
                   <button type="submit" class="btn btn-primary">Simpan</button>
                   <a href="galeri.php" class="btn btn-secondary">Kembali</a>
                 </form>
