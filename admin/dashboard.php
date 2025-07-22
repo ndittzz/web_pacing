@@ -14,6 +14,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Admin - Desa Pacing</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css"
@@ -290,13 +291,102 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
       </div>
 
       <footer class="main-footer">
-        <div class="float-right d-none d-sm-block"><b>Version</b> 1.0</div>
+        <div class="float-right">
+          <b>Version</b> 1.0
+          <!-- Ikon tanda seru sebagai trigger modal -->
+          <i class="fas fa-exclamation-circle text-danger ml-2" style="cursor: pointer;" data-toggle="modal" data-target="#fotoModal" title="Lihat Foto"></i>
+        </div>
         <strong>Desa Pacing</strong> All rights reserved.
       </footer>
+
+          <!-- Modal -->
+        <div class="modal fade" id="fotoModal" tabindex="-1" role="dialog" aria-labelledby="fotoModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content border-0 shadow-lg">
+              <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="fotoModalLabel">
+                  <i class="fas fa-images mr-2"></i>KKN UPN "VETERAN" YOGYAKARTA DI DESA PACING
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Tutup">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="row">
+                  <!-- Image 1 with caption -->
+                  <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                      <img src="../assets/kenangan/kenangan2.jpg" class="card-img-top img-fluid gallery-img" alt="Kenangan Desa">
+                      <div class="card-body text-center">
+                        <p class="card-text text-muted">KKN AD.83.244</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Image 2 with caption -->
+                  <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                      <img src="../assets/kenangan/kenangan.jpg" class="card-img-top img-fluid gallery-img" alt="Kenangan Desa">
+                      <div class="card-body text-center">
+                        <p class="card-text text-muted">KKN AD.83.245</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Image 3 with caption -->
+                  <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                      <img src="../assets/kenangan/kenangan1.jpg" class="card-img-top img-fluid gallery-img" alt="Kenangan Desa">
+                      <div class="card-body text-center">
+                        <p class="card-text text-muted">KKN AD.83.246</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+    <style>
+      /* Custom Gallery Styles */
+      .gallery-img {
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+      .gallery-img:hover {
+        transform: scale(1.03);
+      }
+      .modal-xl {
+        max-width: 1140px;
+      }
+    </style>
+
+    <script>
+    $(document).ready(function() {
+      // Smooth modal open/close
+      $('.fa-exclamation-circle').click(function() {
+        $('#fotoModal').modal('show');
+      });
+      
+      // Close modal when X is clicked
+      $('[data-dismiss="modal"]').click(function() {
+        $('#fotoModal').modal('hide');
+      });
+      
+      // Close when clicking outside modal
+      $('#fotoModal').click(function(event) {
+        if ($(event.target).is('#fotoModal')) {
+          $(this).modal('hide');
+        }
+      });
+    });
+    </script>
   </body>
 </html>
