@@ -238,10 +238,10 @@ $kategori_list = [
               Data Desa
             </summary>
             <div class="pl-4 mt-1 space-y-1 text-sm text-gray-600">
-              <a href="#" class="block px-2 py-1 rounded hover:bg-gray-100"
+              <a href="data_penduduk.php" class="block px-2 py-1 rounded hover:bg-gray-100"
                 >Data Penduduk</a
               >
-              <a href="#" class="block px-2 py-1 rounded hover:bg-gray-100"
+              <a href="data_keuangan.php" class="block px-2 py-1 rounded hover:bg-gray-100"
                 >Data Keuangan</a
               >
             </div>

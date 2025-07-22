@@ -305,10 +305,10 @@ $rasioGender = round($gender['laki_laki'] / $gender['perempuan'] * 100);
               Data Desa
             </summary>
             <div class="pl-4 mt-1 space-y-1 text-sm text-gray-600">
-              <a href="#" class="block px-2 py-1 rounded hover:bg-gray-100"
+              <a href="data_penduduk.php" class="block px-2 py-1 rounded hover:bg-gray-100"
                 >Data Penduduk</a
               >
-              <a href="#" class="block px-2 py-1 rounded hover:bg-gray-100"
+              <a href="data_keuangan.php" class="block px-2 py-1 rounded hover:bg-gray-100"
                 >Data Keuangan</a
               >
             </div>
@@ -351,29 +351,41 @@ $rasioGender = round($gender['laki_laki'] / $gender['perempuan'] * 100);
     </header>
 
     <!-- Search and Filter Section -->
-    <section class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+<section class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-4">
       <div
         class="flex flex-col sm:flex-row items-center sm:items-stretch gap-3 sm:gap-4"
       >
+        <!-- Select Kategori -->
         <div class="w-full sm:w-48">
           <select
-            id="kategori-filter"
+            aria-label="Pilih kategori berita"
             class="w-full border border-gray-300 rounded-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
+            name="kategori"
+            id="kategori-pencarian"
           >
-            <option value="" selected>Semua Data</option>
-            <option value="gender">Data Gender</option>
-            <option value="usia">Data Usia</option>
-            <option value="pendidikan">Data Pendidikan</option>
-            <option value="pekerjaan">Data Pekerjaan</option>
+            <option value="berita">Berita</option>
+            <option value="pengumuman">Pengumuman</option>
+            <option value="agenda">Agenda</option>
           </select>
         </div>
-        <form class="flex flex-grow sm:flex-row w-full" role="search">
+        <form
+          aria-label="Cari berita"
+          class="flex flex-grow sm:flex-row w-full"
+          role="search"
+          method="GET"
+          id="form-pencarian"
+          action="berita.php"
+        >
           <input
+            aria-label="Cari berita"
             class="flex-grow border border-gray-300 rounded-l-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
-            placeholder="Cari data penduduk..."
+            placeholder="Cari berita yang Anda butuhkan . . ."
             type="search"
+            name="search"
+            value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
           />
           <button
+            aria-label="Cari"
             class="bg-red-700 hover:bg-red-900 text-white text-xs sm:text-sm font-semibold px-4 rounded-r-md flex items-center justify-center"
             type="submit"
           >
@@ -392,7 +404,7 @@ $rasioGender = round($gender['laki_laki'] / $gender['perempuan'] * 100);
       >
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
           <li class="inline-flex items-center">
-            <a href="#beranda" class="text-red-700 hover:text-red-800">
+            <a href="index.php" class="text-red-700 hover:text-red-800">
               <i class="fas fa-home mr-1"></i>
               Beranda
             </a>
@@ -654,6 +666,24 @@ $rasioGender = round($gender['laki_laki'] / $gender['perempuan'] * 100);
     <script src="js/script.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+        <script>
+    // Ubah action form sesuai kategori
+    const kategoriSelect = document.getElementById('kategori-pencarian');
+    const formPencarian = document.getElementById('form-pencarian');
+    kategoriSelect.addEventListener('change', function() {
+      if (this.value === 'berita') formPencarian.action = 'berita.php';
+      else if (this.value === 'pengumuman') formPencarian.action = 'pengumuman.php';
+      else if (this.value === 'agenda') formPencarian.action = 'agenda.php';
+    });
+  </script>
+    <script>
+      const toggleBtn = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      toggleBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    </script>
 
     <script>
       let chartGender, chartUsia, chartPendidikan, chartPekerjaan;

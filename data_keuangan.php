@@ -230,21 +230,44 @@ foreach ($belanja as $item) {
     </header>
 
     <!-- Search bar and category select -->
-    <section class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-      <div class="flex flex-col sm:flex-row items-center sm:items-stretch gap-3 sm:gap-4">
+        <section class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+      <div
+        class="flex flex-col sm:flex-row items-center sm:items-stretch gap-3 sm:gap-4"
+      >
         <!-- Select Kategori -->
         <div class="w-full sm:w-48">
-          <select id="kategori-berita" data-jump="page" aria-label="Pilih kategori berita" class="w-full border border-gray-300 rounded-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700">
-            <option value="" disabled selected>Pilih Kategori</option>
-            <option value="pengumuman.php">Pengumuman</option>
-            <option value="agenda.php">Agenda</option>
+          <select
+            aria-label="Pilih kategori berita"
+            class="w-full border border-gray-300 rounded-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
+            name="kategori"
+            id="kategori-pencarian"
+          >
+            <option value="berita">Berita</option>
+            <option value="pengumuman">Pengumuman</option>
+            <option value="agenda">Agenda</option>
           </select>
         </div>
-
-        <!-- Form Pencarian -->
-        <form aria-label="Cari berita" class="flex flex-grow sm:flex-row w-full" role="search">
-          <input aria-label="Cari berita" class="flex-grow border border-gray-300 rounded-l-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700" placeholder="Cari berita yang Anda butuhkan . . ." type="search" />
-          <button aria-label="Cari" class="bg-red-700 hover:bg-red-900 text-white text-xs sm:text-sm font-semibold px-4 rounded-r-md flex items-center justify-center" type="submit">
+        <form
+          aria-label="Cari berita"
+          class="flex flex-grow sm:flex-row w-full"
+          role="search"
+          method="GET"
+          id="form-pencarian"
+          action="berita.php"
+        >
+          <input
+            aria-label="Cari berita"
+            class="flex-grow border border-gray-300 rounded-l-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
+            placeholder="Cari berita yang Anda butuhkan . . ."
+            type="search"
+            name="search"
+            value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
+          />
+          <button
+            aria-label="Cari"
+            class="bg-red-700 hover:bg-red-900 text-white text-xs sm:text-sm font-semibold px-4 rounded-r-md flex items-center justify-center"
+            type="submit"
+          >
             <i class="fas fa-search mr-1"></i>
             Cari
           </button>
@@ -564,6 +587,16 @@ foreach ($belanja as $item) {
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+    // Ubah action form sesuai kategori
+    const kategoriSelect = document.getElementById('kategori-pencarian');
+    const formPencarian = document.getElementById('form-pencarian');
+    kategoriSelect.addEventListener('change', function() {
+      if (this.value === 'berita') formPencarian.action = 'berita.php';
+      else if (this.value === 'pengumuman') formPencarian.action = 'pengumuman.php';
+      else if (this.value === 'agenda') formPencarian.action = 'agenda.php';
+    });
+  </script>
     <script>
       // Handler untuk select tahun
       document.getElementById('selectTahun').addEventListener('change', function() {

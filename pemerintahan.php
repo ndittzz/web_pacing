@@ -279,28 +279,31 @@
         <!-- Select Kategori -->
         <div class="w-full sm:w-48">
           <select
-            id="kategori-struktur"
-            data-jump="page"
             aria-label="Pilih kategori berita"
             class="w-full border border-gray-300 rounded-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
+            name="kategori"
+            id="kategori-pencarian"
           >
-            <option value="" disabled selected>Pilih Kategori</option>
-            <option value="struktur.php">Pemerintah</option>
-            <option value="pemerintahan.php">Pemerintahan</option>
+            <option value="berita">Berita</option>
+            <option value="pengumuman">Pengumuman</option>
+            <option value="agenda">Agenda</option>
           </select>
         </div>
-
-        <!-- Form Pencarian -->
         <form
           aria-label="Cari berita"
           class="flex flex-grow sm:flex-row w-full"
           role="search"
+          method="GET"
+          id="form-pencarian"
+          action="berita.php"
         >
           <input
             aria-label="Cari berita"
             class="flex-grow border border-gray-300 rounded-l-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
             placeholder="Cari berita yang Anda butuhkan . . ."
             type="search"
+            name="search"
+            value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
           />
           <button
             aria-label="Cari"
@@ -430,4 +433,14 @@
     </footer>
   </body>
   <script src="js/script.js"></script>
+    <script>
+    // Ubah action form sesuai kategori
+    const kategoriSelect = document.getElementById('kategori-pencarian');
+    const formPencarian = document.getElementById('form-pencarian');
+    kategoriSelect.addEventListener('change', function() {
+      if (this.value === 'berita') formPencarian.action = 'berita.php';
+      else if (this.value === 'pengumuman') formPencarian.action = 'pengumuman.php';
+      else if (this.value === 'agenda') formPencarian.action = 'agenda.php';
+    });
+  </script>
 </html>
