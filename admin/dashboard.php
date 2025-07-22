@@ -23,6 +23,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
     />
     <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="icon" href="../assets/klaten-removebg.png" type="image/png">
   </head>
 
   <body class="hold-transition sidebar-mini">

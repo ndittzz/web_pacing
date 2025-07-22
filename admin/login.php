@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     />
     
     <link href="../css/style.css" rel="stylesheet" />
+    <link rel="icon" href="../assets/klaten-removebg.png" type="image/png">
     <style>
       * Animasi untuk popup */
       .swal2-popup {
@@ -80,9 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="w-full max-w-md mx-auto bg-white rounded-xl shadow-lg p-8">
       <div class="flex flex-col items-center mb-6">
         <img
-          src="../assets/klaten.jpg"
+          src="../assets/klaten-removebg.png"
           alt="Logo Desa Pacing"
-          class="w-16 h-16 rounded-full mb-2"
+          class="w-12 h-12 rounded-full mb-2"
         />
         <h1 class="text-2xl font-bold text-red-800 mb-1">Login Admin</h1>
         <span class="text-gray-500 text-sm">Pemerintah Desa Pacing</span>

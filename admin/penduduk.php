@@ -22,6 +22,7 @@ $result4 = $konek->query(query: "SELECT * FROM penduduk_pendidikan ORDER BY id A
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="icon" href="../assets/klaten-removebg.png" type="image/png">
     <style>
       /* Custom styles for delete modal */
       .modal-header.bg-danger {
@@ -54,8 +55,16 @@ $result4 = $konek->query(query: "SELECT * FROM penduduk_pendidikan ORDER BY id A
       <aside class="main-sidebar sidebar-red elevation-4">
         <!-- Brand Logo -->
         <a href="../index.php" class="brand-link">
-          <img src="../assets/klaten.jpg" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
-          <span class="brand-text font-weight-light">Desa Pacing</span>
+          <div class="flex items-center space-x-2">
+            <img
+              alt="Logo Pemerintah Desa Pacing"
+              class="block"
+              height="28"
+              src="../assets/klaten-removebg.png"
+              width="28"
+            />
+            <span class="text-red-800 text-base">Desa Pacing, Klaten</span>
+          </div>
         </a>
         <div class="sidebar">
           <nav class="mt-2">

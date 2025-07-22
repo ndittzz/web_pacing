@@ -85,6 +85,7 @@ $surplus_defisit = $total_pendapatan - $total_belanja;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="icon" href="../assets/klaten-removebg.png" type="image/png">
     <style>
       .card-summary { border-left: 4px solid #007bff; }
       .card-pendapatan { border-left: 4px solid #28a745; }

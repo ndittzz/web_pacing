@@ -3,6 +3,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Pemerintah Desa Pacing</title>
+    <link rel="icon" href="assets/klaten.jpg" type="image/jpeg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -323,6 +324,7 @@
             <option>Beranda</option>
             <option>Profil</option>
             <option>Data Desa</option>
+            <option>Berita</option>
             <option>Informasi</option>
             <option>Agenda</option>
             <option>HJK &amp; HUT RI</option>
@@ -334,12 +336,15 @@
           aria-label="Cari berita"
           class="flex flex-grow sm:flex-row w-full"
           role="search"
+          method="GET" 
+          action="berita.php"
         >
           <input
             aria-label="Cari berita"
             class="flex-grow border border-gray-300 rounded-l-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
             placeholder="Cari berita yang Anda butuhkan . . ."
             type="search"
+            name="search"
           />
           <button
             aria-label="Cari"

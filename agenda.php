@@ -3,6 +3,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Pemerintah Desa Pacing</title>
+    <link rel="icon" href="assets/klaten-removebg.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -45,9 +46,9 @@
             <img
               alt="Logo Pemerintah Desa Pacing"
               class="block"
-              height="32"
-              src="assets/klaten.jpg"
-              width="32"
+              height="28"
+              src="assets/klaten-removebg.png"
+              width="28"
             />
             <span class="text-red-800 text-base">Desa Pacing, Klaten</span>
           </div>
@@ -280,28 +281,31 @@
         <!-- Select Kategori -->
         <div class="w-full sm:w-48">
           <select
-            id="kategori-berita"
-            data-jump="page"
             aria-label="Pilih kategori berita"
             class="w-full border border-gray-300 rounded-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
+            name="kategori"
+            id="kategori-pencarian"
           >
-            <option value="" disabled selected>Pilih Kategori</option>
-            <option value="pengumuman.php">Pengumuman</option>
-            <option value="agenda.php">Agenda</option>
+            <option value="berita"<?= (!isset($_GET['kategori'])||$_GET['kategori']==='berita')?' selected':'';?>>Berita</option>
+            <option value="pengumuman"<?= (isset($_GET['kategori'])&&$_GET['kategori']==='pengumuman')?' selected':'';?>>Pengumuman</option>
+            <option value="agenda"<?= (isset($_GET['kategori'])&&$_GET['kategori']==='agenda')?' selected':'';?>>Agenda</option>
           </select>
         </div>
-
-        <!-- Form Pencarian -->
         <form
           aria-label="Cari berita"
           class="flex flex-grow sm:flex-row w-full"
           role="search"
+          method="GET"
+          id="form-pencarian"
+          action="agenda.php"
         >
           <input
             aria-label="Cari berita"
             class="flex-grow border border-gray-300 rounded-l-md text-xs sm:text-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-red-700"
-            placeholder="Cari berita yang Anda butuhkan . . ."
+            placeholder="Cari agenda yang Anda butuhkan . . ."
             type="search"
+            name="search"
+            value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
           />
           <button
             aria-label="Cari"
@@ -347,8 +351,14 @@
         </h3>
         <?php
         include 'php/db.php';
+        $search = isset($_GET['search']) ? trim($_GET['search']) : '';
         $agenda_hari = [];
-        $result = $konek->query("SELECT * FROM agenda ORDER BY tanggal DESC, jam_mulai ASC");
+        if ($search !== '') {
+          $search_esc = $konek->real_escape_string($search);
+          $result = $konek->query("SELECT * FROM agenda WHERE kegiatan LIKE '%$search_esc%' ORDER BY tanggal DESC, jam_mulai ASC");
+        } else {
+          $result = $konek->query("SELECT * FROM agenda ORDER BY tanggal DESC, jam_mulai ASC");
+        }
         while ($row = $result->fetch_assoc()) {
             $agenda_hari[$row['tanggal']][] = $row;
         }
@@ -438,4 +448,14 @@
     </footer>
   </body>
   <script src="js/script.js"></script>
+  <script>
+    // Ubah action form sesuai kategori
+    const kategoriSelect = document.getElementById('kategori-pencarian');
+    const formPencarian = document.getElementById('form-pencarian');
+    kategoriSelect.addEventListener('change', function() {
+      if (this.value === 'berita') formPencarian.action = 'berita.php';
+      else if (this.value === 'pengumuman') formPencarian.action = 'pengumuman.php';
+      else if (this.value === 'agenda') formPencarian.action = 'agenda.php';
+    });
+  </script>
 </html>
