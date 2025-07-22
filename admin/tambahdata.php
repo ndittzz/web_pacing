@@ -198,7 +198,7 @@
                                                         <option value="">Pilih Kategori</option>
                                                         <option value="Pendapatan Asli Desa">Pendapatan Asli Desa</option>
                                                         <option value="Dana Desa">Dana Desa</option>
-                                                        <option value="Bagi Hasil Pajak & Retribusi">Bagi Hasil Pajak & Retribusi</option>
+                                                        <option value="Bagi Hasil Pajak dan Retribusi">Bagi Hasil Pajak dan Retribusi</option>
                                                         <option value="Alokasi Dana Desa">Alokasi Dana Desa</option>
                                                         <option value="Bantuan Provinsi">Bantuan Provinsi</option>
                                                         <option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
