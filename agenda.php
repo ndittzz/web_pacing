@@ -402,30 +402,32 @@
 
     <!-- Footer -->
     <footer class="bg-black text-white text-xs sm:text-sm mt-10">
-      <div
-        class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 md:grid-cols-2 gap-6"
-      >
-        <div>
-          <h4 class="font-semibold mb-2">Desa Pacing</h4>
-          <h5 class="font-semibold mb-1">Kebijakan Privasi</h5>
-          <address class="not-italic mb-1">
-            Alamat<br />
-            Dusun I, Pacing, Kec. Wedi, Kabupaten Klaten, Jawa Tengah 57461
+      <!-- Konten Utama: 3 Kolom -->
+      <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Kolom Kiri -->
+        <div class="text-center">
+          <h4 class="font-semibold text-base mb-2">Desa Pacing</h4>
+          <address class="not-italic leading-relaxed mb-3">
+            Dusun I, Pacing, Kec. Wedi,<br />
+            Kabupaten Klaten, Jawa Tengah 57461
           </address>
           <p class="mb-1">
-            Telepon<br />
+            <span class="font-semibold">Telepon:</span><br />
             <a class="hover:underline" href="tel:0272321046">0272-321046</a>
           </p>
-          <p>
-            Email<br />
-            <a class="hover:underline" href="mailto:pemkab@pacing.go.id">
-              pemkab@pacing.go.id
-            </a>
-          </p>
         </div>
-        <div>
-          <h4 class="font-semibold mb-2">Sosial Media</h4>
-          <ul class="space-y-1">
+
+        <!-- Kolom Tengah -->
+        <div class="text-center">
+          <h4 class="font-semibold text-base mb-2">Tentang Kami</h4>
+          <p class="mb-3">Website resmi Desa Pacing sebagai pusat informasi, pelayanan, dan komunikasi masyarakat desa.</p>
+          <p class="mb-1">Silakan hubungi kami untuk pertanyaan, saran, atau kolaborasi.</p>
+        </div>
+
+        <!-- Kolom Kanan -->
+        <div class="text-center">
+          <h4 class="font-semibold text-base mb-2">Sosial Media</h4>
+          <ul class="space-y-2">
             <li>
               <a href="mailto:desapacingklaten@gmail.com" class="hover:underline">
                 <i class="fas fa-envelope mr-1"></i> desapacingklaten@gmail.com
@@ -439,11 +441,11 @@
           </ul>
         </div>
       </div>
-      <div
-        class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-2 border-t border-gray-700 flex justify-between text-[10px] sm:text-xs"
-      >
-        <p>©Copyright Desa Pacing</p>
-        <p>Dibuat Oleh Desa Pacing</p>
+
+      <!-- Footer Bawah -->
+      <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-4 border-t border-gray-700 flex flex-col sm:flex-row justify-between items-center text-[10px] sm:text-xs space-y-2 sm:space-y-0">
+        <p>© 2025 Desa Pacing. All rights reserved.</p>
+        <p>Dibuat oleh <span class="font-semibold">Desa Pacing</span></p>
       </div>
     </footer>
   </body>
