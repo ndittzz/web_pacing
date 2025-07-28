@@ -76,7 +76,7 @@ $result = $konek->query("SELECT * FROM pejabat ORDER BY id ASC");
               src="../assets/klaten-removebg.png"
               width="28"
             />
-            <span class="text-red-800 text-base">Desa Pacing, Klaten</span>
+            <span class="text-red-800 text-base">Desa Pacing</span>
           </div>
         </a>
 

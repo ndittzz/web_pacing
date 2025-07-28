@@ -5,17 +5,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== "login") {
     exit();
 }
 include '../php/db.php';
-if (!isset($_GET['id'])) {
-    header('Location: agenda.php');
-    exit();
-}
-$id = intval($_GET['id']);
 $error = null;
-$agenda = $konek->query("SELECT * FROM agenda WHERE id=$id")->fetch_assoc();
-if (!$agenda) {
-    header('Location: agenda.php');
-    exit();
-}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tanggal = $_POST['tanggal'];
     $jam_mulai = $_POST['jam_mulai'];
@@ -23,12 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $kegiatan = $konek->real_escape_string($_POST['kegiatan']);
     $tempat = $konek->real_escape_string($_POST['tempat']);
     $hadir = $konek->real_escape_string($_POST['hadir']);
-    $sql = "UPDATE agenda SET tanggal='$tanggal', jam_mulai='$jam_mulai', jam_selesai='$jam_selesai', kegiatan='$kegiatan', tempat='$tempat', hadir='$hadir' WHERE id=$id";
+    $sql = "INSERT INTO agenda (tanggal, jam_mulai, jam_selesai, kegiatan, tempat, hadir) VALUES ('$tanggal', '$jam_mulai', '$jam_selesai', '$kegiatan', '$tempat', '$hadir')";
     if ($konek->query($sql)) {
         header('Location: agenda.php');
         exit();
     } else {
-        $error = 'Gagal mengupdate agenda: ' . $konek->error;
+        $error = 'Gagal menambah agenda: ' . $konek->error;
     }
 }
 ?>
@@ -37,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Agenda - Desa Pacing</title>
+    <title>Tambah Agenda - Desa Pacing</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
@@ -55,20 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </li>
         </ul>
     </nav>
-    <!-- Sidebar -->
     <aside class="main-sidebar sidebar-red elevation-4">
-        <!-- Brand Logo -->
         <a href="../index.php" class="brand-link">
-            <img
-                src="../assets/klaten.jpg"
-                alt="Logo"
-                class="brand-image img-circle elevation-3"
-                style="opacity: 0.8"
-            />
+            <img src="../assets/klaten.jpg" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
             <span class="brand-text font-weight-light">Desa Pacing</span>
         </a>
-
-        <!-- Sidebar Menu -->
         <div class="sidebar">
             <nav class="mt-2">
                 <ul
@@ -204,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Edit Agenda</h1>
+                        <h1 class="m-0">Tambah Agenda</h1>
                     </div>
                 </div>
             </div>
@@ -219,29 +200,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <form method="post">
                             <div class="form-group">
                                 <label for="tanggal">Tanggal</label>
-                                <input type="date" class="form-control" name="tanggal" id="tanggal" value="<?php echo htmlspecialchars($agenda['tanggal']); ?>" required />
+                                <input type="date" class="form-control" name="tanggal" id="tanggal" required />
                             </div>
                             <div class="form-group">
                                 <label for="jam_mulai">Jam Mulai</label>
-                                <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" value="<?php echo htmlspecialchars($agenda['jam_mulai']); ?>" required />
+                                <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" required />
                             </div>
                             <div class="form-group">
                                 <label for="jam_selesai">Jam Selesai</label>
-                                <input type="time" class="form-control" name="jam_selesai" id="jam_selesai" value="<?php echo htmlspecialchars($agenda['jam_selesai']); ?>" required />
+                                <input type="time" class="form-control" name="jam_selesai" id="jam_selesai" required />
                             </div>
                             <div class="form-group">
                                 <label for="kegiatan">Kegiatan</label>
-                                <input type="text" class="form-control" name="kegiatan" id="kegiatan" value="<?php echo htmlspecialchars($agenda['kegiatan']); ?>" required />
+                                <input type="text" class="form-control" name="kegiatan" id="kegiatan" required />
                             </div>
                             <div class="form-group">
                                 <label for="tempat">Tempat</label>
-                                <input type="text" class="form-control" name="tempat" id="tempat" value="<?php echo htmlspecialchars($agenda['tempat']); ?>" required />
+                                <input type="text" class="form-control" name="tempat" id="tempat" required />
                             </div>
                             <div class="form-group">
                                 <label for="hadir">Hadir</label>
-                                <input type="text" class="form-control" name="hadir" id="hadir" value="<?php echo htmlspecialchars($agenda['hadir']); ?>" />
+                                <input type="text" class="form-control" name="hadir" id="hadir" />
                             </div>
-                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                             <a href="agenda.php" class="btn btn-secondary">Batal</a>
                         </form>
                     </div>

@@ -68,7 +68,7 @@ $result = $konek->query("SELECT * FROM potensi ORDER BY tanggal DESC");
               src="../assets/klaten-removebg.png"
               width="28"
             />
-            <span class="text-red-800 text-base">Desa Pacing, Klaten</span>
+            <span class="text-red-800 text-base">Desa Pacing</span>
           </div>
         </a>
         <div class="sidebar">

@@ -63,7 +63,7 @@ $result4 = $konek->query(query: "SELECT * FROM penduduk_pendidikan ORDER BY id A
               src="../assets/klaten-removebg.png"
               width="28"
             />
-            <span class="text-red-800 text-base">Desa Pacing, Klaten</span>
+            <span class="text-red-800 text-base">Desa Pacing</span>
           </div>
         </a>
         <div class="sidebar">
